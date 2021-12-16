@@ -1,0 +1,21 @@
+.teacherCard {
+  @apply mb-4 p-3;
+  display: grid;
+  grid-template-columns: 125px auto 100px;
+  grid-gap: 15px;
+  grid-template-areas: 
+    "user-image user-info price"
+    "description description description";
+
+  .userImage {
+    grid-area: user-image;
+  }
+
+  .userInfo {
+    grid-area: user-info;
+  }
+
+  .description {
+    grid-area: description;
+  }
+}

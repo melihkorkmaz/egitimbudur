@@ -1,0 +1,8 @@
+.navMenu {
+
+  li {
+    a {
+      @apply text-gray-600 text-base hover:text-primary #{!important};
+    }
+  }
+}

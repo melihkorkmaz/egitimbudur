@@ -1,0 +1,12 @@
+.btn {
+  @apply font-sans-serif py-3 px-5 rounded text-center inline-block font-medium text-gray-600 text-base hover:text-primary #{!important};
+  transition: color 0.3s, background 0.3s;
+
+  &:focus {
+    @apply outline-none;
+  }
+
+  &.btnPrimary {
+   @apply text-white bg-primary hover:bg-primary-light hover:text-white #{!important};
+  }
+}

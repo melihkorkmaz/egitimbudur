@@ -1,0 +1,50 @@
+.scheduler {
+  @apply my-2;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  border: 1px solid #ccc;
+
+  > div {
+    @apply text-center flex items-center justify-center;
+    border: 1px solid #ccc;
+    border-bottom-width: 0px;
+    border-right-width: 0px;
+    min-height: 30px;
+
+    &.timeCell {
+      border-width: 0px;
+      
+      > span {
+        transform: translateY(-14px);
+      }
+    }
+
+    &.titleCell {
+      @apply p-2;
+      border-left: 1px solid #ccc;
+      border-top-width: 0px;
+      word-wrap: break-word;
+
+      &:first-child {
+        border-left-width: 0px;
+      }
+    }
+
+    &.notAvailable {
+      @apply bg-gray-100;
+    }
+
+    &.available {
+      @apply bg-green-200;
+    }
+
+    &.booked {
+      @apply bg-red-200;
+    }
+
+    &.selected {
+      @apply bg-blue-200;
+    }
+  }
+  
+}
