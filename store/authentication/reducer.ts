@@ -1,5 +1,6 @@
+import { AuthCurrentState } from "../../types/authentication";
 import { ObjectAction, SET_AUTH_INFO, SET_LOGIN_STATE } from "./actions";
-import { AuthCurrentState, AuthenticationState } from "./types";
+import { AuthenticationState } from "./types";
 
 export const defaultState: AuthenticationState = {
   authState: AuthCurrentState.NOT_INITIALIZED,

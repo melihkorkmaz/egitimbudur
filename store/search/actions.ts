@@ -1,9 +1,9 @@
-import { ClassType, LessonType, SearchState } from "./types";
+import { GradeType, LessonType, SearchState } from "./types";
 
 export const SET_CLASS_TYPES = 'SET_CLASS_TYPES';
 export const SET_LESSONS = 'SET_LESSONS';
 
-export const setClassTypes = (classTypes: ClassType[]) => ({
+export const setClassTypes = (classTypes: GradeType[]) => ({
   type: SET_CLASS_TYPES,
   payload: classTypes
 });

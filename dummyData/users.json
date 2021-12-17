@@ -1,0 +1,90 @@
+[{
+  "id": "1",
+  "firstName": "Melih",
+  "lastName": "Korkmaz",
+  "email": "m@asd.com",
+  "password": "12345",
+  "grade": {
+    "id": "4",
+    "name": "4. Sinif"
+  },
+  "role": "student"
+}, {
+  "id": "2",
+  "profilePhoto": "https://randomuser.me/api/portraits/men/73.jpg",
+  "firstName": "Ersin",
+  "lastName": "Eroglu",
+  "email": "e@asd.com",
+  "password": "12345",
+  "grades": [
+    {
+      "id": "6",
+      "name": "6. Sinif"
+    },
+    {
+      "id": "7",
+      "name": "7. Sinif"
+    },
+    {
+      "id": "8",
+      "name": "8. Sinif"
+    }
+  ],
+  "lessons": [{
+    "id": "1",
+    "name": "Fen ve Teknoloji"
+  }],
+  "role": "teacher",
+  "description": "Excepteur sint occaecat cupidatat non proident, deserunt mollit anim id est laborum. accusantium doloremque laudantium,vitae dicta",
+  "basePrice": 125,
+  "numberOfStudents": 18,
+  "totalReviews": 450,
+  "rating": 3.2,
+  "services": [{
+    "id": "2",
+    "name": "Solving Questions"
+  }, {
+    "id": "3",
+    "name": "School Consulting"
+  }]
+},{
+  "id": "3",
+  "firstName": "Demet",
+  "lastName": "Eroglu",
+  "email": "d@asd.com",
+  "password": "12345",
+  "grades": [
+    {
+      "id": "2",
+      "name": "2. Sinif"
+    },
+    {
+      "id": "3",
+      "name": "3. Sinif"
+    },
+    {
+      "id": "4",
+      "name": "4. Sinif"
+    }
+  ],
+  "lessons": [{
+    "id": "4",
+    "name": "Hayat Bilgisi"
+  }],
+  "role": "teacher",
+  "description": "",
+  "basePrice": 149,
+  "numberOfStudents": 10,
+  "totalReviews": 202,
+  "rating": 4.5,
+  "services": [{
+    "id": "1",
+    "name": "1 of 1"
+  }, {
+    "id": "2",
+    "name": "Solving Questions"
+  }, {
+    "id": "3",
+    "name": "School Consulting"
+  }]
+}]

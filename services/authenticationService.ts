@@ -1,5 +1,5 @@
 import { AuthRole } from "../store/authentication/types";
-import { ClassType, LessonType } from "../store/search/types";
+import { GradeType, LessonType } from "../store/search/types";
 
 export type AuthType = {
   userId: string;
@@ -30,12 +30,11 @@ export type SignUpRequest = {
   firstName: string,
   lastName: string,
   role: AuthRole,
-  className?: ClassType,
+  className?: GradeType,
   lessons?: LessonType[]
 };
 export const signUpByEmailAndPassword = (request: SignUpRequest): Promise<boolean | AuthErrorType> => {
   return new Promise((resolve) => {
-   console.log("request", request);
     setTimeout(() => {
       // Register
       resolve(true);

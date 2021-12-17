@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ClassType, LessonType } from "../store/search/types";
+import { GradeType, LessonType } from "../store/search/types";
 import { Button } from "./Button";
 import { Checkbox } from "./Checkbox";
 import { Input } from "./Input";
@@ -7,7 +7,7 @@ import { LessonList, LessonListType } from "./LessonList";
 import { Select, SelectItem } from "./Select";
 
 type FiltersType = {
-  classes: ClassType[];
+  classes: GradeType[];
   lessons: LessonType[];
 };
 

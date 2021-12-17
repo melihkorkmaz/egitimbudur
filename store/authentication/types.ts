@@ -1,14 +1,6 @@
-export enum AuthCurrentState {
-  NOT_INITIALIZED = 'NOT_INITIALIZED',
-  NOT_AUTHENTICATED = 'NOT_AUTHENTICATED',
-  AUTHENTICATED = 'AUTHENTICATED',
-  FAILED = 'FAILED',
-}
+import { AuthCurrentState, AuthRole } from "../../types/authentication";
 
-export enum AuthRole {
-  TEACHER = 'TEACHER',
-  STUDENT = 'STUDENT'
-}
+
 
 export type AuthenticationState = {
   authState: AuthCurrentState;

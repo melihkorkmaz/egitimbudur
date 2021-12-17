@@ -8,13 +8,13 @@ import { LessonList, LessonListType } from "../components/LessonList";
 import { RadioButton } from "../components/RadioButton";
 import { Select, SelectItem } from "../components/Select";
 import { AuthErrorType, signUpByEmailAndPassword } from "../services/authenticationService";
-import { getClassTypes, getLessons } from "../services/searchService";
+import { getGrades, getLessons } from "../services/searchService";
 import { AuthCurrentState, AuthRole } from "../store/authentication/types";
 import { useAuthentication } from "../store/authentication/useAuthentication";
-import { ClassType, LessonType } from "../store/search/types";
+import { GradeType, LessonType } from "../store/search/types";
 
 type SignUpProps = {
-  classes: ClassType[];
+  classes: GradeType[];
   lessons: LessonType[];
 };
 
@@ -231,7 +231,7 @@ export default function SignUp({ classes, lessons = [] }: SignUpProps) {
 }
 
 export async function getServerSideProps(context) {
-  const classes = await getClassTypes();
+  const classes = await getGrades();
   const lessons = await getLessons();
   return {
     props: {

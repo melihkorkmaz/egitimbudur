@@ -1,11 +1,11 @@
 import React from "react";
 import { Search } from "../components/Search";
-import { getClassTypes, getLessons } from "../services/searchService";
-import { ClassType, LessonType } from "../store/search/types";
+import { getGrades, getLessons } from "../services/searchService";
+import { GradeType, LessonType } from "../store/search/types";
 import { Layout } from "../components/layout/Layout";
 
 type HomeProps = {
-  classes: ClassType[];
+  classes: GradeType[];
   lessons: LessonType[];
 };
 
@@ -43,7 +43,7 @@ export default function Home({
 }
 
 export async function getServerSideProps(context) {
-  const classes = await getClassTypes();
+  const classes = await getGrades();
   const lessons = await getLessons();
   return {
     props: {

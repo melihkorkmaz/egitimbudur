@@ -1,7 +1,7 @@
 import { useCallback, useContext } from "react";
 import { setClassTypes, setLessons } from "./actions";
 import { DispatchContext, StoreContext } from "./store";
-import { ClassType, LessonType } from "./types";
+import { GradeType, LessonType } from "./types";
 
 export const useSearchStore = () => {
   const store = useContext(StoreContext);
@@ -10,7 +10,7 @@ export const useSearchStore = () => {
 
   return {
     ...store,
-    setClassTypes: (classTypes: ClassType[]) => dispatch(setClassTypes(classTypes)),
+    setClassTypes: (classTypes: GradeType[]) => dispatch(setClassTypes(classTypes)),
     setLessons: (lessons: LessonType[]) => dispatch(setLessons(lessons)),
   }
 };
