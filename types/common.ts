@@ -27,3 +27,8 @@ export type SearchFilterType = {
   lessonIds?: string[];
   teacherServiceCategoryIds?: string[];
 }
+
+export type RateOverviewType = {
+  rating: number;
+  totalRated: number[];
+}

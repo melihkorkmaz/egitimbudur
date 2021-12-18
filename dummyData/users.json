@@ -38,7 +38,7 @@
   "description": "Excepteur sint occaecat cupidatat non proident, deserunt mollit anim id est laborum. accusantium doloremque laudantium,vitae dicta",
   "basePrice": 125,
   "numberOfStudents": 18,
-  "totalReviews": 450,
+  "totalComments": 450,
   "rating": 3.2,
   "services": [{
     "id": "2",
@@ -75,7 +75,7 @@
   "description": "",
   "basePrice": 149,
   "numberOfStudents": 10,
-  "totalReviews": 202,
+  "totalComments": 202,
   "rating": 4.5,
   "services": [{
     "id": "1",

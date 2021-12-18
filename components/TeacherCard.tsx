@@ -3,6 +3,7 @@ import style from "./teacherCard.module.scss";
 import cx from "classnames";
 import { TeacherType } from "../types/user";
 import { ServiceTypeEnum, TeacherServiceCategoryType } from "../types/common";
+import { RatingCard } from "./rating/RatingCard";
 
 type TeacherCardProps = {
   asListItem?: boolean,
@@ -10,25 +11,7 @@ type TeacherCardProps = {
   onClick?: (teacher: TeacherType) => void;
 }
 
-type RateInfoType = {
-  rating: number;
-  totalReview: number;
-}
 
-const RateInfo = ({ rating, totalReview }: RateInfoType) => (
-  <div className="ed_rate_info">
-    <div className="star_info">
-      <i className="fas fa-star filled"></i>
-      <i className="fas fa-star filled"></i>
-      <i className="fas fa-star filled"></i>
-      <i className="fas fa-star filled"></i>
-      <i className="fas fa-star"></i>
-    </div>
-    <div className="review_counter">
-      <strong className="high">{rating}</strong> {totalReview} Yorum
-    </div>
-  </div>
-);
 
 type TeacherServicePinType = {
   service: TeacherServiceCategoryType
@@ -90,7 +73,9 @@ export const TeacherCard = ({ asListItem = false, teacher, onClick }: TeacherCar
               <i className="ti-user"></i>{teacher.numberOfStudents} Ogrenci
             </li>
             {!asListItem && <li>
-              <RateInfo totalReview={teacher.totalReviews} rating={teacher.rating} />
+              <RatingCard rating={teacher.rating} >
+                {teacher.totalComments.toString()} Yorum
+              </RatingCard>
             </li>}
           </ul>
         </div>
@@ -111,7 +96,9 @@ export const TeacherCard = ({ asListItem = false, teacher, onClick }: TeacherCar
             </p>
           }
         </div>
-        <RateInfo totalReview={teacher.totalReviews} rating={teacher.rating} />
+        <RatingCard rating={teacher.rating} >
+          {teacher.totalComments.toString()} Yorum
+        </RatingCard>
       </div>}
     </div>
   );

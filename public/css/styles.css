@@ -5487,7 +5487,12 @@ ul.edu_list.third li {
     line-height: 21px;
 }
 .rating-overview-box .star-rating i {
-    color:#ff9500;
+  font-size: 16px;
+  color: #ced7e8;
+  margin-right: 1px;
+}
+.rating-overview-box .star-rating i.filled {
+  color: #f1992c;
 }
 /*----------- ED View Box ---------------*/
 .ed_view_box {
