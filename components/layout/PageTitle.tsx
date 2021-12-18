@@ -9,7 +9,7 @@ export const PageTitle = ({
   breadcrumb
 }: PageTitleProps) => {
   return (
-    <section className="page-title pt-12 pb-14">
+    <section className="page-title pt-12 pb-4">
       <div className="container">
         <div className="row">
           <div className="col-lg-12 col-md-12">

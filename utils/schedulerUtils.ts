@@ -90,7 +90,6 @@ const getDatesForWeek = (date: Date) => {
 };
 
 export const getScheduleData = (date: Date, schedule: ActiveScheduleType) => {
-  console.log("schedule", schedule);
   const daysOfWeek = getDatesForWeek(date);
   return getHours(daysOfWeek, schedule);
 

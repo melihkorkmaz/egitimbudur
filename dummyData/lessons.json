@@ -1,0 +1,22 @@
+[
+  {
+    "id": "1",
+    "name": "Fen ve Teknoloji",
+    "order": 1
+  },
+  {
+    "id": "2",
+    "name": "Matematik",
+    "order": 2
+  },
+  {
+    "id": "3",
+    "name": "Geometri",
+    "order": 3
+  },
+  {
+    "id": "4",
+    "name": "Hayat Bilgisi",
+    "order": 4
+  }
+]

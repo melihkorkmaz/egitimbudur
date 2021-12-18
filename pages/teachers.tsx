@@ -1,22 +1,28 @@
 import { Layout } from '../components/layout/Layout';
-import { PageTitle } from "../components/layout/PageTitle";
 import { Breadcrumb } from "../components/layout/Breadcrumb";
 import { Filters } from "../components/Filters";
 import { ResultsHeader } from "../components/ResultsHeader";
 import { TeacherCard } from "../components/TeacherCard";
 import { Pagination } from "../components/Pagination";
-import { getClassTypes, getLessons } from "../services/searchService";
-import { ClassType, LessonType } from "../store/search/types";
+import { getGrades, getLessons, searchTeachers } from "../services/searchService";
+import { useState } from 'react';
+import { TeacherType } from '../types/user';
+import { GradeType, LessonType } from '../types/common';
 
 type TeachersProps = {
-  classes: ClassType[];
+  classes: GradeType[];
   lessons: LessonType[];
+  initialTeachers: TeacherType[];
 };
 
 export default function Teachers({
   classes,
   lessons,
+  initialTeachers = [],
 }: TeachersProps) {
+  const [teachers] = useState<TeacherType[]>(initialTeachers);
+
+
   return (
     <Layout pageTitle="Ogretmenler" breadcrumb={<Breadcrumb currentPage="Ogretmenler" />}>
       <div className="row">
@@ -28,12 +34,9 @@ export default function Teachers({
           <ResultsHeader />
 
           <div className="justify-content-center">
-            <TeacherCard asListItem />
-            <TeacherCard asListItem />
-            <TeacherCard asListItem />
-            <TeacherCard asListItem />
-            <TeacherCard asListItem />
-            <TeacherCard asListItem />
+            {teachers.map(teacher => (
+              <TeacherCard key={teacher.id} teacher={teacher} onClick={() => window.open(`/teacher/${teacher.id}`, '_blank')} asListItem />
+            ))}
           </div>
           <Pagination />
         </div>
@@ -43,12 +46,15 @@ export default function Teachers({
 }
 
 export async function getServerSideProps(context) {
-  const classes = await getClassTypes();
+  const classes = await getGrades();
   const lessons = await getLessons();
+  const teachers = await searchTeachers();
+
   return {
     props: {
       classes,
-      lessons
+      lessons,
+      initialTeachers: teachers,
     }, // will be passed to the page component as props
   }
 }

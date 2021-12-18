@@ -1,16 +1,14 @@
-import { ClassType, LessonType } from "../store/search/types";
+import grades from '../dummyData/grades.json';
+import lessons from '../dummyData/lessons.json'
+import { GradeType, LessonType, SearchFilterType } from '../types/common';
+import { TeacherType, UserType } from '../types/user';
+import users from '../dummyData/users.json';
+import { AuthRole } from '../types/authentication';
 
-
-export const getClassTypes = (): Promise<ClassType[]> => {
+export const getGrades = (): Promise<GradeType[]> => {
   return new Promise((resolve) => {
     setTimeout(() => {
-
-      const classTypes: ClassType[] = [
-        {id:"7-sinif", name: "7. Sinif"},
-        {id:"8-sinif", name: "8. Sinif"},
-      ];
-      
-      resolve(classTypes);
+      resolve(grades);
     }, 300);
   })
 };
@@ -18,12 +16,16 @@ export const getClassTypes = (): Promise<ClassType[]> => {
 export const getLessons = (): Promise<LessonType[]> => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      const lessons: LessonType[] = [
-        {id:"matematik", name: "Matematik"},
-        {id:"fen-ve-teknoloji", name: "Fen ve Teknoloji"},
-      ];
-
       resolve(lessons);
     }, 300);
+  })
+};
+
+export const searchTeachers = (filter?: SearchFilterType): Promise<TeacherType[]> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const teachers = (users as UserType[]).filter(user => user.role === AuthRole.TEACHER) as TeacherType[];
+      resolve(teachers);
+    }, 200);
   })
 };

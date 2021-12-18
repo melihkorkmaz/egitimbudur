@@ -1,16 +1,9 @@
+import { GradeType, LessonType } from "../../types/common";
 
-export type ClassType = {
-  name: string;
-  id: string;
-}
 
-export type LessonType = {
-  name: string;
-  id: string;
-}
 
 export type SearchState = {
-  classes: ClassType[];
+  classes: GradeType[];
   lessons: LessonType[];
 };
 

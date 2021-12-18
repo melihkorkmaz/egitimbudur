@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { Layout } from "../components/layout/Layout";
-import { AuthCurrentState } from "../store/authentication/types";
 import { useAuthentication } from "../store/authentication/useAuthentication";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { AuthCurrentState } from "../types/authentication";
 
 export default function SignIn() {
   const router = useRouter();

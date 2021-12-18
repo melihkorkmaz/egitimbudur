@@ -5,8 +5,8 @@ import { Button } from '../Button';
 import { NavMenu } from './NavMenu';
 import Link from 'next/link'
 import { useAuthentication } from "../../store/authentication/useAuthentication";
-import { AuthCurrentState } from "../../store/authentication/types";
 import { useEffect, useState } from "react";
+import { AuthCurrentState } from "../../types/authentication";
 
 type HeaderProps = {
   className?: string;

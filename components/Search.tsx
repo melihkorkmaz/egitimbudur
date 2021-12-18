@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { ClassType, LessonType } from "../store/search/types";
+import { GradeType, LessonType } from "../store/search/types";
 import { useSearchStore } from "../store/search/useSearchStore";
 import { Button } from "./Button";
 import { Select, SelectItem } from "./Select";
 
 type SearchProps = {
-  classes: ClassType[];
+  classes: GradeType[];
   lessons: LessonType[];
 };
 
