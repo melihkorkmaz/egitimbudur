@@ -9,13 +9,12 @@ export const TextArea = ({
   placeHolder,
   onChange,
 }: TextAreaProps) => {
-
   return (
     <textarea
       onChange={onChange} 
       className="form-control ht-140" 
-      placeholder={placeHolder}>
-      {value}
-    </textarea>
+      placeholder={placeHolder} 
+      value={value}
+      />
   );
 }

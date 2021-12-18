@@ -3,24 +3,7 @@ import { Layout } from '../../components/layout/Layout';
 import { Comments } from '../../components/reviews/Comments';
 import { TeacherCard } from '../../components/TeacherCard';
 import { getTeacher } from '../../services/userService';
-import { CommentType } from '../../types/comment';
 import { TeacherType } from '../../types/user';
-
-
-const comments = [
-  {
-    id: "1",
-    owner: {
-      id: "",
-      photo: "/img/empty_profile_m.png",
-      fullName: "Josaph Manrty"
-    },
-    comment: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
-    likes: 1,
-    dislikes: 1,
-    dateCommented: new Date(),
-  }
-] as CommentType[];
 
 type TeacherProps = {
   teacher: TeacherType;
@@ -32,11 +15,11 @@ export default function Teacher({ teacher }: TeacherProps) {
       <div className="row">
 
         <div className="col-lg-8 col-md-12 order-lg-first">
-          <div className="edu_wraper">
+          {teacher.description && <div className="edu_wraper mb-4">
             <h4 className="edu_title">Hakkinda</h4>
             <p>{teacher.description}</p>
-          </div>
-          <div className="rating-overview">
+          </div>}
+          <div className="rating-overview mb-4">
             <div className="rating-overview-box">
               <span className="rating-overview-box-total">{teacher.rating}</span>
               <span className="rating-overview-box-percent">out of 5.0</span>
@@ -84,7 +67,7 @@ export default function Teacher({ teacher }: TeacherProps) {
             </div>
           </div>
 
-          <Comments comments={comments} teacherId="" />
+          <Comments teacherId={teacher.id} userCanComment={true}/>
 
         </div>
 
@@ -136,7 +119,6 @@ export default function Teacher({ teacher }: TeacherProps) {
 export async function getServerSideProps(context) {
   const { id } = context.query;
   const teacher = await getTeacher(id);
-  console.log("teacher", teacher);
   return {
     props: {
       teacher

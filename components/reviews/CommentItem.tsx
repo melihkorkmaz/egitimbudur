@@ -12,8 +12,8 @@ export const CommentItem = ({ comment }: CommentProps) => (
       </div>
       <div className="reviews-comments-item-text">
         <h4>
-          <a href="#">{comment.owner.fullName}</a>
-          <span className="reviews-comments-item-date"><i className="ti-calendar theme-cl"></i>{comment.dateCommented.toLocaleDateString()}</span>
+          <a href="#">{comment.owner.firstName} {comment.owner.lastName}</a>
+          <span className="reviews-comments-item-date"><i className="ti-calendar theme-cl"></i>{(new Date(comment.dateCommented).toLocaleDateString())}</span>
         </h4>
         <div className="clearfix"></div>
         <p>

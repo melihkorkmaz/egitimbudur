@@ -2,7 +2,8 @@
 export type UserWithPhoto = {
   id: string;
   photo: string;
-  fullName: string;
+  firstName: string;
+  lastName: string;
 }
 
 export type CommentType = {
@@ -11,5 +12,5 @@ export type CommentType = {
   comment: string;
   likes: number;
   dislikes: number;
-  dateCommented: Date;
+  dateCommented: number;
 }

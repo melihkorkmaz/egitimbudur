@@ -7,6 +7,7 @@ import { ServiceTypeEnum, TeacherServiceCategoryType } from "../types/common";
 type TeacherCardProps = {
   asListItem?: boolean,
   teacher: TeacherType,
+  onClick?: (teacher: TeacherType) => void;
 }
 
 type RateInfoType = {
@@ -60,11 +61,12 @@ const TeacherServicePin = ({ service }: TeacherServicePinType) => {
   )
 }
 
-export const TeacherCard = ({ asListItem = false, teacher }: TeacherCardProps) => {
+export const TeacherCard = ({ asListItem = false, teacher, onClick }: TeacherCardProps) => {
   return (
     <div className={cx({
-      "crs_lt_2": asListItem
-    }, style.teacherCard)}>
+      "crs_lt_2": asListItem,
+      "cursor-pointer": onClick !== undefined,
+    }, style.teacherCard)} onClick={() => onClick && onClick(teacher)}>
       {/* user image */}
       <div className={cx('authi_125', style.userImage)}>
         <div className="authi_125_thumb">
@@ -105,11 +107,7 @@ export const TeacherCard = ({ asListItem = false, teacher }: TeacherCardProps) =
         <div className="ed_header_short">
           {teacher.description &&
             <p>
-              {teacher.description}
-              <a href="#" className="theme-cl">
-                Devamini Oku..
-              </a>
-              .
+              {teacher.description}...
             </p>
           }
         </div>

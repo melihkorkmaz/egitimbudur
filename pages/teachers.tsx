@@ -20,7 +20,6 @@ export default function Teachers({
   lessons,
   initialTeachers = [],
 }: TeachersProps) {
-
   const [teachers] = useState<TeacherType[]>(initialTeachers);
 
 
@@ -36,7 +35,7 @@ export default function Teachers({
 
           <div className="justify-content-center">
             {teachers.map(teacher => (
-              <TeacherCard key={teacher.id} teacher={teacher} asListItem />
+              <TeacherCard key={teacher.id} teacher={teacher} onClick={() => window.open(`/teacher/${teacher.id}`, '_blank')} asListItem />
             ))}
           </div>
           <Pagination />

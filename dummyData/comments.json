@@ -1,0 +1,28 @@
+{
+  "2": [{
+    "id": "1",
+    "owner": {
+      "id": "1",
+      "photo": "/img/empty_profile_m.png",
+      "firstName": "Josaph",
+      "lastName": "Manrty"
+    },
+    "comment": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+    "likes": 10,
+    "dislikes": 1,
+    "dateCommented": 1639813708286
+  },
+  {
+    "id": "2",
+    "owner": {
+      "id": "1",
+      "photo": "/img/empty_profile_f.png",
+      "firstName": "Jasmin",
+      "lastName": "Thomas"
+    },
+    "comment": "Sed ut perspiciatis",
+    "likes": 4,
+    "dislikes": 3,
+    "dateCommented": 1639813808286
+  }]
+}
