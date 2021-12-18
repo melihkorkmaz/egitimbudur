@@ -22,7 +22,7 @@ export const writeComment = async (teacherId: string, comment: string): Promise<
       };
 
       lastComment.comment = comment;
-      lastComment.id = lastComment.id + 1;
+      lastComment.id = (parseInt(lastComment.id) + 1).toString();
 
       data[teacherId].push(lastComment);
       resolve();

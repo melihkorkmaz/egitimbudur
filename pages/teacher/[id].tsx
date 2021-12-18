@@ -1,15 +1,22 @@
 import React from 'react';
 import { Layout } from '../../components/layout/Layout';
-import { Comments } from '../../components/reviews/Comments';
+import { Comments } from '../../components/comments/Comments';
 import { TeacherCard } from '../../components/TeacherCard';
 import { getTeacher } from '../../services/userService';
 import { TeacherType } from '../../types/user';
+import { RatingForm } from '../../components/rating/RatingForm';
+import { RatingOverview } from '../../components/rating/RatingOverview';
 
 type TeacherProps = {
   teacher: TeacherType;
 }
 
 export default function Teacher({ teacher }: TeacherProps) {
+
+  const handleUserRate = (rating: number) => {
+    console.log("rating", rating);
+  };
+
   return (
     <Layout pageTitle={<TeacherCard teacher={teacher} />}>
       <div className="row">
@@ -19,56 +26,8 @@ export default function Teacher({ teacher }: TeacherProps) {
             <h4 className="edu_title">Hakkinda</h4>
             <p>{teacher.description}</p>
           </div>}
-          <div className="rating-overview mb-4">
-            <div className="rating-overview-box">
-              <span className="rating-overview-box-total">{teacher.rating}</span>
-              <span className="rating-overview-box-percent">out of 5.0</span>
-              <div className="star-rating" data-rating="5"><i className="ti-star"></i><i className="ti-star"></i><i className="ti-star"></i><i className="ti-star"></i><i className="ti-star"></i>
-              </div>
-            </div>
-
-            <div className="rating-bars">
-              <div className="rating-bars-item">
-                <span className="rating-bars-name">5 Star</span>
-                <span className="rating-bars-inner">
-                  <span className="rating-bars-rating high" data-rating="4.7">
-                    <span className="rating-bars-rating-inner" style={{ width: "85%" }}></span>
-                  </span>
-                  <strong>85%</strong>
-                </span>
-              </div>
-              <div className="rating-bars-item">
-                <span className="rating-bars-name">4 Star</span>
-                <span className="rating-bars-inner">
-                  <span className="rating-bars-rating good" data-rating="3.9">
-                    <span className="rating-bars-rating-inner" style={{ width: "75%" }}></span>
-                  </span>
-                  <strong>75%</strong>
-                </span>
-              </div>
-              <div className="rating-bars-item">
-                <span className="rating-bars-name">3 Star</span>
-                <span className="rating-bars-inner">
-                  <span className="rating-bars-rating mid" data-rating="3.2">
-                    <span className="rating-bars-rating-inner" style={{ width: "52.2%" }}></span>
-                  </span>
-                  <strong>53%</strong>
-                </span>
-              </div>
-              <div className="rating-bars-item">
-                <span className="rating-bars-name">1 Star</span>
-                <span className="rating-bars-inner">
-                  <span className="rating-bars-rating poor" data-rating="2.0">
-                    <span className="rating-bars-rating-inner" style={{ width: "20%" }}></span>
-                  </span>
-                  <strong>20%</strong>
-                </span>
-              </div>
-            </div>
-          </div>
-
+          <RatingOverview teacherId={teacher.id} onRate={handleUserRate} />
           <Comments teacherId={teacher.id} userCanComment={true}/>
-
         </div>
 
         <div className="col-lg-4 col-md-12 order-lg-last">

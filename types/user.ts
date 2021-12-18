@@ -17,7 +17,7 @@ export type TeacherType = UserType & {
   description?: string;
   basePrice: number;
   numberOfStudents: number;
-  totalReviews: number;
+  totalComments: number;
   rating: number;
   services?: TeacherServiceCategoryType[];
 }
