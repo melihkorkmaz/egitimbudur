@@ -1,8 +1,8 @@
 import React from "react";
 import { Search } from "../components/Search";
 import { getGrades, getLessons } from "../services/searchService";
-import { GradeType, LessonType } from "../store/search/types";
 import { Layout } from "../components/layout/Layout";
+import { GradeType, LessonType } from "../types/common";
 
 type HomeProps = {
   classes: GradeType[];

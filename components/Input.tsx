@@ -6,7 +6,7 @@ type InputProps = {
   className?: string,
   placeHolder?: string,
   block?: boolean,
-  value: string,
+  value?: string,
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
 }
 export const Input = ({

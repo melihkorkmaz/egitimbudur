@@ -1,32 +1,34 @@
-import { LessonType } from "../types/common";
+import { ServiceTypeEnum, TeacherServiceCategoryType } from "../types/common";
+import { getServiceName } from "../utils/common";
 import { Checkbox } from "./Checkbox";
 
-export type LessonListType = {
-  lesson: LessonType;
+export type ServiceListType = {
+  service: TeacherServiceCategoryType;
   selected: boolean;
 }
 
-type LessonListProps = {
-  items: LessonListType[];
-  onUpdate: (items: LessonListType[]) => void;
+type ServiceListProps = {
+  items: ServiceListType[];
+  onUpdate: (items: ServiceListType[]) => void;
 }
 
-export const LessonList = ({
+export const ServiceList = ({
   items,
   onUpdate
-}: LessonListProps) => {
+}: ServiceListProps) => {
+
   return (
     <ul className="no-ul-list mb-3">
       {items.map((item) => (
-        <li key={item.lesson.id}>
+        <li key={item.service.id}>
           <Checkbox 
-            id={`lesson-${item.lesson.id}`}
+            id={`service-${item.service.id}`}
             checked={item.selected}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               onUpdate([...items].map(i => {
                 if (i === item) {
                   return ({
-                    lesson: i.lesson,
+                    service: i.service,
                     selected: e.target.checked
                   })
                 }
@@ -35,7 +37,7 @@ export const LessonList = ({
               }));
             }}
           >
-              {item.lesson.name}
+            {getServiceName(item.service.name)}
           </Checkbox>
         </li>
       ))}

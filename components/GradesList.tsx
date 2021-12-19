@@ -1,32 +1,32 @@
-import { LessonType } from "../types/common";
+import { GradeType } from "../types/common";
 import { Checkbox } from "./Checkbox";
 
-export type LessonListType = {
-  lesson: LessonType;
+export type GradesListType = {
+  grade: GradeType;
   selected: boolean;
 }
 
-type LessonListProps = {
-  items: LessonListType[];
-  onUpdate: (items: LessonListType[]) => void;
+type GradesListProps = {
+  items: GradesListType[];
+  onUpdate: (items: GradesListType[]) => void;
 }
 
-export const LessonList = ({
+export const GradesList = ({
   items,
   onUpdate
-}: LessonListProps) => {
+}: GradesListProps) => {
   return (
     <ul className="no-ul-list mb-3">
       {items.map((item) => (
-        <li key={item.lesson.id}>
+        <li key={item.grade.id}>
           <Checkbox 
-            id={`lesson-${item.lesson.id}`}
+            id={`grade-${item.grade.id}`}
             checked={item.selected}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               onUpdate([...items].map(i => {
                 if (i === item) {
                   return ({
-                    lesson: i.lesson,
+                    grade: i.grade,
                     selected: e.target.checked
                   })
                 }
@@ -35,7 +35,7 @@ export const LessonList = ({
               }));
             }}
           >
-              {item.lesson.name}
+              {item.grade.name}
           </Checkbox>
         </li>
       ))}

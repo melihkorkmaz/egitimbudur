@@ -11,7 +11,7 @@ type SelectProps = {
   block?: boolean,
   placeHolder?: string,
   options: SelectItem[],
-  selected?: SelectItem,
+  selected?: string,
   onChange: (item: SelectItem) => void;
 };
 
@@ -28,7 +28,7 @@ export const Select = ({
     <div className={cx(styles.selectBox, {
       'w-full': block
     }, className)}>
-      <select value={selected?.value || ""} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+      <select value={selected || ""} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value;
         onChange(options.find(o => o.value === value) || options[0]);
       }}>

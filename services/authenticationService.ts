@@ -32,6 +32,7 @@ export type SignUpRequest = {
   role: AuthRole,
   className?: GradeType,
   lessons?: LessonType[]
+  grades?: GradeType[]
 };
 export const signUpByEmailAndPassword = (request: SignUpRequest): Promise<boolean | AuthErrorType> => {
   return new Promise((resolve) => {

@@ -21,6 +21,17 @@ export type TeacherServiceCategoryType = {
   name: ServiceTypeEnum;
 }
 
+export enum SearchFilterEnum {
+  key = "k",
+  gradeId = "g",
+  lessonsIds = "l",
+  teacherServiceCategoryIds = 'ts',
+}
+
+export type SearchQueryType = {
+  [SearchFilterEnum.key]: string;
+}
+
 export type SearchFilterType = {
   key?: string;
   gradeId?: string;

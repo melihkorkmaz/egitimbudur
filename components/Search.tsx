@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { GradeType, LessonType } from "../store/search/types";
-import { useSearchStore } from "../store/search/useSearchStore";
+import { useRouter } from "next/router";
+import { GradeType, LessonType } from "../types/common";
 import { Button } from "./Button";
-import { Select, SelectItem } from "./Select";
+import { Select } from "./Select";
 
 type SearchProps = {
   classes: GradeType[];
@@ -13,11 +13,21 @@ export const Search = ({
   classes = [],
   lessons = []
 }: SearchProps) => {
-  const [selectedClass, setSelectedClass] = useState<SelectItem | undefined>();
-  const [selectedLesson, setSelectedLesson] = useState<SelectItem | undefined>();
+  const router = useRouter();
+  const [selectedGrade, setSelectedGrade] = useState<string | undefined>();
+  const [selectedLesson, setSelectedLesson] = useState<string | undefined>();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedGrade && !selectedLesson) {
+      return;
+    }
+
+    router.push(`/teachers?g=${selectedGrade}&l=${selectedLesson}`);
+  };
 
   return (
-    <div className="flex">
+    <form onSubmit={handleSubmit} className="flex">
       <Select
         options={
           classes
@@ -27,8 +37,8 @@ export const Search = ({
               }))
             : []
         }
-        selected={selectedClass}
-        onChange={setSelectedClass}
+        selected={selectedGrade}
+        onChange={(item) => setSelectedGrade(item.value)}
         placeHolder="Sınıf Seçiniz..."
         block
         className="mr-2"
@@ -43,12 +53,12 @@ export const Search = ({
             : []
         }
         selected={selectedLesson}
-        onChange={setSelectedLesson}
+        onChange={(item) => setSelectedLesson(item.value)}
         placeHolder="Ders Seçiniz..."
         block
         className="mr-2"
       />
-      <Button primary>Ara</Button>
-    </div>
+      <Button type='submit' primary>Ara</Button>
+    </form>
   );
 };

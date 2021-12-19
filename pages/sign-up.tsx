@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Button } from "../components/Button";
+import { GradesList, GradesListType } from "../components/GradesList";
 import { Input } from "../components/Input";
 import { Layout } from "../components/layout/Layout";
 import { LessonList, LessonListType } from "../components/LessonList";
@@ -9,9 +10,9 @@ import { RadioButton } from "../components/RadioButton";
 import { Select, SelectItem } from "../components/Select";
 import { AuthErrorType, signUpByEmailAndPassword } from "../services/authenticationService";
 import { getGrades, getLessons } from "../services/searchService";
-import { AuthCurrentState, AuthRole } from "../store/authentication/types";
 import { useAuthentication } from "../store/authentication/useAuthentication";
-import { GradeType, LessonType } from "../store/search/types";
+import { AuthCurrentState, AuthRole } from "../types/authentication";
+import { GradeType, LessonType } from "../types/common";
 
 type SignUpProps = {
   classes: GradeType[];
@@ -32,6 +33,11 @@ export default function SignUp({ classes, lessons = [] }: SignUpProps) {
     selected: false
   })));
 
+  const [gradesListItems, setGradesListItem] = useState<GradesListType[]>(classes.map(c => ({
+    grade: c,
+    selected: false
+  })));
+
   const { authState, login } = useAuthentication();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -43,7 +49,8 @@ export default function SignUp({ classes, lessons = [] }: SignUpProps) {
       lastName,
       role,
       className: classes.find(c => c.id === selectedClass?.value),
-      lessons: lessonsListItems.filter(l => l.selected).map(l => l.lesson)
+      lessons: lessonsListItems.filter(l => l.selected).map(l => l.lesson),
+      grades: gradesListItems.filter(l => l.selected).map(l => l.grade)
     });
 
     if ((res as AuthErrorType).message) {
@@ -138,9 +145,9 @@ export default function SignUp({ classes, lessons = [] }: SignUpProps) {
                             options={
                               classes
                                 ? classes.map((c) => ({
-                                    value: c.id,
-                                    key: c.name,
-                                  }))
+                                  value: c.id,
+                                  key: c.name,
+                                }))
                                 : []
                             }
                             selected={selectedClass}
@@ -153,10 +160,17 @@ export default function SignUp({ classes, lessons = [] }: SignUpProps) {
                       )}
 
                       {role === AuthRole.TEACHER && (
-                        <div className="form-group">
-                          <label>Branslarinizi Seciniz</label>
-                          <LessonList onUpdate={setLessonsListItem} items={lessonsListItems} />
-                        </div>
+                        <>
+                          <div className="form-group">
+                            <label>Branslarinizi Seciniz</label>
+                            <LessonList onUpdate={setLessonsListItem} items={lessonsListItems} />
+                          </div>
+
+                          <div className="form-group">
+                            <label>Siniflarinizi</label>
+                            <GradesList onUpdate={setGradesListItem} items={gradesListItems} />
+                          </div>
+                        </>
                       )}
                       <div className="form-group">
                         <label>Email</label>

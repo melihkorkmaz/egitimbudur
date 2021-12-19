@@ -1,9 +1,10 @@
 import grades from '../dummyData/grades.json';
 import lessons from '../dummyData/lessons.json'
-import { GradeType, LessonType, SearchFilterType } from '../types/common';
+import { GradeType, LessonType, SearchFilterType, TeacherServiceCategoryType } from '../types/common';
 import { TeacherType, UserType } from '../types/user';
 import users from '../dummyData/users.json';
 import { AuthRole } from '../types/authentication';
+import serviceDummyData from '../dummyData/serviceType.json';
 
 export const getGrades = (): Promise<GradeType[]> => {
   return new Promise((resolve) => {
@@ -17,6 +18,14 @@ export const getLessons = (): Promise<LessonType[]> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(lessons);
+    }, 300);
+  })
+};
+
+export const getServices = () : Promise<TeacherServiceCategoryType[]> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(serviceDummyData as TeacherServiceCategoryType[]);
     }, 300);
   })
 };
