@@ -5,15 +5,14 @@ import { Layout } from "../components/layout/Layout";
 import { GradeType, LessonType } from "../types/common";
 
 type HomeProps = {
-  classes: GradeType[];
+  grades: GradeType[];
   lessons: LessonType[];
 };
 
 export default function Home({
-  classes,
+  grades,
   lessons
 }: HomeProps) {
-  
   return (
     <Layout homePage>
       <div
@@ -31,7 +30,7 @@ export default function Home({
                   <p className="font-lg mb-4">
                     Kisa aciklama yada slogan....Kisa aciklama yada slogan....Kisa aciklama yada slogan....Kisa aciklama yada slogan....
                   </p>
-                  <Search classes={classes} lessons={lessons} />
+                  <Search grades={grades} lessons={lessons} />
                 </div>
               </div>
             </div>
@@ -43,11 +42,12 @@ export default function Home({
 }
 
 export async function getServerSideProps(context) {
-  const classes = await getGrades();
+  const grades = await getGrades();
   const lessons = await getLessons();
+
   return {
     props: {
-      classes,
+      grades,
       lessons
     }, // will be passed to the page component as props
   }

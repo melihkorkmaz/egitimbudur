@@ -1,6 +1,7 @@
 import { Dispatch } from "react";
-import { AuthCurrentState, AuthenticationState } from "./types";
+import { AuthenticationState } from "./types";
 import { AuthErrorType, AuthType, loginByEmailAndPassword} from '../../services/authenticationService';
+import { AuthCurrentState } from "../../types/authentication";
 
 export const SET_LOGIN_STATE = "SET_LOGIN_STATE";
 export const SET_AUTH_INFO = "SET_AUTH_INFO";
@@ -13,9 +14,9 @@ const setLoginState = (authState: AuthCurrentState, error?: string) => ({
   }
 } as const);
 
-const setAuthInfo = (userId: string, token: string) => ({
+export const setAuthInfo = (auth: AuthType) => ({
   type: SET_AUTH_INFO,
-  payload: { userId, token }
+  payload: auth
 } as const);
 
 export const login = (email: string, password: string): FunctionAction => 
@@ -25,9 +26,8 @@ async (dispatch: Dispatch<ObjectAction>)  => {
   if ((response as AuthErrorType).message) {
     return dispatch(setLoginState(AuthCurrentState.FAILED, (response as AuthErrorType).message));
   }
-  
-  const { userId, token } = response as AuthType;
-  dispatch(setAuthInfo(userId, token));
+  console.log("response", response);
+  dispatch(setAuthInfo(response as AuthType));
   dispatch(setLoginState(AuthCurrentState.AUTHENTICATED));
 };
 

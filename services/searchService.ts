@@ -1,25 +1,33 @@
-import grades from '../dummyData/grades.json';
-import lessons from '../dummyData/lessons.json'
 import { GradeType, LessonType, SearchFilterType, TeacherServiceCategoryType } from '../types/common';
 import { TeacherType, UserType } from '../types/user';
 import users from '../dummyData/users.json';
 import { AuthRole } from '../types/authentication';
+import client from '../graphql/apollo-client';
 import serviceDummyData from '../dummyData/serviceType.json';
+import { GRADES_QUERY, LESSONS_QUERY } from '../graphql/queries';
 
-export const getGrades = (): Promise<GradeType[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(grades);
-    }, 300);
-  })
+export const getGrades = async (): Promise<GradeType[]> => {
+  const { data } = await client.query({
+    query: GRADES_QUERY
+  });
+
+  return data.grades.data.map(g => ({
+    id: g.id,
+    name: g.attributes.Name,
+    order: g.attributes.Order
+  }));
 };
 
-export const getLessons = (): Promise<LessonType[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(lessons);
-    }, 300);
-  })
+export const getLessons = async (): Promise<LessonType[]> => {
+  const { data } = await client.query({
+    query: LESSONS_QUERY
+  });
+
+  return data.lessons.data.map(g => ({
+    id: g.id,
+    name: g.attributes.Name,
+    order: g.attributes.Order
+  }));
 };
 
 export const getServices = () : Promise<TeacherServiceCategoryType[]> => {

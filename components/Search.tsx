@@ -5,12 +5,12 @@ import { Button } from "./Button";
 import { Select } from "./Select";
 
 type SearchProps = {
-  classes: GradeType[];
+  grades: GradeType[];
   lessons: LessonType[];
 };
 
 export const Search = ({
-  classes = [],
+  grades = [],
   lessons = []
 }: SearchProps) => {
   const router = useRouter();
@@ -30,8 +30,8 @@ export const Search = ({
     <form onSubmit={handleSubmit} className="flex">
       <Select
         options={
-          classes
-            ? classes.map((c) => ({
+          grades
+            ? grades.map((c) => ({
                 value: c.id,
                 key: c.name,
               }))

@@ -7,19 +7,19 @@ import { Input } from "../components/Input";
 import { Layout } from "../components/layout/Layout";
 import { LessonList, LessonListType } from "../components/LessonList";
 import { RadioButton } from "../components/RadioButton";
-import { Select, SelectItem } from "../components/Select";
-import { AuthErrorType, signUpByEmailAndPassword } from "../services/authenticationService";
+import { Select } from "../components/Select";
+import { AuthErrorType, signUpByEmailAndPassword, SignUpResponse } from "../services/authenticationService";
 import { getGrades, getLessons } from "../services/searchService";
 import { useAuthentication } from "../store/authentication/useAuthentication";
 import { AuthCurrentState, AuthRole } from "../types/authentication";
 import { GradeType, LessonType } from "../types/common";
 
 type SignUpProps = {
-  classes: GradeType[];
+  grades: GradeType[];
   lessons: LessonType[];
 };
 
-export default function SignUp({ classes, lessons = [] }: SignUpProps) {
+export default function SignUp({ grades, lessons = [] }: SignUpProps) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,18 +27,18 @@ export default function SignUp({ classes, lessons = [] }: SignUpProps) {
   const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
   const [role, setRole] = useState<AuthRole>(AuthRole.STUDENT);
-  const [selectedClass, setSelectedClass] = useState<SelectItem | undefined>();
+  const [selectedGrade, setSelectedGrade] = useState<string | undefined>();
   const [lessonsListItems, setLessonsListItem] = useState<LessonListType[]>(lessons.map(l => ({
     lesson: l,
     selected: false
   })));
 
-  const [gradesListItems, setGradesListItem] = useState<GradesListType[]>(classes.map(c => ({
+  const [gradesListItems, setGradesListItem] = useState<GradesListType[]>(grades.map(c => ({
     grade: c,
     selected: false
   })));
 
-  const { authState, login } = useAuthentication();
+  const { authState, setAuthInfo } = useAuthentication();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,7 +48,7 @@ export default function SignUp({ classes, lessons = [] }: SignUpProps) {
       firstName,
       lastName,
       role,
-      className: classes.find(c => c.id === selectedClass?.value),
+      grade: grades.find(c => c.id === selectedGrade),
       lessons: lessonsListItems.filter(l => l.selected).map(l => l.lesson),
       grades: gradesListItems.filter(l => l.selected).map(l => l.grade)
     });
@@ -58,7 +58,7 @@ export default function SignUp({ classes, lessons = [] }: SignUpProps) {
       return;
     }
 
-    login(email, password);
+    setAuthInfo((res as SignUpResponse).id, (res as SignUpResponse).jwt);
   };
 
   useEffect(() => {
@@ -143,15 +143,15 @@ export default function SignUp({ classes, lessons = [] }: SignUpProps) {
                           <label>Sinif Seciniz</label>
                           <Select
                             options={
-                              classes
-                                ? classes.map((c) => ({
+                              grades
+                                ? grades.map((c) => ({
                                   value: c.id,
                                   key: c.name,
                                 }))
                                 : []
                             }
-                            selected={selectedClass}
-                            onChange={setSelectedClass}
+                            selected={selectedGrade}
+                            onChange={(item) => setSelectedGrade(item.value)}
                             placeHolder="Sınıf Seçiniz..."
                             block
                             className="mr-2"
@@ -245,11 +245,11 @@ export default function SignUp({ classes, lessons = [] }: SignUpProps) {
 }
 
 export async function getServerSideProps(context) {
-  const classes = await getGrades();
+  const grades = await getGrades();
   const lessons = await getLessons();
   return {
     props: {
-      classes,
+      grades,
       lessons,
     }, // will be passed to the page component as props
   };

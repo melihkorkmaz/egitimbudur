@@ -1,6 +1,7 @@
 import { useCallback, useContext } from "react";
 import { DispatchContext, StoreContext } from "./store";
-import { login } from "./actions"
+import { login, setAuthInfo } from "./actions"
+import { AuthType } from "../../services/authenticationService";
 
 export const useAuthentication = () => {
   const store = useContext(StoreContext);
@@ -9,6 +10,10 @@ export const useAuthentication = () => {
 
   return {
     ...store,
-    login: (email: string, password: string) => dispatch(login(email, password))
+    login: (email: string, password: string) => dispatch(login(email, password)),
+    setAuthInfo: (auth: AuthType) => {
+
+      return dispatch(setAuthInfo(auth));
+    }
   };
 }

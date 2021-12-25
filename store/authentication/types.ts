@@ -5,7 +5,12 @@ import { AuthCurrentState, AuthRole } from "../../types/authentication";
 export type AuthenticationState = {
   authState: AuthCurrentState;
   loginError?: string;
-  userId?: string;
-  token?: string;
-  authRole?: AuthRole;
+  jwt?: string;
+  user?: {
+    id: string,
+    email: string,
+    firstName: string,
+    lastName: string,
+    role: AuthRole;
+  }
 };

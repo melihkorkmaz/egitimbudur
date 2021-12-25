@@ -20,8 +20,9 @@ export const authenticationStateReducer = (
     case SET_AUTH_INFO:
       return {
         ...state,
-        userId: action.payload.userId,
-        token: action.payload.token,
+        user: action.payload.user,
+        jwt: action.payload.jwt,
+        authState: action.payload.jwt ? AuthCurrentState.AUTHENTICATED : AuthCurrentState.NOT_AUTHENTICATED,
       }
     default:
       return state;
