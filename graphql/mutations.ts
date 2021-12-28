@@ -26,10 +26,7 @@ export const REGISTER_MUTATION = gql`
           id
           email,
           firstName,
-          lastName,
-          role {
-            type
-          }
+          lastName
         }
       }
     }
@@ -43,3 +40,22 @@ export const LOGIN_MUTATION = gql`
   }
 `;
 
+export const FORGOT_PASSWORD_MUTATION = gql`
+  mutation ForgotPassword($email: String!) {
+    forgotPassword(email: $email){
+      ok
+    }
+  }
+`;
+
+export const PASSWORD_RESET_MUTATION = gql`
+  mutation ResetPassword($password: String!, $code: String!) {
+    resetPassword(
+      password: $password
+      passwordConfirmation: $password
+      code: $code
+    ){
+      jwt
+    }
+  }
+`;

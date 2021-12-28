@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "../components/Button";
 import { GradesList, GradesListType } from "../components/GradesList";
 import { Input } from "../components/Input";
@@ -8,10 +8,9 @@ import { Layout } from "../components/layout/Layout";
 import { LessonList, LessonListType } from "../components/LessonList";
 import { RadioButton } from "../components/RadioButton";
 import { Select } from "../components/Select";
-import { AuthErrorType, signUpByEmailAndPassword, SignUpResponse } from "../services/authenticationService";
 import { getGrades, getLessons } from "../services/searchService";
 import { useAuthentication } from "../store/authentication/useAuthentication";
-import { AuthCurrentState, AuthRole } from "../types/authentication";
+import { AuthErrorType, AuthRole } from "../types/authentication";
 import { GradeType, LessonType } from "../types/common";
 
 type SignUpProps = {
@@ -38,11 +37,11 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
     selected: false
   })));
 
-  const { authState, setAuthInfo } = useAuthentication();
+  const { signUp } = useAuthentication();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await signUpByEmailAndPassword({
+    const res = await signUp({
       email,
       password,
       firstName,
@@ -58,15 +57,8 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
       return;
     }
 
-    setAuthInfo((res as SignUpResponse).id, (res as SignUpResponse).jwt);
+    router.push("/");
   };
-
-  useEffect(() => {
-    if (authState === AuthCurrentState.AUTHENTICATED) {
-      router.push("/");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authState]);
 
   const handleRole = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRole(e.target.value as AuthRole);
@@ -228,9 +220,9 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
                     </div>
                     <div className="fhg_45">
                       <p className="musrt">
-                        <a href="forgot.html" className="text-danger">
-                          Forgot Password?
-                        </a>
+                        <Link href="/forgot-password">
+                          <a className="text-danger">Sifremi Unuttum!</a>
+                        </Link>
                       </p>
                     </div>
                   </div>
@@ -251,6 +243,6 @@ export async function getServerSideProps(context) {
     props: {
       grades,
       lessons,
-    }, // will be passed to the page component as props
+    }
   };
 }

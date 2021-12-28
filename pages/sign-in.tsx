@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { Layout } from "../components/layout/Layout";
 import { useAuthentication } from "../store/authentication/useAuthentication";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { AuthCurrentState } from "../types/authentication";
+import { AuthErrorType } from "../types/authentication";
 
 export default function SignIn() {
   const router = useRouter();
   const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
   const [password, setPassword] = useState("");
-  const { login, authState, loginError } = useAuthentication();
+  const { login } = useAuthentication();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const res = await login(email, password);    
 
-    login(email, password);
-  };
-
-  useEffect(() => {
-    if (authState === AuthCurrentState.AUTHENTICATED) {
-      router.push("/");
+    if ((res as AuthErrorType).message) {
+      setError((res as AuthErrorType).message);
+      return;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authState]);
+
+    router.push("/");
+  };
 
   return (
     <Layout>
@@ -68,9 +68,9 @@ export default function SignIn() {
                           Giris Yap
                         </Button>
                       </div>
-                      {authState === AuthCurrentState.FAILED && (
+                      {error && (
                         <div className="alert alert-danger" role="alert">
-                          {loginError}
+                          {error}
                         </div>
                       )}
                     </div>
@@ -94,7 +94,7 @@ export default function SignIn() {
                     </div>
                     <div className="fhg_45">
                       <p className="musrt">
-                        <Link href="/forgot">
+                        <Link href="/forgot-password">
                           <a className="text-danger">Sifremi Unuttum!</a>
                         </Link>
                       </p>

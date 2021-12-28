@@ -1,16 +1,6 @@
-import { AuthCurrentState, AuthRole } from "../../types/authentication";
-
-
+import { AuthCurrentState, AuthenticatedUser } from "../../types/authentication";
 
 export type AuthenticationState = {
   authState: AuthCurrentState;
-  loginError?: string;
-  jwt?: string;
-  user?: {
-    id: string,
-    email: string,
-    firstName: string,
-    lastName: string,
-    role: AuthRole;
-  }
+  user?: AuthenticatedUser
 };

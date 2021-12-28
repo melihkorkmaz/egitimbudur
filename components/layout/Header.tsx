@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useAuthentication } from "../../store/authentication/useAuthentication";
 import { useEffect, useState } from "react";
 import { AuthCurrentState } from "../../types/authentication";
+import { UserTopMenu } from "./userTopMenu";
 
 type HeaderProps = {
   className?: string;
@@ -63,17 +64,7 @@ export const Header = ({
             </div>
             <div className="nav-menus-wrapper">
               <NavMenu />
-              {authState !== AuthCurrentState.AUTHENTICATED && (<ul className="nav-menu nav-menu-social align-to-right mt-3">
-                <li>
-                  <Button renderAs="a" href="/sign-in">
-                    <i className="fas fa-sign-in-alt mr-1"></i>
-                    <span className="dn-lg">Giriş</span>
-                  </Button>
-                </li>
-                <li>
-                  <Button renderAs="a" href="/sign-up" primary>Şimdi Kaydol!</Button>
-                </li>
-              </ul>)}
+              <UserTopMenu />
             </div>
           </nav>
         </div>
