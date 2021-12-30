@@ -73,10 +73,34 @@ export const useUserProfile = () => {
     return updatedProfile;
   };
 
+  const updateUserPhoto = async (id: string) => {
+    const { data: {
+      updateUsersPermissionsUser: {
+        data
+      }
+    } } = await updateProfileMutation({
+      variables: {
+        id: userId,
+        data: {
+          photo: id
+        }
+      }
+    });
+
+    const updatedProfile = mapUserResponseToUserProfile({
+      id: data.id,
+      ...data,
+    });
+
+    dispatch(setUserProfile(updatedProfile));
+    return updatedProfile;
+  };
+
   return {
     ...store,
     getUserProfile,
     setUserProfile: (user: UserProfile) => dispatch(setUserProfile(user)),
-    updateUserProfile: handleUserProfileUpdate
+    updateUserProfile: handleUserProfileUpdate,
+    updateUserPhoto,
   }
 };

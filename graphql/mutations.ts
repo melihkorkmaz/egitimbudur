@@ -97,3 +97,13 @@ export const UPDATE_USER_PROFILE = gql`
     }
   }
 `
+
+export const UPLOAD = gql`
+  mutation($file: Upload!) {
+    upload(file: $file) {
+      data {
+        id
+      }
+    }
+  }
+`;

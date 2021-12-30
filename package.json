@@ -11,6 +11,8 @@
   "dependencies": {
     "@apollo/client": "^3.5.6",
     "@heroicons/react": "^1.0.5",
+    "@types/apollo-upload-client": "^14.1.0",
+    "apollo-upload-client": "^17.0.0",
     "axios": "^0.21.1",
     "classnames": "^2.3.1",
     "css-loader": "^6.2.0",

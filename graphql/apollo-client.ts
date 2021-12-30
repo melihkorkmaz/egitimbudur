@@ -1,7 +1,12 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { setContext } from '@apollo/client/link/context';
+import { createUploadLink } from "apollo-upload-client";
 
-const httpLink = createHttpLink({
+// const httpLink = createHttpLink({
+//   uri: `${process.env.NEXT_PUBLIC_BACKEND_URL}/graphql`,
+// });
+
+const uploadLink = createUploadLink({
   uri: `${process.env.NEXT_PUBLIC_BACKEND_URL}/graphql`,
 });
 
@@ -23,7 +28,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: authLink.concat(uploadLink),
   cache: new InMemoryCache()
 });
 
