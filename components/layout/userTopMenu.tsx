@@ -4,8 +4,8 @@ import { Button } from "../Button";
 
 export const UserTopMenu = () => {
 
-  const { authState, logout } = useAuthentication();
-
+  const { authState, logout, userProfile, user } = useAuthentication();
+  console.log("userProfile", userProfile);
   if (authState === AuthCurrentState.NOT_AUTHENTICATED) {
     return (
       <ul className="nav-menu nav-menu-social align-to-right mt-3">

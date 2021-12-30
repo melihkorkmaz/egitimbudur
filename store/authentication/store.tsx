@@ -1,10 +1,11 @@
 import { useQuery } from "@apollo/client";
 import { createContext, Dispatch, FunctionComponent, useEffect, useReducer } from "react"
-import { ME } from "../../graphql/queries";
-import { AuthenticatedUser, AuthRole } from "../../types/authentication";
-import { Action, setAuthInfo } from "./actions";
+import {  ME } from "../../graphql/queries";
+import { AuthCurrentState, } from "../../types/authentication";
+import { Action, setAuthenticatedUser, setUserProfile } from "./actions";
 import { authenticationStateReducer, defaultState } from "./reducer"
 import { AuthenticationState } from "./types"
+import { useAuthentication } from "./useAuthentication";
 
 export const StoreContext = createContext<AuthenticationState>(defaultState);
 export const DispatchContext = createContext<Dispatch<Action>>(() => {});
@@ -19,7 +20,8 @@ export const AuthenticationStoreProvider: FunctionComponent<StoreProviderProps> 
   children
 }) => {
   const [state, dispatch] = useReducer(authenticationStateReducer, initialState);
-  const { loading, error, data } = useQuery(ME);
+  const { getUserProfile, getAuthenticatedUser } = useAuthentication();
+  const { user, userProfile, authState } = state;
 
   const enchangedDispatch = (action: Action) => {
     if (typeof action === "function") {
@@ -29,25 +31,45 @@ export const AuthenticationStoreProvider: FunctionComponent<StoreProviderProps> 
     return dispatch(action);
   };
 
+  const initializeAuthentication = async () => {
+    const authenticatedUser = await getAuthenticatedUser();
+
+    if (authenticatedUser) {
+      dispatch(setAuthenticatedUser(authenticatedUser));
+      return;
+    }
+      
+    localStorage.removeItem("token");      
+    dispatch(setAuthenticatedUser());
+
+  }
+
   useEffect(() => {
-    if (loading) {
-      return;
+    if (authState === AuthCurrentState.NOT_INITIALIZED) {
+      initializeAuthentication();
     }
 
-    if (data && data.me) {
-      const auth = {
-        ...data.me,
-        role: data.me.role.type === 'teacher' ? AuthRole.TEACHER : AuthRole.STUDENT
-       } as AuthenticatedUser;
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authState])
 
-      dispatch(setAuthInfo(auth));      
 
+  const initUserProfile = async () => {
+    if (!user) {
       return;
-    } else if (error) {
-      localStorage.removeItem("token");
-      dispatch(setAuthInfo());
     }
-  }, [loading, error, data])
+    
+    const profile = await getUserProfile(user.id);
+    dispatch(setUserProfile(profile));
+  }
+
+  useEffect(() => {
+    if (authState === AuthCurrentState.AUTHENTICATED && userProfile === undefined) {
+      initUserProfile();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authState, userProfile]);
+
 
   return (
     <StoreContext.Provider value={state}>

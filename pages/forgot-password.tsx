@@ -29,7 +29,6 @@ export default function ForgotPassword() {
   return (
     <Layout>
       <section>
-        <div className="container">
         <div className="row justify-content-center">
             <div className="col-xl-7 col-lg-8 col-md-12 col-sm-12">
               <form onSubmit={handleSubmit}>
@@ -82,7 +81,6 @@ export default function ForgotPassword() {
                 </div>
               </form>
             </div>
-          </div>
         </div>
       </section>
     </Layout>

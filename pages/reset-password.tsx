@@ -5,13 +5,13 @@ import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { Layout } from "../components/layout/Layout";
 import { useAuthentication } from "../store/authentication/useAuthentication";
-import { AuthErrorType } from "../types/authentication";
+import { AuthenticatedUser, AuthErrorType } from "../types/authentication";
 
 
 export default function ResetPassword() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { passwordReset } = useAuthentication();
+  const { passwordReset, setAuthenticatedUser } = useAuthentication();
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -24,13 +24,13 @@ export default function ResetPassword() {
       return;
     }
 
+    setAuthenticatedUser(res as AuthenticatedUser);
     router.push("/");
   };
 
   return (
     <Layout>
       <section>
-        <div className="container">
           <div className="row justify-content-center">
             <div className="col-xl-7 col-lg-8 col-md-12 col-sm-12">
               <form onSubmit={handleSubmit}>
@@ -78,7 +78,6 @@ export default function ResetPassword() {
               </form>
             </div>
           </div>
-        </div>
       </section>
     </Layout>
   );

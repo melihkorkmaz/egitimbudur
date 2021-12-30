@@ -29,14 +29,33 @@ export const LESSONS_QUERY = gql`
 `;
 
 export const ME = gql`
-  query {
+  query me{
     me {
       id,
-      email,
-      firstName,
-      lastName,
       role {
         type
+      }
+    }
+  }
+`;
+
+export const GET_USER = gql`
+  query getUser ($id: ID!){
+    usersPermissionsUser(id: $id) {
+      data {
+        id,
+        attributes{
+          firstName
+          lastName
+          email
+          photo {
+          data {
+            attributes {
+              url
+              }
+            }
+          }
+        }
       }
     }
   }

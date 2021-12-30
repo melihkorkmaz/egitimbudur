@@ -5,31 +5,32 @@ import { Layout } from "../components/layout/Layout";
 import { useAuthentication } from "../store/authentication/useAuthentication";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { AuthErrorType } from "../types/authentication";
+import { AuthenticatedUser, AuthErrorType } from "../types/authentication";
 
 export default function SignIn() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuthentication();
+  const { login, setAuthenticatedUser } = useAuthentication();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await login(email, password);    
+    const res = await login(email, password); 
+  
 
     if ((res as AuthErrorType).message) {
       setError((res as AuthErrorType).message);
       return;
     }
 
+    setAuthenticatedUser(res as AuthenticatedUser);
     router.push("/");
   };
 
   return (
     <Layout>
       <section>
-        <div className="container">
           <div className="row justify-content-center">
             <div className="col-xl-7 col-lg-8 col-md-12 col-sm-12">
               <form onSubmit={handleSubmit}>
@@ -104,7 +105,6 @@ export default function SignIn() {
               </form>
             </div>
           </div>
-        </div>
       </section>
     </Layout>
   );

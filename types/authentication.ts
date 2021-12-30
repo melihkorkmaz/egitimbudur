@@ -25,10 +25,15 @@ export type SignUpRequest = {
 
 export type AuthenticatedUser = {
   id: string,
+  role: AuthRole;
+};
+
+export type UserProfile = {
+  id: string,
   email: string,
   firstName: string,
   lastName: string,
-  role: AuthRole;
+  photo?: string;
 };
 
 export type AuthErrorType = {

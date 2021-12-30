@@ -10,7 +10,7 @@ import { RadioButton } from "../components/RadioButton";
 import { Select } from "../components/Select";
 import { getGrades, getLessons } from "../services/searchService";
 import { useAuthentication } from "../store/authentication/useAuthentication";
-import { AuthErrorType, AuthRole } from "../types/authentication";
+import { AuthenticatedUser, AuthErrorType, AuthRole } from "../types/authentication";
 import { GradeType, LessonType } from "../types/common";
 
 type SignUpProps = {
@@ -37,7 +37,7 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
     selected: false
   })));
 
-  const { signUp } = useAuthentication();
+  const { signUp, setAuthenticatedUser } = useAuthentication();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -57,6 +57,7 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
       return;
     }
 
+    setAuthenticatedUser(res as AuthenticatedUser);
     router.push("/");
   };
 
@@ -67,7 +68,6 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
   return (
     <Layout>
       <section>
-        <div className="container">
           <div className="row justify-content-center">
             <div className="col-xl-7 col-lg-8 col-md-12 col-sm-12">
               <form onSubmit={handleSubmit}>
@@ -230,7 +230,6 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
               </form>
             </div>
           </div>
-        </div>
       </section>
     </Layout>
   );

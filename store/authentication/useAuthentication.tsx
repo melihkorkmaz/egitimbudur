@@ -1,10 +1,10 @@
 import { useCallback, useContext } from "react";
 import { DispatchContext, StoreContext } from "./store";
-import { setAuthInfo } from "./actions"
+import { setUserProfile, setAuthState, setAuthenticatedUser } from "./actions"
 import { useMutation, useLazyQuery } from "@apollo/client";
 import { FORGOT_PASSWORD_MUTATION, LOGIN_MUTATION, PASSWORD_RESET_MUTATION, REGISTER_MUTATION } from "../../graphql/mutations";
-import { ME } from "../../graphql/queries";
-import { AuthenticatedUser, AuthRole, SignUpRequest } from "../../types/authentication";
+import { GET_USER, ME } from "../../graphql/queries";
+import { AuthCurrentState, AuthenticatedUser, AuthRole, SignUpRequest, UserProfile } from "../../types/authentication";
 
 
 export const useAuthentication = () => {
@@ -12,34 +12,52 @@ export const useAuthentication = () => {
   const [signUpMutation] = useMutation(REGISTER_MUTATION);
   const [forgotPasswordMutation] = useMutation(FORGOT_PASSWORD_MUTATION);
   const [passwordResetMutation] = useMutation(PASSWORD_RESET_MUTATION);
-  const [getUser] = useLazyQuery(ME);
+  const [getUser] = useLazyQuery(GET_USER);
+  const [getMe] = useLazyQuery(ME);
   const store = useContext(StoreContext);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const dispatch = useCallback(useContext(DispatchContext), []);
 
-  const completeLogin = async (jwt: string) => {
-    localStorage.setItem('token', jwt);
+  const getUserProfile = async (userId: string): Promise<UserProfile> => {
+    const {
+      data: {
+        usersPermissionsUser: {
+          data
+        }
+      }
+    } = await getUser({
+      variables: {
+        id: userId
+      }
+    });
 
-    const { data: { me: user } } = await getUser();
-    
-    const authenticatedUser = {
-      ...user,
-      role: user.role.type === 'teacher' ? AuthRole.TEACHER : AuthRole.STUDENT
-    } as AuthenticatedUser;
+    console.log("data", data);
+    return {
+      id: userId,
+      ...data?.attributes,
+      photo: data?.attributes?.photo?.data?.attributes?.url,
+    } as UserProfile;
 
-    dispatch(setAuthInfo(authenticatedUser));
-    
-    return authenticatedUser;
+  }
+
+  const getAuthenticatedUser = async (): Promise<AuthenticatedUser> => {
+    const { data: {
+      me: user
+    } } = await getMe();
+    return {
+      id: user.id,
+      role: user.role.type === 'teacher' ? AuthRole.TEACHER : AuthRole.STUDENT,
+    };
   }
 
   const handleLogin = async (email: string, password: string) => {
     try {
-      const { data: { login } } = await loginMutation({
+      const { data: { login: { jwt, user } } } = await loginMutation({
         variables: { email, password },
       });
 
-      
-      return completeLogin(login.jwt);
+      localStorage.setItem('token', jwt);
+      return getAuthenticatedUser();
     } catch (error) {
       return {
         message: (error as Error).message
@@ -61,8 +79,8 @@ export const useAuthentication = () => {
           lessons: request.lessons?.map(lesson => lesson.id)
         }
       });
-
-      return completeLogin(customRegister.jwt);
+      localStorage.setItem('token', customRegister.jwt);
+      return getAuthenticatedUser();
     } catch (error) {
       return {
         message: (error as Error).message
@@ -88,7 +106,8 @@ export const useAuthentication = () => {
         variables: { password, code }
       });
 
-      return completeLogin(resetPassword.jwt);
+      localStorage.setItem('token', resetPassword.jwt);
+      return getAuthenticatedUser();
     } catch (error) {
       return {
         message: (error as Error).message
@@ -98,16 +117,20 @@ export const useAuthentication = () => {
 
   return {
     ...store,
+    getUserProfile,
+    getAuthenticatedUser,
+    setUserProfile: (user: UserProfile) => dispatch(setUserProfile(user)),
+    setAuthenticatedUser: (user: AuthenticatedUser) => dispatch(setAuthenticatedUser(user)),
+    setAuthState: (authState: AuthCurrentState) => dispatch(setAuthState(authState)),
     login: handleLogin,
     signUp: handleRegister,
     logout: () => {
       localStorage.removeItem("token");
-      dispatch(setAuthInfo());
+      dispatch(setUserProfile());
+      dispatch(setAuthenticatedUser());
+      dispatch(setAuthState(AuthCurrentState.NOT_AUTHENTICATED));
     },
     forgotPassword: handleForgotPassword,
-    passwordReset: handlePasswordReset,
-    setAuthInfo: (auth: AuthenticatedUser) => {
-      return dispatch(setAuthInfo(auth));
-    }
+    passwordReset: handlePasswordReset
   };
 }

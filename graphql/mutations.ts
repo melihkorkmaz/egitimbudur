@@ -21,21 +21,20 @@ export const REGISTER_MUTATION = gql`
         grades: $grades,
         lessons: $lessons
     }) {
-        jwt,
+        jwt
         user {
           id
-          email,
-          firstName,
-          lastName
         }
       }
     }
 `
-
 export const LOGIN_MUTATION = gql`
   mutation Login($email: String!, $password: String!) {
     login(input: { identifier: $email, password: $password }) {
       jwt
+      user {
+        id
+      }
     }
   }
 `;
@@ -56,6 +55,9 @@ export const PASSWORD_RESET_MUTATION = gql`
       code: $code
     ){
       jwt
+      user {
+        id
+      }
     }
   }
 `;
