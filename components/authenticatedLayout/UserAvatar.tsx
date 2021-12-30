@@ -44,7 +44,7 @@ export const UserAvatar = () => {
   return (
     <div className="d-user-avater">
       <img
-        src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${user.photo}` || "/img/empty_profile_m.png"} 
+        src={user.photo ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${user.photo}` : "/img/empty_profile_m.png"} 
         className="mx-auto" 
         alt="" 
       />
@@ -57,7 +57,7 @@ export const UserAvatar = () => {
           type="file" 
           ref={inputRef} 
           className="hidden" 
-          accept=".gif,.jpg,.jpeg,.png"
+          accept=".gif,.jpg,.jpeg,.png, .jfif"
           onChange={handlePhotoUpload}
         />
         <Button onClick={showFileDialog}>Fotografi Guncelle</Button>
