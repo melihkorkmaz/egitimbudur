@@ -5,7 +5,7 @@ import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { Layout } from "../components/layout/Layout";
 import { useAuthentication } from "../store/authentication/useAuthentication";
-import { AuthenticatedUser, AuthErrorType } from "../types/authentication";
+import { AuthErrorType, MeResponse } from "../types/authentication";
 
 
 export default function ResetPassword() {
@@ -24,7 +24,8 @@ export default function ResetPassword() {
       return;
     }
 
-    setAuthenticatedUser(res as AuthenticatedUser);
+    const { id, role } = res as MeResponse;
+    setAuthenticatedUser(id, role);
     router.push("/");
   };
 

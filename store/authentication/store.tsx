@@ -1,8 +1,9 @@
 import { useQuery } from "@apollo/client";
 import { createContext, Dispatch, FunctionComponent, useEffect, useReducer } from "react"
 import {  ME } from "../../graphql/queries";
+import { useUserProfile } from "../user/useUserProfile";
 import { AuthCurrentState, } from "../../types/authentication";
-import { Action, setAuthenticatedUser, setUserProfile } from "./actions";
+import { Action, setAuthenticatedUser } from "./actions";
 import { authenticationStateReducer, defaultState } from "./reducer"
 import { AuthenticationState } from "./types"
 import { useAuthentication } from "./useAuthentication";
@@ -20,8 +21,9 @@ export const AuthenticationStoreProvider: FunctionComponent<StoreProviderProps> 
   children
 }) => {
   const [state, dispatch] = useReducer(authenticationStateReducer, initialState);
-  const { getUserProfile, getAuthenticatedUser } = useAuthentication();
-  const { user, userProfile, authState } = state;
+  const { getAuthenticatedUser } = useAuthentication();
+  const { getUserProfile, setUserProfile, user: userProfile } = useUserProfile();
+  const { userId, authState } = state;
 
   const enchangedDispatch = (action: Action) => {
     if (typeof action === "function") {
@@ -32,10 +34,10 @@ export const AuthenticationStoreProvider: FunctionComponent<StoreProviderProps> 
   };
 
   const initializeAuthentication = async () => {
-    const authenticatedUser = await getAuthenticatedUser();
-
-    if (authenticatedUser) {
-      dispatch(setAuthenticatedUser(authenticatedUser));
+    const { id, role } = await getAuthenticatedUser();
+    
+    if (id) {
+      dispatch(setAuthenticatedUser(id, role));
       return;
     }
       
@@ -55,12 +57,12 @@ export const AuthenticationStoreProvider: FunctionComponent<StoreProviderProps> 
 
 
   const initUserProfile = async () => {
-    if (!user) {
+    if (!userId) {
       return;
     }
     
-    const profile = await getUserProfile(user.id);
-    dispatch(setUserProfile(profile));
+    const profile = await getUserProfile(userId);
+    setUserProfile(profile);
   }
 
   useEffect(() => {

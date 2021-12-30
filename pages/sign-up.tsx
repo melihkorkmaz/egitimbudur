@@ -10,7 +10,7 @@ import { RadioButton } from "../components/RadioButton";
 import { Select } from "../components/Select";
 import { getGrades, getLessons } from "../services/searchService";
 import { useAuthentication } from "../store/authentication/useAuthentication";
-import { AuthenticatedUser, AuthErrorType, AuthRole } from "../types/authentication";
+import { AuthErrorType, AuthRole, MeResponse } from "../types/authentication";
 import { GradeType, LessonType } from "../types/common";
 
 type SignUpProps = {
@@ -57,7 +57,8 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
       return;
     }
 
-    setAuthenticatedUser(res as AuthenticatedUser);
+    const { id, role: userRole } = res as MeResponse;
+    setAuthenticatedUser(id, userRole);
     router.push("/");
   };
 

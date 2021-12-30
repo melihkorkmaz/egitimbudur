@@ -44,14 +44,28 @@ export const GET_USER = gql`
     usersPermissionsUser(id: $id) {
       data {
         id,
-        attributes{
+        attributes {
           firstName
           lastName
           email
+          description
+          about
+          zoomLink
+          skypeUserName
+          grades {
+            data {
+              id
+            }
+          }
+          lessons {
+            data {
+              id
+            }
+          }
           photo {
-          data {
-            attributes {
-              url
+            data {
+              attributes {
+                url
               }
             }
           }

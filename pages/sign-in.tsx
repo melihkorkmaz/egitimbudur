@@ -5,7 +5,7 @@ import { Layout } from "../components/layout/Layout";
 import { useAuthentication } from "../store/authentication/useAuthentication";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { AuthenticatedUser, AuthErrorType } from "../types/authentication";
+import { AuthErrorType, MeResponse } from "../types/authentication";
 
 export default function SignIn() {
   const router = useRouter();
@@ -24,7 +24,8 @@ export default function SignIn() {
       return;
     }
 
-    setAuthenticatedUser(res as AuthenticatedUser);
+    const { id, role } = res as MeResponse;
+    setAuthenticatedUser(id, role);
     router.push("/");
   };
 

@@ -1,8 +1,7 @@
-import { AuthCurrentState, AuthenticatedUser, UserProfile } from "../../types/authentication";
+import { AuthCurrentState, AuthRole } from "../../types/authentication";
 
-export type AuthenticationState = {
+export interface AuthenticationState {
   authState: AuthCurrentState;
   userId?: number;
-  user?: AuthenticatedUser,
-  userProfile?: UserProfile
+  role?: AuthRole;
 };

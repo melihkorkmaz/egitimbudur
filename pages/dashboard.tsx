@@ -3,7 +3,7 @@ import { AuthenticatedLayout } from "../components/authenticatedLayout/Authentic
 
 export default function Dashboard() {
 
-  return <AuthenticatedLayout>
+  return <AuthenticatedLayout currentPage="dashboard">
     Dashboard
   </AuthenticatedLayout>
 }

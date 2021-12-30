@@ -5,13 +5,16 @@ import "../public/css/styles.css";
 import { AuthenticationStoreProvider } from "../store/authentication/store";
 import { ApolloProvider } from "@apollo/client";
 import client from '../graphql/apollo-client';
+import { UserStoreProvider } from "../store/user/store";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
-      <AuthenticationStoreProvider>
-        <Component {...pageProps} />
-      </AuthenticationStoreProvider>
+      <UserStoreProvider>
+        <AuthenticationStoreProvider>
+          <Component {...pageProps} />
+        </AuthenticationStoreProvider>
+      </UserStoreProvider>
     </ApolloProvider>
   );
 }

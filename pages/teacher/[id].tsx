@@ -14,7 +14,6 @@ type TeacherProps = {
 export default function Teacher({ teacher }: TeacherProps) {
 
   const handleUserRate = (rating: number) => {
-    console.log("rating", rating);
   };
 
   return (

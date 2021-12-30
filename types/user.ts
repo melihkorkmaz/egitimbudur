@@ -2,28 +2,25 @@ import { AuthRole } from "./authentication"
 import { GradeType, LessonType, TeacherServiceCategoryType } from "./common"
 
 export type BaseUserType = {
-  id: string,
-  profilePhoto?: string,
-  firstName: string,
-  lastName: string,
-  email: string,
-  password?: string,
-  role: AuthRole;
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  photo?: string;
 }
 
 export type StudentType = BaseUserType & {
-  grade: GradeType;
-}
+  grade: string;
+};
 
 export type TeacherType = BaseUserType & {
-  lessons: LessonType[];
-  majors: GradeType[];
   description?: string;
-  basePrice: number;
-  numberOfStudents: number;
-  totalComments: number;
-  rating: number;
+  zoomLink?: string;
+  skypeUserName?: string;
+  about?: string;
+  grades?: string[];
+  lessons?: string[];
   services?: TeacherServiceCategoryType[];
-}
+};
 
-export type UserType = StudentType | TeacherType;
+export type UserProfile = StudentType | TeacherType;

@@ -23,17 +23,9 @@ export type SignUpRequest = {
 };
 
 
-export type AuthenticatedUser = {
-  id: string,
+export type MeResponse = {
+  id: number;
   role: AuthRole;
-};
-
-export type UserProfile = {
-  id: string,
-  email: string,
-  firstName: string,
-  lastName: string,
-  photo?: string;
 };
 
 export type AuthErrorType = {

@@ -1,5 +1,5 @@
 import { AuthCurrentState } from "../../types/authentication";
-import { ObjectAction, SET_AUTHENTICATED_USER, SET_USER_PROFILE, SET_AUTH_STATE } from "./actions";
+import { ObjectAction, SET_AUTHENTICATED_USER, SET_AUTH_STATE } from "./actions";
 import { AuthenticationState } from "./types";
 
 export const defaultState: AuthenticationState = {
@@ -16,15 +16,11 @@ export const authenticationStateReducer = (
         ...state,
         authState: action.payload,
       }
-    case SET_USER_PROFILE:
-      return {
-        ...state,
-        userProfile: action.payload
-      }
     case SET_AUTHENTICATED_USER: {
       return {
         ...state,
-        user: action.payload,
+        userId: action.payload.id,
+        role: action.payload.role,
         authState: action.payload ? AuthCurrentState.AUTHENTICATED : AuthCurrentState.NOT_AUTHENTICATED
       }
     }

@@ -61,3 +61,39 @@ export const PASSWORD_RESET_MUTATION = gql`
     }
   }
 `;
+
+export const UPDATE_USER_PROFILE = gql`
+  mutation updateUser($id: ID!, $data: UsersPermissionsUserInput!) {
+    updateUsersPermissionsUser(id: $id, data: $data) {
+      data {
+        id,
+        attributes {
+          firstName
+          lastName
+          email
+          description
+          about
+          zoomLink
+          skypeUserName
+          grades {
+            data {
+              id
+            }
+          }
+          lessons {
+            data {
+              id
+            }
+          }
+          photo {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`

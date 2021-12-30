@@ -1,10 +1,10 @@
 import { useCallback, useContext } from "react";
 import { DispatchContext, StoreContext } from "./store";
-import { setUserProfile, setAuthState, setAuthenticatedUser } from "./actions"
+import { setAuthState, setAuthenticatedUser } from "./actions"
 import { useMutation, useLazyQuery } from "@apollo/client";
 import { FORGOT_PASSWORD_MUTATION, LOGIN_MUTATION, PASSWORD_RESET_MUTATION, REGISTER_MUTATION } from "../../graphql/mutations";
-import { GET_USER, ME } from "../../graphql/queries";
-import { AuthCurrentState, AuthenticatedUser, AuthRole, SignUpRequest, UserProfile } from "../../types/authentication";
+import { ME } from "../../graphql/queries";
+import { AuthCurrentState, AuthRole, MeResponse, SignUpRequest } from "../../types/authentication";
 
 
 export const useAuthentication = () => {
@@ -12,35 +12,13 @@ export const useAuthentication = () => {
   const [signUpMutation] = useMutation(REGISTER_MUTATION);
   const [forgotPasswordMutation] = useMutation(FORGOT_PASSWORD_MUTATION);
   const [passwordResetMutation] = useMutation(PASSWORD_RESET_MUTATION);
-  const [getUser] = useLazyQuery(GET_USER);
   const [getMe] = useLazyQuery(ME);
   const store = useContext(StoreContext);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const dispatch = useCallback(useContext(DispatchContext), []);
 
-  const getUserProfile = async (userId: string): Promise<UserProfile> => {
-    const {
-      data: {
-        usersPermissionsUser: {
-          data
-        }
-      }
-    } = await getUser({
-      variables: {
-        id: userId
-      }
-    });
 
-    console.log("data", data);
-    return {
-      id: userId,
-      ...data?.attributes,
-      photo: data?.attributes?.photo?.data?.attributes?.url,
-    } as UserProfile;
-
-  }
-
-  const getAuthenticatedUser = async (): Promise<AuthenticatedUser> => {
+  const getAuthenticatedUser = async (): Promise<MeResponse> => {
     const { data: {
       me: user
     } } = await getMe();
@@ -117,10 +95,9 @@ export const useAuthentication = () => {
 
   return {
     ...store,
-    getUserProfile,
+    role: store.role,
     getAuthenticatedUser,
-    setUserProfile: (user: UserProfile) => dispatch(setUserProfile(user)),
-    setAuthenticatedUser: (user: AuthenticatedUser) => dispatch(setAuthenticatedUser(user)),
+    setAuthenticatedUser: (id: string, role: AuthRole) => dispatch(setAuthenticatedUser(id, role)),
     setAuthState: (authState: AuthCurrentState) => dispatch(setAuthState(authState)),
     login: handleLogin,
     signUp: handleRegister,
