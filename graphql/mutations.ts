@@ -107,3 +107,13 @@ export const UPLOAD = gql`
     }
   }
 `;
+
+export const CREATE_TEACHER_SERVICE = gql`
+  mutation($data: TeacherServiceInput!) {
+    createTeacherService(data: $data) {
+      data {
+        id
+      }
+    }
+  }
+`;

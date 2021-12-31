@@ -35,17 +35,12 @@ export const AuthenticatedLayout = ({
                 </a>
               </Link>
             </li>
-            <li className="dropdown">
-              <a href="javascript:void(0);"><i className="fas fa-gem"></i>Enrollment</a>
-            </li>
-            <li className="dropdown">
-              <a href="javascript:void(0);"><i className="fas fa-archive"></i>Report</a>
-            </li>
-            <li className="dropdown">
-              <a href="javascript:void(0);"><i className="fas fa-user-shield"></i>Admins</a>
-            </li>
-            <li className="dropdown">
-              <a href="javascript:void(0);"><i className="fas fa-toolbox"></i>Instructors</a>
+            <li className={cx({ active: activePage === 'my-services'})}>
+              <Link href="/my-services">
+                <a>
+                  <i className="fas fa-th"></i>Ders Ucretleri
+                </a>
+              </Link>
             </li>
           </ul>
         </div>

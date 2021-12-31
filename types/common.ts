@@ -10,6 +10,12 @@ export type LessonType = {
   id: string;
 }
 
+export type TeacherServiceType = {
+  name: string;
+  order?: number;
+  id: number;
+}
+
 export enum ServiceTypeEnum {
   oneOfOne = '1 of 1',
   solvingQuestions = 'Solving Questions',
@@ -42,4 +48,12 @@ export type SearchFilterType = {
 export type RateOverviewType = {
   rating: number;
   totalRated: number[];
+}
+
+export type TeacherService = {
+  id: string;
+  duration: number;
+  price: number;
+  serviceTypeId: number;
+  serviceTypeName: string;
 }

@@ -3,7 +3,7 @@ import styles from './select.module.scss';
 
 export type SelectItem = {
   key: string;
-  value: string;
+  value: string | number;
 }
 
 type SelectProps = {
@@ -11,7 +11,7 @@ type SelectProps = {
   block?: boolean,
   placeHolder?: string,
   options: SelectItem[],
-  selected?: string,
+  selected?: string | number,
   onChange: (item: SelectItem) => void;
 };
 

@@ -74,3 +74,45 @@ export const GET_USER = gql`
     }
   }
 `;
+
+export const TEACHER_SERVICE_TYPES_QUERY = gql`
+  query TeacherServiceTypes {
+    teacherServiceTypes(sort: "order:ASC")  {
+      data{
+        id
+        attributes {
+          name,
+          order
+        }
+      }
+    }
+  }
+`;
+
+export const TEACHER_SERVICES = gql`
+  query TeacherServices($id: ID!) {
+    teacherServices(filters: {
+      users_permissions_user: {
+        id: {
+          eq: $id
+        }
+      }
+    }) {
+      data {
+        id,
+        attributes {
+          duration
+          price
+          teacher_service_type {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;

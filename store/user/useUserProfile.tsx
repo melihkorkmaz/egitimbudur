@@ -94,7 +94,7 @@ export const useUserProfile = () => {
 
     dispatch(setUserProfile(updatedProfile));
     return updatedProfile;
-  };
+  };  
 
   return {
     ...store,
