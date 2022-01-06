@@ -30,7 +30,7 @@ export const Select = ({
     }, className)}>
       <select value={selected || ""} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value;
-        onChange(options.find(o => o.value === value) || options[0]);
+        onChange(options.find(o => o.value.toString() === value.toString()) || options[0]);
       }}>
         {placeHolder && <option value="" disabled>{placeHolder}</option>}
         {options.map(option => (

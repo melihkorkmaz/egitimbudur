@@ -1,15 +1,14 @@
 import { collection, getDocs, getFirestore, orderBy, query } from "firebase/firestore";
-import { TeacherServiceType } from "../types/common";
+import { GradeType } from "../types/common";
 
-
-export const getServiceTypes = async (): Promise<TeacherServiceType[]> => {
+export const getGrades = async (): Promise<GradeType[]> => {
   const db = getFirestore();
-  const gradesRef = collection(db, "serviceTypes");
+  const gradesRef = collection(db, "grades");
   const q = query(gradesRef, orderBy('order', 'asc'));
   const res = await getDocs(q);
 
   return res.docs.map(doc => ({
     id: doc.id,
     ...doc.data()
-  }) as TeacherServiceType);
+  }) as GradeType);
 };

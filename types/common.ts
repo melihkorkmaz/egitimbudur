@@ -1,6 +1,6 @@
 export type GradeType = {
   name: string;
-  order?: number;
+  order: number;
   id: string;
 }
 
@@ -11,9 +11,9 @@ export type LessonType = {
 }
 
 export type TeacherServiceType = {
+  id: string;
   name: string;
   order?: number;
-  id: number;
 }
 
 export enum ServiceTypeEnum {
@@ -54,6 +54,5 @@ export type TeacherService = {
   id: string;
   duration: number;
   price: number;
-  serviceTypeId: number;
-  serviceTypeName: string;
+  serviceType: TeacherServiceType;
 }

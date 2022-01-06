@@ -2,20 +2,14 @@ import "tailwindcss/tailwind.css";
 import type { AppProps } from "next/app";
 import "./app.scss";
 import "../public/css/styles.css";
-import { AuthenticationStoreProvider } from "../store/authentication/store";
-import { ApolloProvider } from "@apollo/client";
-import client from '../graphql/apollo-client';
-import { UserStoreProvider } from "../store/user/store";
+import '../firebase/clientApp';
+import { UserProvider } from "../providers/UserProvider";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ApolloProvider client={client}>
-      <UserStoreProvider>
-        <AuthenticationStoreProvider>
-          <Component {...pageProps} />
-        </AuthenticationStoreProvider>
-      </UserStoreProvider>
-    </ApolloProvider>
+    <UserProvider>
+      <Component {...pageProps} />
+    </UserProvider>
   );
 }
 

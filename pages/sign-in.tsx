@@ -2,30 +2,26 @@ import React, { useState } from "react";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { Layout } from "../components/layout/Layout";
-import { useAuthentication } from "../store/authentication/useAuthentication";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { AuthErrorType, MeResponse } from "../types/authentication";
+import { AuthErrorType } from "../types/authentication";
+import { signIn } from "../services/authService";
 
 export default function SignIn() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
-  const { login, setAuthenticatedUser } = useAuthentication();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await login(email, password); 
+    const res = await signIn(email, password); 
   
 
     if ((res as AuthErrorType).message) {
       setError((res as AuthErrorType).message);
       return;
     }
-
-    const { id, role } = res as MeResponse;
-    setAuthenticatedUser(id, role);
     router.push("/");
   };
 

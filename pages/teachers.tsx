@@ -4,17 +4,19 @@ import { Filters } from "../components/Filters";
 import { ResultsHeader } from "../components/ResultsHeader";
 import { TeacherCard } from "../components/TeacherCard";
 import { Pagination } from "../components/Pagination";
-import { getGrades, getLessons, getServices, searchTeachers } from "../services/searchService";
+import { getServices, searchTeachers } from "../services/searchService";
 import { useState } from 'react';
-import { TeacherType } from '../types/user';
 import { GradeType, LessonType, SearchFilterType, TeacherServiceCategoryType } from '../types/common';
 import { getFilterFromQuery } from '../utils/searchUtils';
+import { getGrades } from '../services/gradesService';
+import { getLessons } from '../services/lessonServices';
+import { Teacher } from '../types/user';
 
 type TeachersProps = {
   classes: GradeType[];
   lessons: LessonType[];
   services: TeacherServiceCategoryType[];
-  initialTeachers: TeacherType[];
+  initialTeachers: Teacher[];
 };
 
 export default function Teachers({
@@ -23,7 +25,7 @@ export default function Teachers({
   services,
   initialTeachers = [],
 }: TeachersProps) {
-  const [ teachers, setTeachers ] = useState<TeacherType[]>(initialTeachers);
+  const [ teachers, setTeachers ] = useState<Teacher[]>(initialTeachers);
 
   const handleFilterChange = async (filter: SearchFilterType) => {
     const teachers = await searchTeachers(filter);

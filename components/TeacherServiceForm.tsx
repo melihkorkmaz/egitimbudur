@@ -1,49 +1,60 @@
-import { useMutation } from "@apollo/client";
-import { useState } from "react";
-import { CREATE_TEACHER_SERVICE } from "../graphql/mutations";
-import { useAuthentication } from "../store/authentication/useAuthentication";
-import { TeacherServiceType } from "../types/common";
+import { useEffect, useState } from "react";
+import { useUserProfile } from "../hooks/useUserProfile";
+import { getServiceTypes } from "../services/commonService";
+import { addService, updateService } from "../services/userService";
+import { TeacherService, TeacherServiceCategoryType, TeacherServiceType } from "../types/common";
 import { Button } from "./Button"
 import { Input } from "./Input"
 import { Select } from "./Select"
 
 interface TeacherServiceFormProps {
-  teacherServiceTypes?: TeacherServiceType[];
   onCancel: () => void;
   onSubmit: () => void;
+  selectedService?: TeacherService;
 }
 
 const durations = [15, 20, 25, 30, 35, 40, 45, 50, 60];
 export const TeacherServiceForm = ({
-  teacherServiceTypes = [],
   onCancel,
-  onSubmit
+  onSubmit,
+  selectedService
 }: TeacherServiceFormProps) => {
-  const {userId} = useAuthentication();
-  const [price, setPrice] = useState(100);
-  const [duration, setDuration] = useState(40);
-  const [selectedServiceType, setSelectedServiceType] = useState<number>()
-  const [createServiceMutation] = useMutation(CREATE_TEACHER_SERVICE);
+  const {userProfile} = useUserProfile();
+  const [price, setPrice] = useState(selectedService?.price || 100);
+  const [duration, setDuration] = useState(selectedService?.duration || 40);
+  const [selectedServiceType, setSelectedServiceType] = useState<TeacherServiceType | undefined>(selectedService?.serviceType || undefined)
+  const [teacherServiceTypes, setTeacherServiceTypes] = useState<TeacherServiceType[]>([]);
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("submit");
+    if (!userProfile || !selectedServiceType) { return; }
+    
+    const req = {
+      serviceType: selectedServiceType,
+      price,
+      duration,
+    } as TeacherService;
 
-    const { data } = await createServiceMutation({
-      variables: {
-        data: {
-          users_permissions_user: userId,
-          teacher_service_type: selectedServiceType,
-          price,
-          duration,
-          publishedAt: new Date()
-        }
-      }
-    });
+    if (selectedService) {
+      await updateService(userProfile.id, {
+        ...req,
+        id: selectedService.id
+      });
+    } else {
+      await addService(userProfile.id, req);
+    };
 
-    console.log('data', data);
     onSubmit();
   };
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      const res = await getServiceTypes();
+      setTeacherServiceTypes(res);
+    };
+
+    fetchServices();
+  }, []);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -57,8 +68,10 @@ export const TeacherServiceForm = ({
                 key: c.name,
               }))
             }
-            selected={selectedServiceType}
-            onChange={(item) => setSelectedServiceType(item.value as number)}
+            selected={selectedServiceType?.id}
+            onChange={(item) => {
+              setSelectedServiceType(teacherServiceTypes.find(t => t.id === item.value) as TeacherServiceCategoryType);
+            }}
             placeHolder="Hizmet tipi seciniz"
             block
             className="mr-2"

@@ -1,12 +1,9 @@
 import Image from "next/image";
 import cx from 'classnames';
 import Logo from "../../public/img/logo.png";
-import { Button } from '../Button';
 import { NavMenu } from './NavMenu';
 import Link from 'next/link'
-import { useAuthentication } from "../../store/authentication/useAuthentication";
 import { useEffect, useState } from "react";
-import { AuthCurrentState } from "../../types/authentication";
 import { UserTopMenu } from "./userTopMenu";
 
 type HeaderProps = {
@@ -16,7 +13,6 @@ type HeaderProps = {
 export const Header = ({
   className,
 }: HeaderProps) => {
-  const { authState } = useAuthentication();
   const [ scrolled, setScrolled ] = useState(false);
 
   useEffect(() => {

@@ -1,18 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import { useMutation } from "@apollo/client";
-import React, { useRef, useState } from "react";
-import { UPLOAD } from "../../graphql/mutations";
-import { useAuthentication } from "../../store/authentication/useAuthentication";
-import { useUserProfile } from "../../store/user/useUserProfile";
+import React, { useRef } from "react";
+import { useUserProfile } from "../../hooks/useUserProfile";
 import { Button } from "../Button";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { updateUserPhoto } from "../../services/userService";
+import { isTeacher } from "../../types/user";
 
 export const UserAvatar = () => {
-  const { role } = useAuthentication();
-  const { user, updateUserPhoto } = useUserProfile();
-  const [fileUploadMutation] = useMutation(UPLOAD);
+  const { userProfile } = useUserProfile();
   const inputRef = useRef(null);
 
-  if (!user) {
+  if (!userProfile) {
     return null;
   }
 
@@ -32,25 +30,29 @@ export const UserAvatar = () => {
     }
 
     const file = files[0];
-    const { data: { upload : { data: { id }}} } = await fileUploadMutation({
-      variables: {
-        file
-      }
-    });
+    const storage = getStorage();
+    const uploadRef = ref(storage, `images/${userProfile.id}/${file.name}`);
+    
+    try {
+      await uploadBytes(uploadRef, file);
+      const url = await getDownloadURL(uploadRef);
 
-    updateUserPhoto(id);
+      updateUserPhoto(userProfile.id, url);
+    } catch (error) {
+      //TODO: log error
+    }
   }
 
   return (
     <div className="d-user-avater">
       <img
-        src={user.photo ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${user.photo}` : "/img/empty_profile_m.png"} 
+        src={userProfile.photo ? userProfile.photo : "/img/empty_profile_m.png"} 
         className="mx-auto" 
         alt="" 
       />
-      <h4>{`${user.firstName} ${user.lastName}`}</h4>
+      <h4>{`${userProfile.firstName} ${userProfile.lastName}`}</h4>
       <span>
-        {role === "teacher" ? "Ogretmen" : "Ogrenci"}
+        {isTeacher(userProfile) ? "Ogretmen" : "Ogrenci"}
       </span>
       <div>
         <input 

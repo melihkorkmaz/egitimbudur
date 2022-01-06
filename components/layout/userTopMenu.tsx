@@ -1,11 +1,10 @@
-import { useAuthentication } from "../../store/authentication/useAuthentication";
-import { AuthCurrentState } from "../../types/authentication";
+import { useUserProfile } from "../../hooks/useUserProfile";
 import { Button } from "../Button";
 
 export const UserTopMenu = () => {
+  const { isAuthenticated, logout } = useUserProfile();
 
-  const { authState, logout } = useAuthentication();
-  if (authState === AuthCurrentState.NOT_AUTHENTICATED) {
+  if (!isAuthenticated) {
     return (
       <ul className="nav-menu nav-menu-social align-to-right mt-3">
         <li>
@@ -21,16 +20,13 @@ export const UserTopMenu = () => {
     );
   }
 
-  if (authState === AuthCurrentState.AUTHENTICATED) {
-    return (
-      <ul className="nav-menu nav-menu-social align-to-right mt-3">
-        <li>
-          <Button onClick={logout} primary>Cikis Yap</Button>
-        </li>
-      </ul>
-    )
-  }
-
+  return (
+    <ul className="nav-menu nav-menu-social align-to-right mt-3">
+      <li>
+        <Button onClick={logout} primary>Cikis Yap</Button>
+      </li>
+    </ul>
+  )
 
   return null;
 }

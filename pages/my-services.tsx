@@ -1,56 +1,103 @@
-import { useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { AuthenticatedLayout } from "../components/authenticatedLayout/AuthenticatedLayout";
 import { Button } from "../components/Button";
-import { Input } from "../components/Input";
-import { Select } from "../components/Select";
+
 import { TableAction } from "../components/TableAction";
 import { TeacherServiceForm } from "../components/TeacherServiceForm";
-import { TEACHER_SERVICES } from "../graphql/queries";
-import { getTeacherServiceTypes } from "../services/commonService";
-import { useAuthentication } from "../store/authentication/useAuthentication";
-import { TeacherService, TeacherServiceType } from "../types/common";
+import { useUserProfile } from "../hooks/useUserProfile";
+import { deleteService, getUserServices } from "../services/userService";
+import { TeacherService } from "../types/common";
 
-interface MyServicesProps {
-  teacherServiceTypes?: TeacherServiceType[];
+type MyServicesState = {
+  isEditMode: boolean;
+  services: TeacherService[];
+  selectedService?: TeacherService;
 }
 
-export default function MyServices({
-  teacherServiceTypes = []
-}: MyServicesProps) {
-  const {userId} = useAuthentication();
-  const [services, setServices] = useState<TeacherService[]>([]);
-  const [isEditMode, setIsEditMode] = useState(false);
-  const {loading, error, data, refetch } = useQuery(TEACHER_SERVICES, {
-    variables: {
-      id: userId
-    }
-  });
+const newServiceAction = () => ({
+  type: 'NEW_SERVICE'
+} as const);
 
-  const handleEdit = (id: string) => {
-    
+const editServiceAction = (selectedService: TeacherService) => ({
+  type: 'EDIT_MODE',
+  payload: selectedService
+} as const);
+
+const onCompleteAction = () => ({
+  type: 'ON_COMPLETE',
+} as const);
+
+const onTecherServiceFetchComplete = (services: TeacherService[]) => ({
+  type: 'ON_FETCH_COMPLETE',
+  payload: services
+} as const);
+
+type ActionType = ReturnType<typeof newServiceAction | typeof editServiceAction | typeof onCompleteAction | typeof onTecherServiceFetchComplete>;
+
+const reducer = (state:MyServicesState, action: ActionType): MyServicesState => {
+  switch(action.type) {
+    case 'NEW_SERVICE':
+      return {
+        ...state,
+        selectedService: undefined,
+        isEditMode: true,
+      };
+    case 'EDIT_MODE':
+      return {
+        ...state,
+        selectedService: action.payload,
+        isEditMode: true,
+      };
+    case 'ON_COMPLETE': {
+      return {
+        ...state,
+        isEditMode: false,
+      }
+    }
+    case 'ON_FETCH_COMPLETE': {
+      return {
+        ...state,
+        services: action.payload,
+      }
+    }
+    default:
+      return state;
+  }
+}
+
+export default function MyServices() {
+  const {userProfile} = useUserProfile();
+  const [{
+    isEditMode,
+    services,
+    selectedService
+  }, dispatch] = useReducer(reducer, {
+    isEditMode: false,
+    services: [],
+  });
+  
+  const handleRemove = async (id: string) => {
+    if (!userProfile) {
+      return;
+    };
+    await deleteService(userProfile.id, id);
+    fetchTeacherServices();
   };
 
-  const handleRemove = (id: string) => {
+  const fetchTeacherServices = async () => {
+    if (!userProfile) {
+      return;
+    };
 
+    const res = await getUserServices(userProfile.id);
+    dispatch(onTecherServiceFetchComplete(res));
   };
 
   useEffect(() => {
-    if (loading || error) {
-      return;
-    }
+    fetchTeacherServices();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userProfile]);
 
-    const teacherServices = data.teacherServices.data.map(d => ({
-      id: d.id,
-      duration: d.attributes.duration,
-      price: d.attributes.price,
-      serviceTypeId: d.attributes.teacher_service_type.data.id,
-      serviceTypeName: d.attributes.teacher_service_type.data.attributes.name,
-    } as TeacherService));
-
-    setServices(teacherServices);
-
-  }, [data, error, loading]);
 
   return (
     <AuthenticatedLayout currentPage="my-services">
@@ -63,19 +110,23 @@ export default function MyServices({
                 Hizmet ve Ucretlerim
               </span>
               {!isEditMode && <div>
-                <Button primary onClick={() => setIsEditMode(true)}>Yeni hizmet ekle</Button>
+                <Button primary onClick={() => {
+                  dispatch(newServiceAction());
+                }}>Yeni hizmet ekle</Button>
               </div>}
             </h6>
           </div>
         </div>
 
-        {isEditMode && <TeacherServiceForm 
-          teacherServiceTypes={teacherServiceTypes} 
+        {isEditMode && <TeacherServiceForm
+          selectedService={selectedService}
           onSubmit={() => {
-            refetch();
-            setIsEditMode(false);
+            dispatch(onCompleteAction());
+            fetchTeacherServices();
           }}
-          onCancel={() => setIsEditMode(false)}/>}
+          onCancel={() => {
+            dispatch(onCompleteAction());
+          }}/>}
 
         {!isEditMode && <div className="row">
           <div className="col-xl-12 col-lg-12 col-md-12 mb-2">
@@ -92,7 +143,7 @@ export default function MyServices({
                 <tbody>
                   {services.map(service => (
                     <tr key={service.id}>
-                      <td><span className="smalls lg">{service.serviceTypeName}</span></td>
+                      <td><span className="smalls lg">{service.serviceType.name}</span></td>
                       <td><span className="smalls lg">{service.duration} dk</span></td>
                       <td><span className="smalls lg">{service.price} TL</span></td>
                       <td>
@@ -101,12 +152,12 @@ export default function MyServices({
                             <>
                               <a className="dropdown-item" href="#" onClick={e => {
                                 e.preventDefault();
-                                handleEdit('1');
+                                dispatch(editServiceAction(service));
                                 close();
                               }}>Duzenle</a>
                               <a className="dropdown-item" href="#" onClick={e => {
                                 e.preventDefault();
-                                handleEdit('1');
+                                handleRemove(service.id);
                                 close();
                               }}>Sil</a>
                             </>
@@ -124,13 +175,4 @@ export default function MyServices({
       </div>
     </AuthenticatedLayout>
   )
-}
-
-export async function getServerSideProps(context) {
-  const teacherServiceTypes = await getTeacherServiceTypes();
-  return {
-    props: {
-      teacherServiceTypes
-    }
-  };
 }

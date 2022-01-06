@@ -1,29 +1,30 @@
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { Layout } from "../components/layout/Layout";
-import { useAuthentication } from "../store/authentication/useAuthentication";
-import { AuthErrorType } from "../types/authentication";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
-  const { forgotPassword } = useAuthentication();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setMessage('');
-    const res = await forgotPassword(email);
 
-    if (res && (res as AuthErrorType).message) {
-      setError((res as AuthErrorType).message);
-      return;
-    }
-
-    setMessage('Email gönderildi. Lutfen emailde yer alan linki kullanarak sifrenizi resetleyiniz.');
+    const auth = getAuth();
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        setMessage('Email gönderildi. Lutfen emailde yer alan linki kullanarak sifrenizi resetleyiniz.');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setError(errorMessage);
+      });
   };
 
   return (

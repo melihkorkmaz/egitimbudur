@@ -8,10 +8,12 @@ import { Layout } from "../components/layout/Layout";
 import { LessonList, LessonListType } from "../components/LessonList";
 import { RadioButton } from "../components/RadioButton";
 import { Select } from "../components/Select";
-import { getGrades, getLessons } from "../services/searchService";
-import { useAuthentication } from "../store/authentication/useAuthentication";
-import { AuthErrorType, AuthRole, MeResponse } from "../types/authentication";
+import { signUp } from "../services/authService";
+import { getGrades } from "../services/gradesService";
+import { getLessons } from "../services/lessonServices";
+import { AuthErrorType, AuthRole } from "../types/authentication";
 import { GradeType, LessonType } from "../types/common";
+import { CreateStudentRequest, CreateTeacherRequest } from "../types/user";
 
 type SignUpProps = {
   grades: GradeType[];
@@ -37,28 +39,36 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
     selected: false
   })));
 
-  const { signUp, setAuthenticatedUser } = useAuthentication();
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await signUp({
+
+    let request: any = {
       email,
       password,
       firstName,
       lastName,
       role,
-      grade: grades.find(c => c.id === selectedGrade),
-      lessons: lessonsListItems.filter(l => l.selected).map(l => l.lesson),
-      grades: gradesListItems.filter(l => l.selected).map(l => l.grade)
-    });
+    };
+
+    if (role === AuthRole.TEACHER) {
+      request = {
+        ...request,
+        grades: gradesListItems.filter(l => l.selected).map(l => l.grade),
+        lessons: lessonsListItems.filter(l => l.selected).map(l => l.lesson),
+      } as CreateTeacherRequest;
+    } else {
+      request = {
+        ...request,
+        grade: grades.find(c => c.id === selectedGrade)
+      } as CreateStudentRequest;
+    }
+
+    const res = await signUp(request);
 
     if ((res as AuthErrorType).message) {
       setError((res as AuthErrorType).message);
       return;
     }
-
-    const { id, role: userRole } = res as MeResponse;
-    setAuthenticatedUser(id, userRole);
     router.push("/");
   };
 
