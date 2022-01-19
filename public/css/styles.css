@@ -1083,7 +1083,7 @@ label i.count{
     content: '';
     position: absolute;
     left: 0;
-    top: 4px;
+    top: 0;
     width: 18px;
     height:18px;
     border: 1px solid #ddd;

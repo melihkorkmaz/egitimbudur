@@ -2,13 +2,12 @@ import React from 'react';
 import { Layout } from '../../components/layout/Layout';
 import { Comments } from '../../components/comments/Comments';
 import { TeacherCard } from '../../components/TeacherCard';
-import { getTeacher } from '../../services/userService';
-import { TeacherType } from '../../types/user';
 import { RatingForm } from '../../components/rating/RatingForm';
 import { RatingOverview } from '../../components/rating/RatingOverview';
+import { getUserProfile } from '../../services/userService';
 
 type TeacherProps = {
-  teacher: TeacherType;
+  teacher: Teacher;
 }
 
 export default function Teacher({ teacher }: TeacherProps) {
@@ -76,7 +75,7 @@ export default function Teacher({ teacher }: TeacherProps) {
 
 export async function getServerSideProps(context) {
   const { id } = context.query;
-  const teacher = await getTeacher(id);
+  const teacher = await getUserProfile(id);
   return {
     props: {
       teacher

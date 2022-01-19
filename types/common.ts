@@ -17,9 +17,9 @@ export type TeacherServiceType = {
 }
 
 export enum ServiceTypeEnum {
-  oneOfOne = '1 of 1',
-  solvingQuestions = 'Solving Questions',
-  schoolConsulting = 'School Consulting',
+  oneOfOne = '1-1 Ozel Ders',
+  solvingQuestions = 'Soru Cozumu',
+  schoolConsulting = 'Tercih Danismanligi',
 }
 
 export type TeacherServiceCategoryType = {

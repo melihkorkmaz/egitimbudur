@@ -36,6 +36,10 @@ export type Teacher = Pick<User, 'id'> & UserBaseProfile & {
   skypeUserName?: string;
   about?: string;
   services?: TeacherServiceCategoryType[];
+  totalComments?: number;
+  rating?: number;
+  numberOfStudents?: number;
+  basePrice?: number;
 }
 
 export type CreateTeacherRequest = Omit<User, 'id'> & UserBaseProfile & Pick<Teacher, 'grades' | 'lessons'>;

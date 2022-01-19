@@ -31,9 +31,7 @@ export const RadioButton = ({
         onChange={onChange}
       />
       <label htmlFor={id} className="radio-custom-label">
-        <span className="text-base text-gray-900">
-          {children}
-        </span>
+        {children}
       </label>
     </div>
   );

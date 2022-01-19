@@ -47,6 +47,25 @@ export const getUserProfileSub = async (
   }
 };
 
+export const getUserProfile = async (id: string): Promise<UserProfile | null> => {
+  try {
+    const docRef = getUserRef(id);
+    const user = await getDoc(docRef);
+
+    if (user.exists()) {
+      return {
+        ...user.data(),
+        id,
+      } as UserProfile
+    }
+
+    return null;
+  } catch (error) {
+    // TODO: Log error
+    return null;
+  }
+};
+
 export const updateUserProfile = async (user: UserProfile) => {
   try {
     const ref = getUserRef(user.id);

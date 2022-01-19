@@ -1,6 +1,6 @@
 import { Layout } from '../components/layout/Layout';
 import { Breadcrumb } from "../components/layout/Breadcrumb";
-import { Filters } from "../components/Filters";
+import { Filters } from "../components/filters/Filters";
 import { ResultsHeader } from "../components/ResultsHeader";
 import { TeacherCard } from "../components/TeacherCard";
 import { Pagination } from "../components/Pagination";
@@ -11,6 +11,8 @@ import { getFilterFromQuery } from '../utils/searchUtils';
 import { getGrades } from '../services/gradesService';
 import { getLessons } from '../services/lessonServices';
 import { Teacher } from '../types/user';
+import { Hits } from 'react-instantsearch-dom';
+import { mapAlgoliaTeacherHit } from '../utils/algolia';
 
 type TeachersProps = {
   classes: GradeType[];
@@ -18,6 +20,14 @@ type TeachersProps = {
   services: TeacherServiceCategoryType[];
   initialTeachers: Teacher[];
 };
+
+const Hit = ({ hit }) => {
+  return <TeacherCard 
+    key={hit.objectID} 
+    teacher={mapAlgoliaTeacherHit(hit)} 
+    onClick={() => window.open(`/teacher/${hit.objectID}`, '_blank')} 
+    asListItem />;
+}
 
 export default function Teachers({
   classes,
@@ -28,8 +38,8 @@ export default function Teachers({
   const [ teachers, setTeachers ] = useState<Teacher[]>(initialTeachers);
 
   const handleFilterChange = async (filter: SearchFilterType) => {
-    const teachers = await searchTeachers(filter);
-    setTeachers([teachers[0]]);
+    // const teachers = await searchTeachers(filter);
+    // setTeachers([teachers[0]]);
   };
   
   return (
@@ -39,13 +49,11 @@ export default function Teachers({
           <Filters classes={classes} lessons={lessons} services={services} onChange={handleFilterChange} />
         </div>
 
-        <div className="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+        <div className="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-5">
           <ResultsHeader />
 
           <div className="justify-content-center">
-            {teachers.map(teacher => (
-              <TeacherCard key={teacher.id} teacher={teacher} onClick={() => window.open(`/teacher/${teacher.id}`, '_blank')} asListItem />
-            ))}
+            <Hits hitComponent={Hit} />
           </div>
           <Pagination />
         </div>
@@ -60,7 +68,7 @@ export async function getServerSideProps(context) {
   const services = await getServices();
   const filter = getFilterFromQuery(context.query);
   const teachers = await searchTeachers(filter);
-
+  
   return {
     props: {
       classes,
