@@ -1,59 +1,43 @@
-import { Layout } from '../components/layout/Layout';
-import { Breadcrumb } from "../components/layout/Breadcrumb";
-import { Filters } from "../components/filters/Filters";
-import { ResultsHeader } from "../components/ResultsHeader";
-import { TeacherCard } from "../components/TeacherCard";
-import { Pagination } from "../components/Pagination";
-import { getServices, searchTeachers } from "../services/searchService";
-import { useState } from 'react';
-import { GradeType, LessonType, SearchFilterType, TeacherServiceCategoryType } from '../types/common';
-import { getFilterFromQuery } from '../utils/searchUtils';
+import { Hits } from 'react-instantsearch-dom';
+// Components
+import { Layout, Breadcrumb } from '../components/layout';
+import { Facets, ResultsHeader, Pagination, SearchResultItem } from "../modules/search/components";
+
+// Services & Helpers
 import { getGrades } from '../services/gradesService';
 import { getLessons } from '../services/lessonServices';
-import { Teacher } from '../types/user';
-import { Hits } from 'react-instantsearch-dom';
-import { mapAlgoliaTeacherHit } from '../utils/algolia';
+import { getServices } from '../services/commonService';
+
+// Types
+import type { Teacher, Service } from '../modules/teacher/types';
+import type { Grade, Lesson } from '../modules/common/types'
 
 type TeachersProps = {
-  classes: GradeType[];
-  lessons: LessonType[];
-  services: TeacherServiceCategoryType[];
+  classes: Grade[];
+  lessons: Lesson[];
+  services: Service[];
   initialTeachers: Teacher[];
 };
-
-const Hit = ({ hit }) => {
-  return <TeacherCard 
-    key={hit.objectID} 
-    teacher={mapAlgoliaTeacherHit(hit)} 
-    onClick={() => window.open(`/teacher/${hit.objectID}`, '_blank')} 
-    asListItem />;
-}
 
 export default function Teachers({
   classes,
   lessons,
   services,
-  initialTeachers = [],
 }: TeachersProps) {
-  const [ teachers, setTeachers ] = useState<Teacher[]>(initialTeachers);
-
-  const handleFilterChange = async (filter: SearchFilterType) => {
-    // const teachers = await searchTeachers(filter);
-    // setTeachers([teachers[0]]);
-  };
-  
   return (
-    <Layout pageTitle="Ogretmenler" breadcrumb={<Breadcrumb currentPage="Ogretmenler" />}>
+    <Layout pageTitle="Öğretmenler" breadcrumb={<Breadcrumb currentPage="Öğretmenler" />}>
       <div className="row">
         <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-          <Filters classes={classes} lessons={lessons} services={services} onChange={handleFilterChange} />
+          <Facets 
+            classes={classes} 
+            lessons={lessons} 
+            services={services}/>
         </div>
 
         <div className="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-5">
           <ResultsHeader />
-
           <div className="justify-content-center">
-            <Hits hitComponent={Hit} />
+            <Hits hitComponent={SearchResultItem} />
           </div>
           <Pagination />
         </div>
@@ -62,19 +46,16 @@ export default function Teachers({
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const classes = await getGrades();
   const lessons = await getLessons();
   const services = await getServices();
-  const filter = getFilterFromQuery(context.query);
-  const teachers = await searchTeachers(filter);
-  
+
   return {
     props: {
       classes,
       lessons,
-      services,
-      initialTeachers: teachers,
-    }, // will be passed to the page component as props
+      services
+    }
   }
 }

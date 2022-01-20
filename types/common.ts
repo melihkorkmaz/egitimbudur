@@ -16,17 +16,6 @@ export type TeacherServiceType = {
   order?: number;
 }
 
-export enum ServiceTypeEnum {
-  oneOfOne = '1-1 Ozel Ders',
-  solvingQuestions = 'Soru Cozumu',
-  schoolConsulting = 'Tercih Danismanligi',
-}
-
-export type TeacherServiceCategoryType = {
-  id: string;
-  name: ServiceTypeEnum;
-}
-
 export enum SearchFilterEnum {
   key = "k",
   gradeId = "g",

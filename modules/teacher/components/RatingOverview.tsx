@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getRatings } from "../../services/ratingService";
+import { getRatings } from "../../../services/ratingService";
 import { RatingForm } from "./RatingForm";
 import cx from 'classnames';
 

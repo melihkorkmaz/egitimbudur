@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 type RatingFormProps = {
   rating: number;
   onRate: (rating: number) => void;
@@ -26,6 +26,7 @@ export const RatingForm = ({ rating, onRate }: RatingFormProps) => {
     return () => {
       document.removeEventListener('mouseover', handleMouseOver);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rating, currentRating]);
 
   useEffect(() => {

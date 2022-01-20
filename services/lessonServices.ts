@@ -1,7 +1,15 @@
-import { collection, getDocs, getFirestore, orderBy, query } from "firebase/firestore";
-import { LessonType } from "../types/common";
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  orderBy,
+  query
+} from "firebase/firestore";
 
-export const getLessons = async (): Promise<LessonType[]> => {
+// TYPES
+import type { Lesson } from "../modules/common/types";
+
+export const getLessons = async (): Promise<Lesson[]> => {
   const db = getFirestore();
   const lessonsRef = collection(db, "lessons");
   const q = query(lessonsRef, orderBy('order', 'asc'));
@@ -9,6 +17,6 @@ export const getLessons = async (): Promise<LessonType[]> => {
 
   return res.docs.map(doc => ({
     id: doc.id,
-    ...doc.data()
-  }) as LessonType);
+    name: doc.data().name,
+  }) as Lesson);
 };

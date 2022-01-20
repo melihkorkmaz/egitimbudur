@@ -1,38 +1,25 @@
-import React, { useEffect } from "react";
-import { Search } from "../components/Search";
+import React from "react";
+
+// COMPONENTS
 import { Layout } from "../components/layout/Layout";
-import { GradeType, LessonType } from "../types/common";
-import { collection, doc, getDoc, getDocs, getFirestore, orderBy, query } from "firebase/firestore";
+import { Search } from "../modules/search/components";
+
+// SERVICES
 import { getGrades } from "../services/gradesService";
 import { getLessons } from "../services/lessonServices";
 
+// TYPES
+import type { Grade, Lesson } from "../modules/common/types";
+
 type HomeProps = {
-  grades: GradeType[];
-  lessons: LessonType[];
+  grades: Grade[];
+  lessons: Lesson[];
 };
 
 export default function Home({
   grades,
   lessons
 }: HomeProps) {
-
-  useEffect(() => {
-    const getData = async () => {
-      const db = getFirestore();
-      const q = query(collection(db, "grade"));
-      const querySnapshot = await getDocs(q);
-
-      if (querySnapshot.docs.length > 0) {
-        console.log("Document data:", querySnapshot.docs[0].data());
-      } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-      }
-    };
-
-    getData();
-  }, []);
-
   return (
     <Layout homePage>
       <div
@@ -69,6 +56,6 @@ export async function getServerSideProps(context) {
     props: {
       grades,
       lessons
-    }, // will be passed to the page component as props
+    }
   }
 }

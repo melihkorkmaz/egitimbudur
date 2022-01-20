@@ -1,9 +1,9 @@
 import React from 'react';
 import { Layout } from '../../components/layout/Layout';
 import { Comments } from '../../components/comments/Comments';
-import { TeacherCard } from '../../components/TeacherCard';
-import { RatingForm } from '../../components/rating/RatingForm';
-import { RatingOverview } from '../../components/rating/RatingOverview';
+import { TeacherCard } from '../../modules/teacher/components/TeacherCard';
+import { RatingForm } from '../../modules/teacher/components/RatingForm';
+import { RatingOverview } from '../../modules/teacher/components/RatingOverview';
 import { getUserProfile } from '../../services/userService';
 
 type TeacherProps = {

@@ -1,41 +1,25 @@
-import React from "react";
-import { useFilter } from "../../hooks/useFilter";
-import { GradeType, LessonType, SearchFilterType, TeacherServiceCategoryType } from "../../types/common";
-import { SelectListFilter } from './SelectListFilter';
-import { SearchInput } from './SearchInput';
-import { CheckListFilter } from './CheckListFilter';
-import { connectNumericMenu } from 'react-instantsearch-dom';
-import { RadioButton } from '../RadioButton';
+// HOOKS
+import { useFilter } from "../hooks";
+
+// COMPONENTS
+import { 
+  NumericFilter, 
+  SelectListFilter, 
+  SearchInput, 
+  CheckListFilter
+} from '.';
+
+// TYPES
+import type { Service } from "../../teacher/types";
+import type { Grade, Lesson } from "../../common/types";
 
 type FiltersType = {
-  classes: GradeType[];
-  lessons: LessonType[];
-  services: TeacherServiceCategoryType[];
-  onChange: (filter: SearchFilterType) => void;
+  classes: Grade[];
+  lessons: Lesson[];
+  services: Service[];
 };
 
-const NumericMenu = connectNumericMenu(({ items, currentRefinement, refine  }) => {
-  return (<ul className="no-ul-list mb-3">
-    {items.map((item) => (
-      <li key={item.value} className="mb-1">
-        <RadioButton 
-          id={item.label} 
-          group="prices"
-          value={item.value}
-          checked={currentRefinement === item.value}
-          onChange={() => {
-            refine(item.value);
-          }}
-        >
-            {item.label}
-        </RadioButton>
-      </li>
-    ))}
-  </ul>)
-
-});
-
-export const Filters = ({
+export const Facets = ({
   classes = [],
   lessons = [],
   services = [],  
@@ -52,17 +36,17 @@ export const Filters = ({
         aria-expanded="false"
         aria-controls="fltbox"
       >
-        Open Advance Filter<i className="fa fa-sliders-h ml-2"></i>
+        Arama Filtresi<i className="fa fa-sliders-h ml-2"></i>
       </a>
       <div className="collapse" id="fltbox">
         <div className="sidebar-widgets p-4">
           <div className="form-group">
-            <SearchInput placeHolder="Ogretmen adiyla ara..." />
+            <SearchInput placeHolder="Öğretmen adıyla ara..." />
           </div>
 
           <div className="form-group">
             <SelectListFilter
-              placeHolder="Sinif Seciniz..."
+              placeHolder="Sınıf Seçiniz..."
               customItems={classes} 
               attribute="gradeIds" 
               defaultRefinement={filter?.gradeId}
@@ -88,9 +72,10 @@ export const Filters = ({
           </div>
 
           <div className="form-group">
-            <h6>Ucret</h6>
-            <NumericMenu
+            <h6>Ücret</h6>
+            <NumericFilter
               attribute="basePrice"
+              group="prices"
               items={[
                 { label: '<= 50 TL', end: 50 },
                 { label: '50 TL - 100 TL', start: 50, end: 100 },
@@ -98,7 +83,7 @@ export const Filters = ({
                 { label: '>= 200 TL', start: 200 },
               ]}
               translations={{
-                all: 'Tumu',
+                all: 'Hepsi',
               }}
             />
           </div>

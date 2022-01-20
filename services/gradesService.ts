@@ -1,7 +1,15 @@
-import { collection, getDocs, getFirestore, orderBy, query } from "firebase/firestore";
-import { GradeType } from "../types/common";
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  orderBy,
+  query
+} from "firebase/firestore";
 
-export const getGrades = async (): Promise<GradeType[]> => {
+// TYPES & ENUMS
+import type { Grade } from "../modules/common/types";
+
+export const getGrades = async (): Promise<Grade[]> => {
   const db = getFirestore();
   const gradesRef = collection(db, "grades");
   const q = query(gradesRef, orderBy('order', 'asc'));
@@ -10,5 +18,5 @@ export const getGrades = async (): Promise<GradeType[]> => {
   return res.docs.map(doc => ({
     id: doc.id,
     ...doc.data()
-  }) as GradeType);
+  }) as Grade);
 };
