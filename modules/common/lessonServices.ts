@@ -7,7 +7,7 @@ import {
 } from "firebase/firestore";
 
 // TYPES
-import type { Lesson } from "../modules/common/types";
+import type { Lesson } from "./types";
 
 export const getLessons = async (): Promise<Lesson[]> => {
   const db = getFirestore();

@@ -4,13 +4,14 @@ import { Layout, Breadcrumb } from '../components/layout';
 import { Facets, ResultsHeader, Pagination, SearchResultItem } from "../modules/search/components";
 
 // Services & Helpers
-import { getGrades } from '../services/gradesService';
-import { getLessons } from '../services/lessonServices';
-import { getServices } from '../services/commonService';
+import { getGrades } from '../modules/common/gradesService';
+import { getLessons } from '../modules/common/lessonServices';
+import { getServices } from '../modules/common/commonService';
 
 // Types
 import type { Teacher, Service } from '../modules/teacher/types';
 import type { Grade, Lesson } from '../modules/common/types'
+import { withServices } from '../modules/search/components/SearchResultItem';
 
 type TeachersProps = {
   classes: Grade[];
@@ -37,7 +38,7 @@ export default function Teachers({
         <div className="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-5">
           <ResultsHeader />
           <div className="justify-content-center">
-            <Hits hitComponent={SearchResultItem} />
+            <Hits hitComponent={withServices(SearchResultItem, services)} />
           </div>
           <Pagination />
         </div>

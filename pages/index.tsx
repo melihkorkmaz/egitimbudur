@@ -5,8 +5,8 @@ import { Layout } from "../components/layout/Layout";
 import { Search } from "../modules/search/components";
 
 // SERVICES
-import { getGrades } from "../services/gradesService";
-import { getLessons } from "../services/lessonServices";
+import { getGrades } from "../modules/common/gradesService";
+import { getLessons } from "../modules/common/lessonServices";
 
 // TYPES
 import type { Grade, Lesson } from "../modules/common/types";

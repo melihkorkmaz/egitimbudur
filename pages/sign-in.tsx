@@ -4,7 +4,7 @@ import { Input } from "../components/Input";
 import { Layout } from "../components/layout/Layout";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { AuthErrorType } from "../types/authentication";
+import { AuthErrorType } from "../modules/auth/types";
 import { signIn } from "../services/authService";
 
 export default function SignIn() {

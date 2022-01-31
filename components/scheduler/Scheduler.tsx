@@ -1,5 +1,5 @@
 import style from './scheduler.module.scss';
-import { ActiveScheduleType, getScheduleData } from '../../utils/schedulerUtils';
+import { ActiveScheduleType, getScheduleData } from '../../modules/common/schedulerUtils';
 import { SchedulerBox } from './SchedulerBox';
 
 type SchedulerProps = {

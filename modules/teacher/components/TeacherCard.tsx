@@ -3,10 +3,11 @@ import cx from "classnames";
 import style from "./teacherCard.module.scss";
 
 // COMPONENTS
-import { TeacherServicePin, RatingCard } from ".";
+import { TeacherServicePin, RatingForm } from ".";
 
 // TYPES
 import type { Teacher } from "../types";
+
 type TeacherCardProps = {
   asListItem?: boolean,
   teacher: Teacher,
@@ -31,7 +32,7 @@ export const TeacherCard = ({ asListItem = false, teacher, onClick }: TeacherCar
 
     {/* user info */}
     <div className={cx('ed_detail_wrap', style.userInfo)}>
-      {teacher.services?.map(service => (
+      {teacher.availableServiceTypes.map((service) => (
         <TeacherServicePin key={service.id} service={service} />
       ))}
       <div className="ed_header_caption">
@@ -41,9 +42,9 @@ export const TeacherCard = ({ asListItem = false, teacher, onClick }: TeacherCar
             <i className="ti-user"></i>{teacher.numberOfStudents || 0} Ogrenci
           </li>
           {!asListItem && <li>
-            <RatingCard rating={teacher.rating || 0} >
+            <RatingForm rating={teacher.rating || 0} onRate={() => {}} >
               {(teacher.totalComments || 0).toString()} Yorum
-            </RatingCard>
+            </RatingForm>
           </li>}
         </ul>
       </div>
@@ -64,9 +65,9 @@ export const TeacherCard = ({ asListItem = false, teacher, onClick }: TeacherCar
           </p>
         }
       </div>
-      <RatingCard rating={teacher.rating || 0} >
+      <RatingForm rating={teacher.rating || 0} onRate={() => {}}>
         {(teacher.totalComments || 0).toString()} Yorum
-      </RatingCard>
+      </RatingForm>
     </div>}
   </div>
 );

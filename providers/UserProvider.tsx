@@ -1,9 +1,12 @@
-import { createContext, FunctionComponent, useEffect, useMemo, useRef, useState } from "react"
+import { createContext, FunctionComponent, useEffect, useRef, useState } from "react";
 import { getAuth, onAuthStateChanged, Unsubscribe } from "firebase/auth";
-import { UserProfile } from "../types/user";
-import { getUserProfileSub } from "../services/userService";
 
-interface AuthenticationState {
+// Services
+import { getUserProfileSub } from "../modules/auth/authService";
+
+// Types
+import type { UserProfile } from "../modules/auth/types";
+type AuthenticationState = {
   isAuthenticated: boolean;
   userProfile?: UserProfile;
 };

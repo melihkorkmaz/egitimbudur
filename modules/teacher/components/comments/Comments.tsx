@@ -1,38 +1,24 @@
-import { CommentItem } from "./CommentItem";
-import { CommentType } from '../../types/comment';
-import React, { useState } from "react";
-import { getComments, writeComment } from "../../services/commentService";
-import { NewCommentForm } from "./NewCommentForm";
 
+// Components
+import { CommentItem, NewCommentForm } from "../";
 
+// Types
+import type { CommentType } from "../../types";
 
 type CommentsProps = {
-  teacherId: string;
+  comments: CommentType[];
   userCanComment: boolean;
 }
 
 export const Comments = ({
-  teacherId,
+  comments,
   userCanComment = false,
 }: CommentsProps) => {
-  const [comments, setComments] = useState<CommentType[]>([]);
-  
-  const getTeacherComments = async () => {
-    const response = await getComments(teacherId);
-    setComments([...response]);
-  };
-
-  useState(() => {
-    getTeacherComments();
-  }, []);
 
   const handleNewCommentSubmit = async (comment: string) => {
       if (!comment) {
         return;
       }
-      
-      await writeComment(teacherId, comment);
-      getTeacherComments();
   };
 
   return (
@@ -42,7 +28,7 @@ export const Comments = ({
           <h3>Yorumlar</h3>
         </div>
         {comments.length === 0 ? 
-          <div className="w-full text-center bold">Henuz yorum yapilmamis...</div>
+          <div className="w-full text-center bold">Henüz yorum yapılmamış...</div>
           :
           <div className="reviews-comments-wrap">
             {comments.map(comment => <CommentItem key={comment.id} comment={comment} />)}
@@ -52,7 +38,7 @@ export const Comments = ({
       {userCanComment ? 
         <NewCommentForm onSubmit={handleNewCommentSubmit} /> :
         <div className="p-4 mb-4 text-center bold trip text-danger bg-light-danger">
-          Sadece bu ogretmenden ders almis ogrenciler yorum yapabilir.
+          Sadece bu öğretmenden ders almış öğrenciler yorum yapabilir.
         </div>
       }
     </>

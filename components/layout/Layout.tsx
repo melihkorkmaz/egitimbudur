@@ -1,8 +1,10 @@
+import cx from "classnames";
+import styles from './layout.module.scss';
+
+// Components
 import { Footer } from "./Footer";
 import { Header } from "./Header";
-import cx from "classnames";
 import { PageTitle } from "./PageTitle";
-import styles from './layout.module.scss';
 
 type LayoutProps = {
   children: React.ReactNode;

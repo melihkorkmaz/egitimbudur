@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { CommentType } from '../../types/comment';
+import { CommentType } from '../../../../types/comment';
 
 type CommentProps = {
   comment: CommentType;

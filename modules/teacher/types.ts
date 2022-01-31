@@ -1,4 +1,5 @@
-import { Grade, Lesson, User, UserBaseProfile } from "../common/types";
+import { User, UserBaseProfile } from "../auth/types";
+import { Grade, Lesson } from "../common/types";
 import { ServiceType } from "./enums";
 
 export type Service = {
@@ -7,16 +8,45 @@ export type Service = {
   type: ServiceType;
 };
 
-export type Teacher = Pick<User, 'id'> & UserBaseProfile & {
+export type TeacherService = {
+  id: string;
+  duration: number;
+  price: number;
+  service: Service;
+}
+
+export type TeacherDTO = Pick<User, 'id'> & UserBaseProfile & {
   grades: Grade[];
   lessons: Lesson[];
   description?: string;
   zoomLink?: string;
   skypeUserName?: string;
   about?: string;
-  services?: Service[];
   totalComments?: number;
-  rating?: number;
   numberOfStudents?: number;
-  basePrice?: number;
+  rating?: number;
+}
+
+export type Teacher = TeacherDTO & {
+  basePrice: number;
+  services: TeacherService[];
+  availableServiceTypes: Service[];
+  comments: CommentType[];
 };
+
+
+export type UserWithPhoto = {
+  id: string;
+  photo: string;
+  firstName: string;
+  lastName: string;
+}
+
+export type CommentType = {
+  id: string;
+  owner: UserWithPhoto;
+  comment: string;
+  likes: number;
+  dislikes: number;
+  dateCommented: number;
+}

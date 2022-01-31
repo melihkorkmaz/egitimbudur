@@ -1,5 +1,5 @@
-import { SearchFilterEnum, SearchFilterType, SearchQueryType } from "../types/common";
-
+import type { SearchFilterType, SearchQueryType } from "../common/types";
+import  { SearchFilterEnum } from "../common/types";
 
 export const getFilterFromQuery = (query: SearchQueryType): SearchFilterType => {
   const filter = {

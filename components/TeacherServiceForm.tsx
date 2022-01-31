@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useUserProfile } from "../hooks/useUserProfile";
-import { getServiceTypes } from "../services/commonService";
-import { addService, updateService } from "../services/userService";
-import { TeacherService, TeacherServiceCategoryType, TeacherServiceType } from "../types/common";
+import { getServices } from "../modules/common/commonService";
+import { addService, updateService } from "../modules/teacher/teacherService";
+import { Service, TeacherService } from "../modules/teacher/types";
 import { Button } from "./Button"
 import { Input } from "./Input"
 import { Select } from "./Select"
@@ -22,15 +22,15 @@ export const TeacherServiceForm = ({
   const {userProfile} = useUserProfile();
   const [price, setPrice] = useState(selectedService?.price || 100);
   const [duration, setDuration] = useState(selectedService?.duration || 40);
-  const [selectedServiceType, setSelectedServiceType] = useState<TeacherServiceType | undefined>(selectedService?.serviceType || undefined)
-  const [teacherServiceTypes, setTeacherServiceTypes] = useState<TeacherServiceType[]>([]);
+  const [selectedServiceType, setSelectedServiceType] = useState<Service | undefined>(selectedService?.service || undefined)
+  const [teacherServiceTypes, setTeacherServiceTypes] = useState<Service[]>([]);
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!userProfile || !selectedServiceType) { return; }
     
     const req = {
-      serviceType: selectedServiceType,
+      service: selectedServiceType,
       price,
       duration,
     } as TeacherService;
@@ -49,7 +49,7 @@ export const TeacherServiceForm = ({
 
   useEffect(() => {
     const fetchServices = async () => {
-      const res = await getServiceTypes();
+      const res = await getServices();
       setTeacherServiceTypes(res);
     };
 
@@ -70,7 +70,7 @@ export const TeacherServiceForm = ({
             }
             selected={selectedServiceType?.id}
             onChange={(item) => {
-              setSelectedServiceType(teacherServiceTypes.find(t => t.id === item.value) as TeacherServiceCategoryType);
+              setSelectedServiceType(teacherServiceTypes.find(t => t.id === item.value) as Service);
             }}
             placeHolder="Hizmet tipi seciniz"
             block

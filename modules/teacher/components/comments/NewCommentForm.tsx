@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Button } from "../Button";
-import { TextArea } from "../TextArea";
+import { Button } from "../../../../components/Button";
+import { TextArea } from "../../../../components/TextArea";
 
 type NewCommentFormProps = {
   onSubmit: (comment: string) => void;

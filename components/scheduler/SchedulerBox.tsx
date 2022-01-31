@@ -1,4 +1,4 @@
-import { SchedulerTitle, DayHour, SchedulerLabel, SchedulerTimeBlock, ScheduleState } from "../../utils/schedulerUtils";
+import { SchedulerTitle, DayHour, SchedulerLabel, SchedulerTimeBlock, ScheduleState } from "../../modules/common/schedulerUtils";
 import cx from 'classnames';
 import { TitleBox } from './TitleBox';
 import { TimeBox } from './TimeBox';

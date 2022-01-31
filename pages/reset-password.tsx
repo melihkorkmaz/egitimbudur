@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { Layout } from "../components/layout/Layout";
-import { AuthErrorType } from "../types/authentication";
+import { AuthErrorType } from "../modules/auth/types";
 
 
 export default function ResetPassword() {

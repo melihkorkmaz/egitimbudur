@@ -7,8 +7,8 @@ import {
 } from "firebase/firestore";
 
 // TYPES & ENUMS
-import { ServiceType } from "../modules/teacher/enums";
-import type { Service } from "../modules/teacher/types";
+import { ServiceType } from "../teacher/enums";
+import type { Service } from "../teacher/types";
 
 export const getServices = async (): Promise<Service[]> => {
   const db = getFirestore();

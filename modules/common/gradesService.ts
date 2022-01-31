@@ -7,7 +7,7 @@ import {
 } from "firebase/firestore";
 
 // TYPES & ENUMS
-import type { Grade } from "../modules/common/types";
+import type { Grade } from "./types";
 
 export const getGrades = async (): Promise<Grade[]> => {
   const db = getFirestore();

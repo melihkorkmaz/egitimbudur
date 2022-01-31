@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 // HELPERS
-import { getFilterFromQuery } from "../../../utils/searchUtils"
+import { getFilterFromQuery } from "../searchUtils"
 
 // TYPES
 import type { SearchFilterType, SearchQueryType } from "../../../types/common";

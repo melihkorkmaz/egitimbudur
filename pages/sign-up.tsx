@@ -9,9 +9,9 @@ import { LessonList, LessonListType } from "../components/LessonList";
 import { RadioButton } from "../components/RadioButton";
 import { Select } from "../components/Select";
 import { signUp } from "../services/authService";
-import { getGrades } from "../services/gradesService";
-import { getLessons } from "../services/lessonServices";
-import { AuthErrorType, AuthRole } from "../types/authentication";
+import { getGrades } from "../modules/common/gradesService";
+import { getLessons } from "../modules/common/lessonServices";
+import { AuthErrorType, AuthRole } from "../modules/auth/types";
 import { GradeType, LessonType } from "../types/common";
 import { CreateStudentRequest, CreateTeacherRequest } from "../types/user";
 
