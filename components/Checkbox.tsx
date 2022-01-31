@@ -2,6 +2,7 @@ import React from "react";
 
 type CheckboxProps = {
   id: string;
+  name?: string;
   children: React.ReactNode;
   checked: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -9,6 +10,7 @@ type CheckboxProps = {
 
 export const Checkbox = ({
   id,
+  name,
   children,
   checked,
   onChange
@@ -17,8 +19,8 @@ export const Checkbox = ({
     <>
       <input
         id={id}
+        name={name}
         className="checkbox-custom"
-        name="aa-41"
         type="checkbox"
         checked={checked}
         onChange={onChange}

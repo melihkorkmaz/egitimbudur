@@ -1,6 +1,6 @@
 import { getAuth } from "firebase/auth";
 import { useContext } from "react";
-import { UserContext } from "../providers/UserProvider";
+import { UserContext } from "../modules/auth/UserProvider";
 import { Teacher } from "../types/user";
 
 export const useUserProfile = () => {

@@ -1,4 +1,4 @@
-import { User, UserBaseProfile } from "../auth/types";
+import { AuthRole, User, UserBaseProfile, UserProfile } from "../auth/types";
 import { Grade, Lesson } from "../common/types";
 import { ServiceType } from "./enums";
 
@@ -50,3 +50,7 @@ export type CommentType = {
   dislikes: number;
   dateCommented: number;
 }
+
+export const isTeacher = (user: Teacher): user is Teacher => {
+  return !!user && user.role === AuthRole.TEACHER;
+};

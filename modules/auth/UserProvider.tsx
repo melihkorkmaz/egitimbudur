@@ -2,14 +2,10 @@ import { createContext, FunctionComponent, useEffect, useRef, useState } from "r
 import { getAuth, onAuthStateChanged, Unsubscribe } from "firebase/auth";
 
 // Services
-import { getUserProfileSub } from "../modules/auth/authService";
+import { getUserProfileSub } from "./authService";
 
 // Types
-import type { UserProfile } from "../modules/auth/types";
-type AuthenticationState = {
-  isAuthenticated: boolean;
-  userProfile?: UserProfile;
-};
+import type { AuthenticationState, UserBaseProfile } from "./types";
 
 export const UserContext = createContext<AuthenticationState>({
   isAuthenticated: false,
@@ -53,17 +49,16 @@ export const UserProvider: FunctionComponent<StoreProviderProps> = ({
   }, [userUnsubscription])
 
   const initUserProfile = async (uid: string) => {
-    
-    const unsub = await getUserProfileSub(uid, (user) => {
+    const unsubscribe = await getUserProfileSub(uid, (userProfile) => {
       setState({
         ...state,
         isAuthenticated: true,
-        userProfile: user,
+        userProfile,
       });
     });
 
-    if (!!unsub) {
-      userUnsubscription.current  = unsub;
+    if (!!unsubscribe) {
+      userUnsubscription.current  = unsubscribe;
     }
   };
 

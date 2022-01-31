@@ -1,17 +1,19 @@
-import { LessonType } from "../types/common";
+import { Lesson } from "../modules/common/types";
 import { Checkbox } from "./Checkbox";
 
 export type LessonListType = {
-  lesson: LessonType;
+  lesson: Lesson;
   selected: boolean;
 }
 
 type LessonListProps = {
+  name?: string;
   items: LessonListType[];
   onUpdate: (items: LessonListType[]) => void;
 }
 
 export const LessonList = ({
+  name,
   items,
   onUpdate
 }: LessonListProps) => {
@@ -20,6 +22,7 @@ export const LessonList = ({
       {items.map((item) => (
         <li key={item.lesson.id}>
           <Checkbox 
+            name={name}
             id={`lesson-${item.lesson.id}`}
             checked={item.selected}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

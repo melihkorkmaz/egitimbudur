@@ -2,12 +2,12 @@ import { doc, getDoc, getFirestore, onSnapshot, setDoc, Unsubscribe, updateDoc }
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
 // Helpers
-import { isCreateTeacherRequest } from "./types";
+import { isCreateTeacherRequest, UserBaseProfile } from "./types";
 
 // Types
-import type { AuthErrorType, CreateUserRequest, UserProfile } from "./types";
+import type { AuthErrorType, CreateTeacherRequest, CreateStudentRequest } from "./types";
 
-export const signUp = async (request: CreateUserRequest) : Promise<boolean | AuthErrorType> => {
+export const signUp = async (request: CreateTeacherRequest | CreateStudentRequest) : Promise<boolean | AuthErrorType> => {
   const auth = getAuth();
   const db = getFirestore();
   try {
@@ -78,7 +78,7 @@ export const updateUserPhoto = async (userId: string, url: string) => {
 
 export const getUserProfileSub = async (
   id: string,
-  onChange: (UserProfile) => void
+  onChange: (user: UserBaseProfile) => void
 ): Promise<Unsubscribe | null> => {
   try {
     const db = getFirestore();
@@ -87,9 +87,8 @@ export const getUserProfileSub = async (
     const unsub = onSnapshot(docRef, (doc) => {
       const user = doc.data();
       onChange({
-        ...user,
-        id,
-      } as UserProfile);
+        ...user
+      } as UserBaseProfile);
     });
 
     await getDoc(docRef);

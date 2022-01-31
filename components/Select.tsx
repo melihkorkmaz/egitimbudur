@@ -7,6 +7,8 @@ export type SelectItem = {
 }
 
 type SelectProps = {
+  id?: string;
+  name?: string;
   className?: string;
   block?: boolean,
   placeHolder?: string,
@@ -16,6 +18,8 @@ type SelectProps = {
 };
 
 export const Select = ({
+  id,
+  name,
   className,
   block,
   placeHolder,
@@ -28,7 +32,7 @@ export const Select = ({
     <div className={cx(styles.selectBox, {
       'w-full': block
     }, className)}>
-      <select value={selected || ""} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+      <select id={id} name={name} value={selected || ""} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value;
         onChange(options.find(o => o.value.toString() === value.toString()) || options[0]);
       }}>

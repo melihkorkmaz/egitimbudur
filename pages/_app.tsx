@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import "./app.scss";
 import "../public/css/styles.css";
 import '../firebase/clientApp';
-import { UserProvider } from "../providers/UserProvider";
+import { UserProvider } from "../modules/auth/UserProvider";
 
 import algoliasearch from 'algoliasearch/lite';
 import { InstantSearch } from 'react-instantsearch-dom';

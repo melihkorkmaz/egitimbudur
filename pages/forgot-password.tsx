@@ -1,24 +1,28 @@
+import { useState } from "react";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import Link from "next/link";
-import { useState } from "react";
+
+// Components
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { Layout } from "../components/layout/Layout";
 
 export default function ForgotPassword() {
-  const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
     setMessage('');
 
+    const formData = new FormData(e.currentTarget);
+    const { email } = Object.fromEntries(formData) as { email: string };
+
     const auth = getAuth();
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        setMessage('Email gönderildi. Lutfen emailde yer alan linki kullanarak sifrenizi resetleyiniz.');
+        setMessage('Email gönderildi. Lütfen emailde yer alan linki kullanarak sifrenizi resetleyiniz.');
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -36,15 +40,15 @@ export default function ForgotPassword() {
                 <div className="crs_log_wrap">
                   <div className="crs_log__caption">
                     <div className="rcs_log_124">
-                      <div className="Lpo09"><h4>Sifremi Unuttum</h4></div>
+                      <div className="Lpo09"><h4>Şifremi Unuttum</h4></div>
                       <div className="form-group">
-                        <label>Email adresi:</label>
+                        <label htmlFor="email">Email adresi:</label>
                         <Input
+                          name="email"
+                          id="email"
                           type="email"
                           className="form-control"
                           placeHolder="email@gmail.com"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
                         />
                       </div>
                       <div className="form-group">
@@ -54,7 +58,7 @@ export default function ForgotPassword() {
                           primary
                           block
                         >
-                          Sifremi Sifirla
+                          Şifremi Sıfırla
                         </Button>
                       </div>
                       {error !== "" && (
@@ -72,9 +76,9 @@ export default function ForgotPassword() {
                   <div className="crs_log__footer d-flex justify-content-between">
                     <div className="fhg_45">
                       <p className="musrt">
-                        Bir hesabiniz yok mu?
+                        Bir hesabınız yok mu?
                         <Link href="/sign-up">
-                          <a className="theme-cl ml-2">Simdi Kaydol!</a>
+                          <a className="theme-cl ml-2">Şimdi Kaydol!</a>
                         </Link>
                       </p>
                     </div>
@@ -86,4 +90,4 @@ export default function ForgotPassword() {
       </section>
     </Layout>
   );
-}
+};
