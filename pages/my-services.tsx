@@ -4,7 +4,7 @@ import { Button } from "../components/Button";
 
 import { TableAction } from "../components/TableAction";
 import { TeacherServiceForm } from "../components/TeacherServiceForm";
-import { useUserProfile } from "../hooks/useUserProfile";
+import { useUser } from "../modules/auth/useUser";
 import { deleteService, getUserServices } from "../services/userService";
 import { TeacherService } from "../types/common";
 
@@ -66,7 +66,7 @@ const reducer = (state:MyServicesState, action: ActionType): MyServicesState => 
 }
 
 export default function MyServices() {
-  const {userProfile} = useUserProfile();
+  const {userProfile} = useUser();
   const [{
     isEditMode,
     services,

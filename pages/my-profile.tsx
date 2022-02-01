@@ -1,60 +1,53 @@
 import React, { useEffect, useState } from "react";
-import { AuthenticatedLayout } from "../components/authenticatedLayout/AuthenticatedLayout";
-import { Button } from "../components/Button";
-import { GradesList, GradesListType } from "../components/GradesList";
-import { Input } from "../components/Input";
-import { LessonList, LessonListType } from "../components/LessonList";
-import { RichTextEditor } from "../components/RichTextEditor";
-import { TextArea } from "../components/TextArea";
-import { GradeType, LessonType } from "../types/common";
+
+// Components
+import { 
+  AuthenticatedLayout,
+  Button,
+  Input,
+  CheckboxList,
+  RichTextEditor,
+  TextArea
+} from "../components";
+
+// Services & Hooks
 import { getGrades } from "../modules/common/gradesService";
 import { getLessons } from "../modules/common/lessonServices";
-import { updateUserProfile } from '../services/userService';
-import { useUserProfile, } from "../hooks/useUserProfile";
-import { isTeacher, Teacher, UserProfile } from "../types/user";
+import { getUserProfile } from "../modules/auth/authService";
+import { updateUserProfile } from "../modules/teacher/teacherService";
+import { useUser } from "../modules/auth/useUser";
 
-interface MyProfileProps {
-  grades: GradeType[];
-  lessons: LessonType[];
+// Types
+import { Grade, Lesson } from "../modules/common/types";
+import { isTeacher, Teacher } from "../modules/teacher/types";
+import { Student } from "../modules/student/types";
+
+type MyProfileProps = {
+  grades: Grade[];
+  lessons: Lesson[];
 }
+
 export default function MyProfile({
   grades = [],
   lessons = []
 }: MyProfileProps) {
-  const { userProfile } = useUserProfile();
-  const [userProfileModel, setUserProfileModel] = useState<UserProfile | undefined>();
-  const [lessonsListItems, setLessonsListItem] = useState<LessonListType[]>(lessons.map(l => ({
-    lesson: l,
-    selected: false
-  })));
-
-  const [gradesListItems, setGradesListItem] = useState<GradesListType[]>(grades.map(c => ({
-    grade: c,
-    selected: false
-  })));
+  const { user } = useUser();
+  const [userProfileModel, setUserProfileModel] = useState<Teacher | Student | undefined>();
 
   useEffect(() => {
-    setUserProfileModel(userProfile);
-
-    if (!isTeacher(userProfile)) {
+    if (!user || !isTeacher(user)) {
       return;
     }
 
-    const withTeacherGrades = gradesListItems.map(g => ({
-      grade: g.grade,
-      selected: userProfile.grades.some(grade => grade.id === g.grade.id)
-    }));
+    const fetchUserProfile = async () => {
+      const userProfile = await getUserProfile<Teacher>(user.id);
+      setUserProfileModel({ ...userProfile });
+    };
 
-    setGradesListItem(withTeacherGrades as GradesListType[]);
-
-    const withTeacherLessons = lessonsListItems.map(l => ({
-      lesson: l.lesson,
-      selected: userProfile.lessons.some(lesson => lesson.id === l.lesson.id)
-    }));
-
-    setLessonsListItem(withTeacherLessons as LessonListType[]);
+    fetchUserProfile();
+    // setLessonsListItem(withTeacherLessons as LessonListType[]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userProfile]);
+  }, [user]);
 
   const handleChange = (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.currentTarget;
@@ -64,7 +57,7 @@ export default function MyProfile({
       [id]: value
     };
 
-    setUserProfileModel(newState as UserProfile);
+    setUserProfileModel(newState as Teacher);
   };
 
   const handleAboutChange = (value: string) => {
@@ -73,7 +66,7 @@ export default function MyProfile({
       about: value
     };
 
-    setUserProfileModel(newState as UserProfile);
+    setUserProfileModel(newState as Teacher);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -81,14 +74,7 @@ export default function MyProfile({
     if (!userProfileModel) {
       return;
     }
-    const userProfile = {
-      ...userProfileModel,
-      grades: gradesListItems.filter(g => g.selected).map(g => g.grade),
-      lessons: lessonsListItems.filter(l => l.selected).map(l => l.lesson)
-    } as UserProfile;
-
-    console.log("userProfile", userProfile);
-    updateUserProfile(userProfile);
+    updateUserProfile(userProfileModel);
   };
 
   return (
@@ -102,7 +88,7 @@ export default function MyProfile({
 
         <div className="row justify-content-center">
           <div className="col-xl-12 col-lg-12 col-md-12">
-            {userProfile && userProfileModel &&
+            {user && userProfileModel &&
               <form onSubmit={handleSubmit}>
                 <div className="form-group smalls">
                   <label>Isim*</label>
@@ -124,11 +110,29 @@ export default function MyProfile({
                     </div>
                     <div className="form-group">
                       <label>Branslariniz</label>
-                      <LessonList onUpdate={setLessonsListItem} items={lessonsListItems} />
+                      <CheckboxList 
+                        items={lessons.map(l => ({ key: l.id, value: l.name }))} 
+                        selectedItems={[...userProfileModel.lessons.map(l => l.id)]}
+                        onUpdate={(ids) => {
+                          setUserProfileModel({
+                            ...userProfileModel,
+                            lessons: lessons.filter(l => ids.includes(l.id))
+                          });
+                        }} 
+                      />
                     </div>
                     <div className="form-group">
                       <label>Ders verdiginiz siniflar</label>
-                      <GradesList onUpdate={setGradesListItem} items={gradesListItems} />
+                      <CheckboxList 
+                        items={grades.map(g => ({ key: g.id, value: g.name }))} 
+                        selectedItems={[...userProfileModel.grades.map(g => g.id)]}
+                        onUpdate={(ids) => {
+                          setUserProfileModel({
+                            ...userProfileModel,
+                            grades: grades.filter(g => ids.includes(g.id))
+                          });
+                        }} 
+                      />
                     </div>
                     <div className="form-group smalls">
                       <label>Zoom Link <i>(Sadece sizden ders alanlar goruntuleyebilir)</i></label>
@@ -150,8 +154,8 @@ export default function MyProfile({
         </div>
 
       </div>
-    </AuthenticatedLayout>)
-}
+    </AuthenticatedLayout>);
+};
 
 export async function getServerSideProps(context) {
   const grades = await getGrades();

@@ -1,14 +1,12 @@
 import { getAuth } from "firebase/auth";
 import { useContext } from "react";
-import { UserContext } from "../modules/auth/UserProvider";
-import { Teacher } from "../types/user";
+import { UserContext } from "./UserProvider";
 
-export const useUserProfile = () => {
+export const useUser = () => {
   const store = useContext(UserContext);
 
   return {
     ...store,
-    teacher: store.userProfile as Teacher,
     logout: () => {
       const auth = getAuth();
       auth.signOut();

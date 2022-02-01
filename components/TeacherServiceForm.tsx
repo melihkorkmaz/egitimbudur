@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useUserProfile } from "../hooks/useUserProfile";
+import { useUser } from "../modules/auth/useUser";
 import { getServices } from "../modules/common/commonService";
 import { addService, updateService } from "../modules/teacher/teacherService";
 import { Service, TeacherService } from "../modules/teacher/types";
@@ -19,7 +19,7 @@ export const TeacherServiceForm = ({
   onSubmit,
   selectedService
 }: TeacherServiceFormProps) => {
-  const {userProfile} = useUserProfile();
+  const {userProfile} = useUser();
   const [price, setPrice] = useState(selectedService?.price || 100);
   const [duration, setDuration] = useState(selectedService?.duration || 40);
   const [selectedServiceType, setSelectedServiceType] = useState<Service | undefined>(selectedService?.service || undefined)

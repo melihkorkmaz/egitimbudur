@@ -24,7 +24,7 @@ export const TeacherCard = ({ asListItem = false, teacher, onClick }: TeacherCar
       <div className="authi_125_thumb">
         <img
           src={teacher.photo || "/img/empty_profile_m.png"}
-          className="img-fluid rounded"
+          className="img-fluid rounded aspect-square"
           alt=""
         />
       </div>

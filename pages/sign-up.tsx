@@ -4,10 +4,9 @@ import Link from "next/link";
 
 // Component
 import { Button } from "../components/Button";
-import { GradesList, GradesListType } from "../components/GradesList";
 import { Input } from "../components/Input";
 import { Layout } from "../components/layout/Layout";
-import { LessonList, LessonListType } from "../components/LessonList";
+import { CheckboxList } from "../components/CheckboxList";
 import { RadioButton } from "../components/RadioButton";
 import { Select, SelectItem } from "../components/Select";
 
@@ -32,22 +31,15 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
   const [error, setError] = useState("");
   const [role, setRole] = useState<AuthRole>(AuthRole.STUDENT);
   const [selectedGrade, setSelectedGrade] = useState<SelectItem>();
-  const [lessonsListItems, setLessonsListItem] = useState<LessonListType[]>(lessons.map(l => ({
-    lesson: l,
-    selected: false
-  })));
-
-  const [gradesListItems, setGradesListItem] = useState<GradesListType[]>(grades.map(c => ({
-    grade: c,
-    selected: false
-  })));
+  const [selectedLessons, setSelectedLessons] = useState<string[]>([]);
+  const [selectedGrades, setSelectedGrades] = useState<string[]>([]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const dataObject = Object.fromEntries(formData);
-    const selectedGrades = gradesListItems.filter(l => l.selected).map(l => l.grade);
-    const selectedLessons = lessonsListItems.filter(l => l.selected).map(l => l.lesson);
+    const selectedGrades = grades.filter(g => selectedGrades.include(g.id));
+    const selectedLessons = lessons.filter(l => selectedLessons.include(l.id));
     
     let request = {
       ...dataObject,
@@ -154,12 +146,20 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
                       <>
                         <div className="form-group">
                           <label htmlFor="lessons">Branşlarınızı Seçiniz</label>
-                          <LessonList name="lessons" onUpdate={setLessonsListItem} items={lessonsListItems} />
+                          <CheckboxList 
+                            name="lessons"
+                            selectedItems={selectedLessons}
+                            onUpdate={setSelectedLessons} 
+                            items={lessons.map(l => ({ key: l.id, value: l.name }))} />
                         </div>
 
                         <div className="form-group">
                           <label htmlFor="grades">Sınıflarınız</label>
-                          <GradesList name="grades" onUpdate={setGradesListItem} items={gradesListItems} />
+                          <CheckboxList 
+                            name="grades" 
+                            selectedItems={selectedGrades}
+                            onUpdate={setSelectedGrades} 
+                            items={grades.map(g => ({ key: g.id, value: g.name }))} />
                         </div>
                       </>
                     )}

@@ -10,6 +10,7 @@ import { getBasePrice } from "./utils";
 
 // TYPES
 import type { Teacher, TeacherDTO, TeacherService } from "./types";
+import { getAuth } from "firebase/auth";
 
 const getTeacherServices = async (userId: string): Promise<TeacherService[]> => {
   const db = getFirestore();
@@ -70,10 +71,18 @@ export const deleteService = async (userId: string, id: string) => {
   await deleteDoc(doc(db, "users", userId, "services", id));
 };
 
-export const updateUserProfile = async (id: string, user: Teacher) => {
+export const updateUserProfile = async (user: Teacher) => {
   try {
+    const auth = getAuth();
+    const authenticatedUser = auth.currentUser;
+
+    if (!authenticatedUser) {
+      throw new Error('User is not authenticated');
+    }
+
     const db = getFirestore();
-    const ref = doc(db, "users", id);
+    const ref = doc(db, "users", authenticatedUser.uid);
+    
     await updateDoc(ref, {
       firstName: user.firstName,
       lastName: user.lastName,

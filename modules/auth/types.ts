@@ -12,19 +12,19 @@ export type AuthErrorType = {
 
 export type User = {
   id: string;
-  email: string;
-  password: string;
-};
-
-export type UserBaseProfile = {
   firstName: string;
   lastName: string;
   role: AuthRole;
   photo?: string;
 };
 
-export type CreateTeacherRequest = Omit<User, 'id'> & UserBaseProfile & Pick<Teacher, 'grades' | 'lessons'>;
-export type CreateStudentRequest = Omit<User, 'id'> & UserBaseProfile & Pick<Student, 'grade'>;
+type CreateUserRequest = Omit<User, 'id'> & {
+  email: string;
+  password: string;
+}
+
+export type CreateTeacherRequest = CreateUserRequest & Pick<Teacher, 'grades' | 'lessons'>;
+export type CreateStudentRequest = CreateUserRequest & Pick<Student, 'grade'>;
 
 export const isCreateTeacherRequest = (request: CreateTeacherRequest | CreateStudentRequest): request is CreateTeacherRequest => {
     return request.role === AuthRole.TEACHER;
@@ -32,5 +32,5 @@ export const isCreateTeacherRequest = (request: CreateTeacherRequest | CreateStu
 
 export type AuthenticationState = {
   isAuthenticated: boolean;
-  userProfile?: UserBaseProfile;
+  user?:  User;
 };

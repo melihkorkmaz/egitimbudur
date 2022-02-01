@@ -1,8 +1,8 @@
-import { useUserProfile } from "../../hooks/useUserProfile";
+import { useUser } from "../../modules/auth/useUser";
 import { Button } from "../Button";
 
 export const UserTopMenu = () => {
-  const { isAuthenticated, logout } = useUserProfile();
+  const { isAuthenticated, logout } = useUser();
 
   if (!isAuthenticated) {
     return (

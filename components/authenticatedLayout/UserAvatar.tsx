@@ -1,16 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useRef } from "react";
-import { useUserProfile } from "../../hooks/useUserProfile";
-import { Button } from "../Button";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { updateUserPhoto } from "../../services/userService";
-import { isTeacher } from "../../types/user";
+
+// Components
+import { Button } from "../Button";
+
+// Hooks and Services
+import { updateUserPhoto } from "../../modules/auth/authService";
+import { useUser } from "../../modules/auth/useUser";
+
+// Types
+import { isTeacher } from "../../modules/teacher/types";
 
 export const UserAvatar = () => {
-  const { userProfile } = useUserProfile();
+  const { user } = useUser();
   const inputRef = useRef(null);
 
-  if (!userProfile) {
+  if (!user) {
     return null;
   }
 
@@ -31,28 +37,28 @@ export const UserAvatar = () => {
 
     const file = files[0];
     const storage = getStorage();
-    const uploadRef = ref(storage, `images/${userProfile.id}/${file.name}`);
+    const uploadRef = ref(storage, `images/${user.id}/${file.name}`);
     
     try {
       await uploadBytes(uploadRef, file);
       const url = await getDownloadURL(uploadRef);
 
-      updateUserPhoto(userProfile.id, url);
+      updateUserPhoto(user.id, url);
     } catch (error) {
       //TODO: log error
     }
-  }
+  };
 
   return (
     <div className="d-user-avater">
       <img
-        src={userProfile.photo ? userProfile.photo : "/img/empty_profile_m.png"} 
-        className="mx-auto" 
+        src={user.photo ? user.photo : "/img/empty_profile_m.png"} 
+        className="mx-auto aspect-square" 
         alt="" 
       />
-      <h4>{`${userProfile.firstName} ${userProfile.lastName}`}</h4>
+      <h4>{`${user.firstName} ${user.lastName}`}</h4>
       <span>
-        {isTeacher(userProfile) ? "Ogretmen" : "Ogrenci"}
+        {isTeacher(user) ? "Ogretmen" : "Ogrenci"}
       </span>
       <div>
         <input 

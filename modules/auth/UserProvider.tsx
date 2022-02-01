@@ -5,7 +5,7 @@ import { getAuth, onAuthStateChanged, Unsubscribe } from "firebase/auth";
 import { getUserProfileSub } from "./authService";
 
 // Types
-import type { AuthenticationState, UserBaseProfile } from "./types";
+import type { AuthenticationState } from "./types";
 
 export const UserContext = createContext<AuthenticationState>({
   isAuthenticated: false,
@@ -49,11 +49,11 @@ export const UserProvider: FunctionComponent<StoreProviderProps> = ({
   }, [userUnsubscription])
 
   const initUserProfile = async (uid: string) => {
-    const unsubscribe = await getUserProfileSub(uid, (userProfile) => {
+    const unsubscribe = await getUserProfileSub(uid, (user) => {
       setState({
         ...state,
         isAuthenticated: true,
-        userProfile,
+        user,
       });
     });
 
