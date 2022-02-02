@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import { useUser } from "../modules/auth/useUser";
-import { getServices } from "../modules/common/commonService";
-import { addService, updateService } from "../modules/teacher/teacherService";
-import { Service, TeacherService } from "../modules/teacher/types";
-import { Button } from "./Button"
-import { Input } from "./Input"
-import { Select } from "./Select"
+// Components
+import { Button, Input, Select } from "../../../components";
 
-interface TeacherServiceFormProps {
+// Services & Hooks
+import { useUser } from "../../auth/useUser";
+import { getServices } from "../../common/commonService";
+import { addService, updateService } from "../teacherService";
+
+// Types
+import type { Service, TeacherService, TeacherServiceDTO } from "../types";
+
+type TeacherServiceFormProps = {
   onCancel: () => void;
   onSubmit: () => void;
   selectedService?: TeacherService;
@@ -19,7 +22,7 @@ export const TeacherServiceForm = ({
   onSubmit,
   selectedService
 }: TeacherServiceFormProps) => {
-  const {userProfile} = useUser();
+  const { user } = useUser();
   const [price, setPrice] = useState(selectedService?.price || 100);
   const [duration, setDuration] = useState(selectedService?.duration || 40);
   const [selectedServiceType, setSelectedServiceType] = useState<Service | undefined>(selectedService?.service || undefined)
@@ -27,21 +30,22 @@ export const TeacherServiceForm = ({
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!userProfile || !selectedServiceType) { return; }
+    if (!user || !selectedServiceType) { return; }
     
     const req = {
-      service: selectedServiceType,
+      typeId: selectedServiceType.id,
+      typeName: selectedServiceType.name,
       price,
       duration,
-    } as TeacherService;
+    } as TeacherServiceDTO;
 
     if (selectedService) {
-      await updateService(userProfile.id, {
+      await updateService(user.id, {
         ...req,
         id: selectedService.id
       });
     } else {
-      await addService(userProfile.id, req);
+      await addService(user.id, req);
     };
 
     onSubmit();
@@ -109,5 +113,5 @@ export const TeacherServiceForm = ({
       </div>
 
     </form>
-  )
-}
+  );
+};

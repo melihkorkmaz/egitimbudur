@@ -22,7 +22,7 @@ export default function Teacher({ teacher }: TeacherProps) {
     <Layout pageTitle={<TeacherCard teacher={teacher} />}>
       <div className="row">
 
-        <div className="col-lg-8 col-md-12 order-lg-first">
+        <div className="col-lg-8 col-md-12 order-lg-first mb-5">
           {teacher.about && <div className="edu_wraper mb-4">
             <h4 className="edu_title">Hakkinda</h4>
             <div dangerouslySetInnerHTML={{

@@ -3,12 +3,14 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 // Component
-import { Button } from "../components/Button";
-import { Input } from "../components/Input";
-import { Layout } from "../components/layout/Layout";
-import { CheckboxList } from "../components/CheckboxList";
-import { RadioButton } from "../components/RadioButton";
-import { Select, SelectItem } from "../components/Select";
+import { 
+  Button,
+  Input,
+  Layout,
+  CheckboxList,
+  RadioButton,
+  Select
+} from "../components";
 
 // Services
 import { getGrades } from "../modules/common/gradesService";
@@ -18,6 +20,7 @@ import { signUp } from "../modules/auth/authService";
 // Type
 import type { AuthErrorType, CreateStudentRequest, CreateTeacherRequest } from "../modules/auth/types";
 import type { Grade, Lesson } from "../modules/common/types";
+import type { SelectItem } from "../components";
 import { AuthRole } from '../modules/auth/types';
 
 

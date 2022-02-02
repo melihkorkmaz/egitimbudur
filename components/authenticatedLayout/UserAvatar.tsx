@@ -3,14 +3,14 @@ import React, { useRef } from "react";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 // Components
-import { Button } from "../Button";
+import { Button } from "../";
 
 // Hooks and Services
 import { updateUserPhoto } from "../../modules/auth/authService";
 import { useUser } from "../../modules/auth/useUser";
 
 // Types
-import { isTeacher } from "../../modules/teacher/types";
+import { isTeacher, Teacher } from "../../modules/teacher/types";
 
 export const UserAvatar = () => {
   const { user } = useUser();
@@ -58,7 +58,7 @@ export const UserAvatar = () => {
       />
       <h4>{`${user.firstName} ${user.lastName}`}</h4>
       <span>
-        {isTeacher(user) ? "Ogretmen" : "Ogrenci"}
+        {isTeacher(user as Teacher) ? "Ogretmen" : "Ogrenci"}
       </span>
       <div>
         <input 

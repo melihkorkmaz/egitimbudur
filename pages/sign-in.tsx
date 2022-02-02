@@ -3,9 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 // Components
-import { Button } from "../components/Button";
-import { Input } from "../components/Input";
-import { Layout } from "../components/layout/Layout";
+import { Button, Input, Layout } from "../components";
 
 // Services
 import { signIn } from "../modules/auth/authService";

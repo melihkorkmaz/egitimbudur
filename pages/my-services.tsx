@@ -1,18 +1,25 @@
-import { useEffect, useReducer, useState } from "react";
-import { AuthenticatedLayout } from "../components/authenticatedLayout/AuthenticatedLayout";
-import { Button } from "../components/Button";
+import { useEffect, useReducer } from "react";
 
-import { TableAction } from "../components/TableAction";
-import { TeacherServiceForm } from "../components/TeacherServiceForm";
+// Components
+import { 
+  AuthenticatedLayout, 
+  Button, 
+  TableAction,
+} from "../components";
+import { TeacherServiceForm } from "../modules/teacher/components/TeacherServiceForm";
+
+// Services & Hooks
 import { useUser } from "../modules/auth/useUser";
-import { deleteService, getUserServices } from "../services/userService";
-import { TeacherService } from "../types/common";
+import { deleteService, getTeacherServices } from "../modules/teacher/teacherService";
+
+// Types
+import type { TeacherService } from "../modules/teacher/types";
 
 type MyServicesState = {
   isEditMode: boolean;
   services: TeacherService[];
   selectedService?: TeacherService;
-}
+};
 
 const newServiceAction = () => ({
   type: 'NEW_SERVICE'
@@ -63,10 +70,10 @@ const reducer = (state:MyServicesState, action: ActionType): MyServicesState => 
     default:
       return state;
   }
-}
+};
 
 export default function MyServices() {
-  const {userProfile} = useUser();
+  const { user } = useUser();
   const [{
     isEditMode,
     services,
@@ -77,26 +84,26 @@ export default function MyServices() {
   });
   
   const handleRemove = async (id: string) => {
-    if (!userProfile) {
+    if (!user ) {
       return;
     };
-    await deleteService(userProfile.id, id);
+    await deleteService(user.id, id);
     fetchTeacherServices();
   };
 
   const fetchTeacherServices = async () => {
-    if (!userProfile) {
+    if (!user) {
       return;
     };
 
-    const res = await getUserServices(userProfile.id);
+    const res = await getTeacherServices(user.id);
     dispatch(onTecherServiceFetchComplete(res));
   };
 
   useEffect(() => {
     fetchTeacherServices();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userProfile]);
+  }, [user]);
 
 
   return (
@@ -143,7 +150,7 @@ export default function MyServices() {
                 <tbody>
                   {services.map(service => (
                     <tr key={service.id}>
-                      <td><span className="smalls lg">{service.serviceType.name}</span></td>
+                      <td><span className="smalls lg">{service.service.name}</span></td>
                       <td><span className="smalls lg">{service.duration} dk</span></td>
                       <td><span className="smalls lg">{service.price} TL</span></td>
                       <td>
@@ -175,4 +182,4 @@ export default function MyServices() {
       </div>
     </AuthenticatedLayout>
   )
-}
+};

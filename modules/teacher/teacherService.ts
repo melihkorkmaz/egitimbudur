@@ -9,10 +9,10 @@ import { getServices } from "../common/commonService";
 import { getBasePrice } from "./utils";
 
 // TYPES
-import type { Teacher, TeacherDTO, TeacherService } from "./types";
+import type { Teacher, TeacherDTO, TeacherService, TeacherServiceDTO } from "./types";
 import { getAuth } from "firebase/auth";
 
-const getTeacherServices = async (userId: string): Promise<TeacherService[]> => {
+export const getTeacherServices = async (userId: string): Promise<TeacherService[]> => {
   const db = getFirestore();
   const serviceRef = collection(db, "users", userId, "services");
   const serviceTypes = await getServices();
@@ -51,19 +51,15 @@ export const getTeacher = async (id: string): Promise<Teacher | null> => {
   } as Teacher;
 };
 
-export const addService = async (userId: string, request: TeacherService) => {
+export const addService = async (userId: string, request: TeacherServiceDTO) => {
   const db = getFirestore();
 
   await addDoc(collection(db, "users", userId, "services"), request);
 };
 
-export const updateService = async (userId: string, data: TeacherService) => {
+export const updateService = async (userId: string, data: TeacherServiceDTO) => {
   const db = getFirestore();
-  await setDoc(doc(db, "users", userId, "services", data.id), {
-    duration: data.duration,
-    price: data.price,
-    serviceType: data.service.type
-  });
+  await setDoc(doc(db, "users", userId, "services", data.id), data);
 };
 
 export const deleteService = async (userId: string, id: string) => {

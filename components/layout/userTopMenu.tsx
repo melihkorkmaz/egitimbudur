@@ -1,5 +1,5 @@
 import { useUser } from "../../modules/auth/useUser";
-import { Button } from "../Button";
+import { Button } from "../";
 
 export const UserTopMenu = () => {
   const { isAuthenticated, logout } = useUser();

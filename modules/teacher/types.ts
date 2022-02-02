@@ -1,4 +1,4 @@
-import { AuthRole, User, UserBaseProfile, UserProfile } from "../auth/types";
+import { AuthRole, User } from "../auth/types";
 import { Grade, Lesson } from "../common/types";
 import { ServiceType } from "./enums";
 
@@ -15,7 +15,12 @@ export type TeacherService = {
   service: Service;
 }
 
-export type TeacherDTO = Pick<User, 'id'> & UserBaseProfile & {
+export type TeacherServiceDTO = Omit<TeacherService, "service"> & {
+  typeId: string;
+  typeName: string;
+}
+
+export type TeacherDTO = Pick<User, 'id'> & User & {
   grades: Grade[];
   lessons: Lesson[];
   description?: string;
@@ -51,6 +56,6 @@ export type CommentType = {
   dateCommented: number;
 }
 
-export const isTeacher = (user: Teacher): user is Teacher => {
+export const isTeacher = (user: Teacher | User): user is Teacher => {
   return !!user && user.role === AuthRole.TEACHER;
 };

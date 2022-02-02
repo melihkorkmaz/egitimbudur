@@ -3,9 +3,7 @@ import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import Link from "next/link";
 
 // Components
-import { Button } from "../components/Button";
-import { Input } from "../components/Input";
-import { Layout } from "../components/layout/Layout";
+import { Button, Input, Layout } from "../components";
 
 export default function ForgotPassword() {
   const [error, setError] = useState('');

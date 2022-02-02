@@ -10,7 +10,7 @@ export const TableAction = ({
   children
 }: TableActionProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const divRef = useRef(null);
+  const divRef = useRef<HTMLDivElement>(null);
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
