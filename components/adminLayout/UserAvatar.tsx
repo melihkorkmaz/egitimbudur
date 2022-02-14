@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 // Components
-import { Button } from "../";
+import { Button } from "..";
 
 // Hooks and Services
 import { updateUserPhoto } from "../../modules/auth/authService";

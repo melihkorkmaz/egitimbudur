@@ -2,7 +2,7 @@ export { Select } from './select/Select';
 export { Input } from './input/Input';
 export { Checkbox } from './Checkbox';
 export { Button } from './button/Button';
-export { AuthenticatedLayout } from './authenticatedLayout/AuthenticatedLayout';
+export { AdminLayout } from './adminLayout/AdminLayout';
 export { CheckboxList } from './CheckboxList';
 export { RichTextEditor } from './RichTextEditor';
 export { TextArea } from './TextArea';

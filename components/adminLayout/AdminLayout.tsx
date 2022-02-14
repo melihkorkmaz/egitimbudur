@@ -7,7 +7,7 @@ type AuthenticatedLayoutProps = {
   currentPage: string;
 };
 
-export const AuthenticatedLayout = ({
+export const AdminLayout = ({
   children,
   currentPage
 }: AuthenticatedLayoutProps) => {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 // Components
 import { 
-  AuthenticatedLayout,
+  AdminLayout,
   Button,
   Input,
   CheckboxList,
@@ -78,7 +78,7 @@ export default function MyProfile({
   };
 
   return (
-    <AuthenticatedLayout currentPage="my-profile">
+    <AdminLayout currentPage="my-profile">
       <div className="dashboard_wrap">
         <div className="row">
           <div className="col-xl-12 col-lg-12 col-md-12 mb-4">
@@ -154,7 +154,7 @@ export default function MyProfile({
         </div>
 
       </div>
-    </AuthenticatedLayout>);
+    </AdminLayout>);
 };
 
 export async function getServerSideProps(context) {

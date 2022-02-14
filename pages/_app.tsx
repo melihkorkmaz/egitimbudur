@@ -1,6 +1,7 @@
 import "tailwindcss/tailwind.css";
 import type { AppProps } from "next/app";
 import "./app.scss";
+import "../public/css/plugins/animation.css";
 import "../public/css/styles.css";
 import '../firebase/clientApp';
 import { UserProvider } from "../modules/auth/UserProvider";

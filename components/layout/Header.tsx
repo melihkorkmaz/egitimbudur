@@ -4,14 +4,18 @@ import Logo from "../../public/img/logo.png";
 import { NavMenu } from './NavMenu';
 import Link from 'next/link'
 import { useEffect, useState } from "react";
-import { UserTopMenu } from "./userTopMenu";
+import { UserTopMenu } from "./UserTopMenu";
+import styles from './header.module.scss';
+
 
 type HeaderProps = {
   className?: string;
+  homePage?: boolean;
 }
 
 export const Header = ({
   className,
+  homePage
 }: HeaderProps) => {
   const [ scrolled, setScrolled ] = useState(false);
 
@@ -29,43 +33,34 @@ export const Header = ({
     setScrolled(winScroll / height > 0);
   };
 
+  const classes = cx(
+    styles.header,
+    {
+      [styles.homePage]: homePage && !scrolled,
+      [styles.headerScroll]: scrolled
+    }
+  );
+
   return (
     <>
-      <div className={cx('header dark-text', { 'header-fixed': scrolled }, className)}>
-        <div className="container">
-          <nav id="navigation" className="navigation navigation-landscape">
-            <div className="nav-header">
+      <div className={classes}>
+        <div className="container mx-auto">
+          <nav className="flex align-center h-[70px]">
+            <div className="max-w-[240px] mr-10 flex items-center">
               <Link href="/">
-                <a className="nav-brand pb-0">
-                  <Image src={Logo} className="logo" alt="" />
+                <a className="block mt-2">
+                  <Image src={Logo} alt="" />
                 </a>
               </Link>
-              <div className="nav-toggle"></div>
-              <div className="mobile_nav">
-                <ul>
-                  <li>
-                    <a
-                      href="#"
-                      data-toggle="modal"
-                      data-target="#login"
-                      className="crs_yuo12 w-auto text-white theme-bg"
-                    >
-                      <span className="embos_45">
-                        <i className="fas fa-sign-in-alt mr-1"></i>Sign In
-                      </span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
             </div>
-            <div className="nav-menus-wrapper">
-              <NavMenu />
+            <div className="flex justify-between flex-1 flex-row-reverse">
               <UserTopMenu />
+              <NavMenu className="hidden lg:flex" />
             </div>
           </nav>
         </div>
       </div>
-      <div className="clearfix"></div>
+      <div className="clear-both"></div>
     </>
   );
 };

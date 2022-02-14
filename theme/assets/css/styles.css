@@ -22,7 +22,6 @@
 ------------- List Of Table ----------*/
 
 /* CSS Document */
-@import url(../css/plugins/animation.css);
 @import url(../css/plugins/bootstrap.min.css);
 @import url(../css/plugins/date-picker.css);
 @import url(../css/plugins/select2.css);
@@ -188,11 +187,6 @@ font-weight:500;
 h1 {
   line-height: 40px;
   font-size: 36px; }
-
-h2 {
-  line-height: 36px;
-  font-size: 30px; }
-
 h3 {
   line-height: 30px;
   font-size: 24px; }
@@ -2056,7 +2050,6 @@ nav a {
 }
 
 .header {
-    background:#fff;
 	z-index:6;
 }
 
@@ -5559,10 +5552,6 @@ ul.edu_list.third li {
     color: #03b97c;
     margin-right: 7px;
 }
-.ed_author h2 {
-    display: flex;
-    align-items: center;
-}
 .ed_author .old_prc {
     font-size: 20px;
     margin-left: 10px;
@@ -7918,10 +7907,6 @@ footer.skin-dark-footer ul.footer-bottom-social li a:hover, footer.skin-dark-foo
 	}
 	.crs_lt_boxes {
 		flex-wrap: wrap;
-	}
-	h2 {
-		line-height:28px;
-		font-size:25px;
 	}
 	.lists-4 li, .lists-3 li, .lists-2 li, .lists-1 li {
 		line-height: 21px;

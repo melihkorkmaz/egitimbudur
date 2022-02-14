@@ -2,9 +2,9 @@ import cx from 'classnames';
 import style from './navmenu.module.scss';
 import Link from 'next/link'
 
-export const NavMenu = () => {
+export const NavMenu = ({ className }) => {
   return (
-    <ul className={cx('nav-menu', style.navMenu)}>
+    <ul className={cx('list-none flex items-center space-x-6 font-medium', style.navMenu, className)}>
       <li className="active">
         <Link href="/">
           Anasayfa

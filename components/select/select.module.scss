@@ -13,8 +13,9 @@
     overflow: hidden;
     width: 100%;
     position: relative;
-    z-index: 99;
+    z-index: 9;
     background: none;
+    outline: none;
 
     @apply px-4 py-3 #{!important};
   }
@@ -29,6 +30,6 @@
     top: 40%;
     right: 15px;
     content: "";
-    z-index: 98;
+    z-index: 8;
   }
 }

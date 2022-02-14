@@ -2,7 +2,7 @@ import { useEffect, useReducer } from "react";
 
 // Components
 import { 
-  AuthenticatedLayout, 
+  AdminLayout, 
   Button, 
   TableAction,
 } from "../components";
@@ -107,7 +107,7 @@ export default function MyServices() {
 
 
   return (
-    <AuthenticatedLayout currentPage="my-services">
+    <AdminLayout currentPage="my-services">
       <div className="dashboard_wrap">
 
         <div className="row">
@@ -180,6 +180,6 @@ export default function MyServices() {
         </div>
         }
       </div>
-    </AuthenticatedLayout>
+    </AdminLayout>
   )
 };

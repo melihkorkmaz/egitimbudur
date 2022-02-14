@@ -1,9 +1,9 @@
-import { AuthenticatedLayout } from "../components/authenticatedLayout/AuthenticatedLayout";
+import { AdminLayout } from "../components";
 
 
 export default function Dashboard() {
 
-  return <AuthenticatedLayout currentPage="dashboard">
+  return <AdminLayout currentPage="dashboard">
     Dashboard
-  </AuthenticatedLayout>
+  </AdminLayout>
 }

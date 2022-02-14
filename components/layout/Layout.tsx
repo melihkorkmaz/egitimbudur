@@ -16,15 +16,12 @@ type LayoutProps = {
 export const Layout = ({ children, homePage, pageTitle, breadcrumb}: LayoutProps) => {
   return (
     <div className={styles.mainLayout}>
-      <Header className={cx({
-        'header-transparent': homePage,
-        'head-shadow': !homePage
-      })} />
+      <Header homePage={homePage} />
       <div className="flex-1">
         {pageTitle && <PageTitle breadcrumb={breadcrumb}>
           {pageTitle}
         </PageTitle>}
-        <section className="gray pt-10 h-full">
+        <section className="bg-gray-100 pt-10 h-full">
           {!homePage && <div className="container">
             {children}
           </div>}
