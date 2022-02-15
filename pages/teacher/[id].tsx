@@ -1,4 +1,5 @@
 // Components
+import { Panel } from '../../components';
 import { Layout } from '../../components/layout/Layout';
 import { TeacherCard, Comments, SideBar } from '../../modules/teacher/components';
 
@@ -20,9 +21,9 @@ export default function Teacher({ teacher }: TeacherProps) {
 
   return (
     <Layout pageTitle={<TeacherCard teacher={teacher} />}>
-      <div className="row">
+      <div className="flex gap-8 mb-5 items-start">
 
-        <div className="col-lg-8 col-md-12 order-lg-first mb-5">
+        <Panel className="flex-1">
           {teacher.about && <div className="edu_wraper mb-4">
             <h4 className="edu_title">Hakkinda</h4>
             <div dangerouslySetInnerHTML={{
@@ -30,11 +31,11 @@ export default function Teacher({ teacher }: TeacherProps) {
             }} />
           </div>}
           <Comments comments={teacher.comments} userCanComment={true}/>
-        </div>
+        </Panel>
 
-        <div className="col-lg-4 col-md-12 order-lg-last">
+        <Panel className="basis-96">
           <SideBar teacher={teacher} />
-        </div>
+        </Panel>
       </div>
     </Layout>
   );

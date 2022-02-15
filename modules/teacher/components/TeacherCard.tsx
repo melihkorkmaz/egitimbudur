@@ -7,6 +7,7 @@ import { TeacherServicePin, RatingForm } from ".";
 
 // TYPES
 import type { Teacher } from "../types";
+import { Panel } from "../../../components";
 
 type TeacherCardProps = {
   asListItem?: boolean,
@@ -15,8 +16,7 @@ type TeacherCardProps = {
 }
 
 export const TeacherCard = ({ asListItem = false, teacher, onClick }: TeacherCardProps) => (
-  <div className={cx({
-    "crs_lt_2": asListItem,
+  <Panel className={cx({
     "cursor-pointer": onClick !== undefined,
   }, style.teacherCard)} onClick={() => onClick && onClick(teacher)}>
     {/* user image */}
@@ -69,5 +69,5 @@ export const TeacherCard = ({ asListItem = false, teacher, onClick }: TeacherCar
         {(teacher.totalComments || 0).toString()} Yorum
       </RatingForm>
     </div>}
-  </div>
+  </Panel>
 );

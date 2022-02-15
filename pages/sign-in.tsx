@@ -12,11 +12,12 @@ import { signIn } from "../modules/auth/authService";
 import type { AuthErrorType } from "../modules/auth/types";
 
 export default function SignIn() {
-  const router = useRouter();
+  const {push, query} = useRouter();
   const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const { redirectUrl } = query;
     const formData = new FormData(e.currentTarget);
     const { email, password } = Object.fromEntries(formData) as { email: string, password: string };
     const res = await signIn(email, password);   
@@ -25,8 +26,13 @@ export default function SignIn() {
       setError((res as AuthErrorType).message);
       return;
     }
+    
+    if (redirectUrl && typeof redirectUrl === 'string') {
+      push(redirectUrl);
+      return;
+    }
 
-    router.push("/");
+    push("/");
   };
 
   return (
