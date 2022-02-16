@@ -150,7 +150,6 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
                         <div className="form-group">
                           <label htmlFor="lessons">Branşlarınızı Seçiniz</label>
                           <CheckboxList 
-                            name="lessons"
                             selectedItems={selectedLessons}
                             onUpdate={setSelectedLessons} 
                             items={lessons.map(l => ({ key: l.id, value: l.name }))} />
@@ -159,7 +158,6 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
                         <div className="form-group">
                           <label htmlFor="grades">Sınıflarınız</label>
                           <CheckboxList 
-                            name="grades" 
                             selectedItems={selectedGrades}
                             onUpdate={setSelectedGrades} 
                             items={grades.map(g => ({ key: g.id, value: g.name }))} />

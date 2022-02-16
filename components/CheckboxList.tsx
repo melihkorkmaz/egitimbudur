@@ -13,7 +13,6 @@ type CheckboxListProps = {
 }
 
 export const CheckboxList = ({
-  name,
   items,
   selectedItems,
   onUpdate
@@ -23,11 +22,11 @@ export const CheckboxList = ({
       {items.map((item) => (
         <li key={item.key}>
           <Checkbox 
-            name={name}
-            id={item.key}
+            name={item.key}
             checked={selectedItems.some(s => s === item.key)}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              if (e.currentTarget.checked) {
+            onCheckedChange={(e) => {
+              console.log("e.valueOf()", e.valueOf())
+              if (e.valueOf()) {
                 onUpdate([...selectedItems, item.key]);
               } else {
                 onUpdate(selectedItems.filter(l => l !== item.key));

@@ -1,0 +1,12 @@
+.checkbox {
+  all: unset;
+  @apply cursor-pointer flex border-2 border-solid border-gray-200 p-[2px] bg-white w-[13px] h-[13px] items-center justify-center outline-none;
+
+  &:focus {
+    @apply outline-none;
+  }
+
+  .indicator {
+    @apply text-primary;
+  }
+}
