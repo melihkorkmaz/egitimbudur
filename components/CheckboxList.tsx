@@ -1,4 +1,4 @@
-import { Checkbox } from "./Checkbox";
+import { Checkbox, CheckedState } from "./Checkbox";
 
 type ChecboxListItem = {
   key: string;
@@ -24,7 +24,7 @@ export const CheckboxList = ({
           <Checkbox 
             name={item.key}
             checked={selectedItems.some(s => s === item.key)}
-            onCheckedChange={(e) => {
+            onCheckedChange={(e: CheckedState) => {
               console.log("e.valueOf()", e.valueOf())
               if (e.valueOf()) {
                 onUpdate([...selectedItems, item.key]);

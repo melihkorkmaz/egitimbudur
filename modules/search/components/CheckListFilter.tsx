@@ -4,8 +4,8 @@ import { RefinementListProvided } from 'react-instantsearch-core';
 // COMPONENTS
 import { Checkbox } from "../../../components";
 
-
 // TYPES
+import type { CheckedState } from '../../../components';
 type CheckListFilterItem = {
   name: string,
   id: string,
@@ -17,8 +17,8 @@ type CheckListFilterProps = RefinementListProvided & {
 
 export const CheckListFilter = connectRefinementList(({ customItems, refine, currentRefinement }: CheckListFilterProps) => {
   
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, item: CheckListFilterItem) => {
-    e.target.checked ? 
+  const handleChange = (e: CheckedState, item: CheckListFilterItem) => {
+    e.valueOf() ? 
       refine([...currentRefinement, item.id]) :
       refine(currentRefinement.filter(id => id !== item.id));
   };
@@ -27,9 +27,9 @@ export const CheckListFilter = connectRefinementList(({ customItems, refine, cur
     {customItems.map((item) => (
       <li key={item.id}>
         <Checkbox
-          id={`lesson-${item.id}`}
+          name={`lesson-${item.id}`}
           checked={currentRefinement.includes(item.id)}
-          onChange={(e) => handleChange(e, item)}
+          onCheckedChange={(e) => handleChange(e, item)}
         >
           {item.name}
         </Checkbox>
