@@ -2,6 +2,7 @@ import React from "react";
 import * as CheckboxPrimitives from '@radix-ui/react-checkbox';
 import { CheckIcon } from '@radix-ui/react-icons';
 import styles from './checkbox.module.scss';
+import { Label } from "..";
 
 export type CheckedState = CheckboxPrimitives.CheckedState;
 
@@ -23,9 +24,9 @@ export const Checkbox = ({
           <CheckIcon />
         </CheckboxPrimitives.Indicator>
       </CheckboxPrimitives.Root>
-      <label htmlFor={props.name} className="checkbox-custom-label">
+      <Label htmlFor={props.name} className="checkbox-custom-labe'">
         {children}
-      </label>
+      </Label>
     </div>
   );
 };

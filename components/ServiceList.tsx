@@ -1,6 +1,9 @@
 import { ServiceTypeEnum, TeacherServiceCategoryType } from "../types/common";
 import { getServiceName } from "../utils/common";
-import { Checkbox } from "./Checkbox";
+import { Checkbox } from "./";
+
+// Type
+import type { CheckedState } from './';
 
 export type ServiceListType = {
   service: TeacherServiceCategoryType;
@@ -22,14 +25,14 @@ export const ServiceList = ({
       {items.map((item) => (
         <li key={item.service.id}>
           <Checkbox 
-            id={`service-${item.service.id}`}
+            name={`service-${item.service.id}`}
             checked={item.selected}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            onCheckedChange={(e: CheckedState) => {
               onUpdate([...items].map(i => {
                 if (i === item) {
                   return ({
                     service: i.service,
-                    selected: e.target.checked
+                    selected: e.valueOf() as boolean
                   })
                 }
 

@@ -3,7 +3,7 @@ import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import Link from "next/link";
 
 // Components
-import { Button, Input, Layout } from "../components";
+import { Button, Input, Label, Layout } from "../components";
 
 export default function ForgotPassword() {
   const [error, setError] = useState('');
@@ -40,7 +40,7 @@ export default function ForgotPassword() {
                     <div className="rcs_log_124">
                       <div className="Lpo09"><h4>Şifremi Unuttum</h4></div>
                       <div className="form-group">
-                        <label htmlFor="email">Email adresi:</label>
+                        <Label htmlFor="email">Email adresi:</Label>
                         <Input
                           name="email"
                           id="email"

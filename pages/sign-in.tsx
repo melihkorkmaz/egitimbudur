@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 // Components
-import { Button, Input, Layout } from "../components";
+import { Button, Input, Label, Layout } from "../components";
 
 // Services
 import { signIn } from "../modules/auth/authService";
@@ -47,7 +47,7 @@ export default function SignIn() {
                     <h4>Hesabınıza Giriş Yapın</h4>
                   </div>
                   <div className="form-group">
-                    <label htmlFor="email">E-mail Adresi:</label>
+                    <Label htmlFor="email">E-mail Adresi:</Label>
                     <Input
                       id="email"
                       name="email"
@@ -58,7 +58,7 @@ export default function SignIn() {
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="password">Şifre</label>
+                    <Label htmlFor="password">Şifre</Label>
                     <Input
                       id="password"
                       name="password"

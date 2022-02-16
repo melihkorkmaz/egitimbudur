@@ -1,5 +1,6 @@
 import React from "react";
 import cx from 'classnames';
+import { Label } from ".";
 
 type RadioButtonProps = {
   children: React.ReactNode;
@@ -30,9 +31,9 @@ export const RadioButton = ({
         checked={checked}
         onChange={onChange}
       />
-      <label htmlFor={id} className="radio-custom-label">
+      <Label htmlFor={id} className="radio-custom-label">
         {children}
-      </label>
+      </Label>
     </div>
   );
 };

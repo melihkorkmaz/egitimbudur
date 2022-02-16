@@ -2,7 +2,7 @@ import { Stats, } from 'react-instantsearch-dom';
 
 // COMPONENTS
 import { SortBy } from '.';
-import { Panel } from '../../../components';
+import { Label, Panel } from '../../../components';
 
 export const ResultsHeader = () => (
   <Panel className="mb-3 w-full flex items-center justify-between">
@@ -18,7 +18,7 @@ export const ResultsHeader = () => (
       />
     </h6>
     <div className="mr-2">
-      <label className="mr-2">Sırala:</label>
+      <Label className="mr-2">Sırala:</Label>
       <SortBy
         defaultRefinement="dev_teachers"
         items={[

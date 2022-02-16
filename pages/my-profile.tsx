@@ -7,7 +7,8 @@ import {
   Input,
   CheckboxList,
   RichTextEditor,
-  TextArea
+  TextArea,
+  Label
 } from "../components";
 
 // Services & Hooks
@@ -91,25 +92,25 @@ export default function MyProfile({
             {user && userProfileModel &&
               <form onSubmit={handleSubmit}>
                 <div className="form-group smalls">
-                  <label>Isim*</label>
+                  <Label>Isim*</Label>
                   <Input id="firstName" value={userProfileModel.firstName} onChange={handleChange} block />
                 </div>
                 <div className="form-group smalls">
-                  <label>Soyisim*</label>
+                  <Label>Soyisim*</Label>
                   <Input id="lastName" value={userProfileModel.lastName} onChange={handleChange} block />
                 </div>
                 {isTeacher(userProfileModel) && (
                   <>
                     <div className="form-group smalls">
-                      <label>Hakkinizda kisa aciklama <i>(bu alan arama sonuclarinda ogretmen kartinda gosterilecek)</i></label>
+                      <Label>Hakkinizda kisa aciklama <i>(bu alan arama sonuclarinda ogretmen kartinda gosterilecek)</i></Label>
                       <TextArea id="description" value={userProfileModel.description} onChange={handleChange} />
                     </div>
                     <div className="form-group smalls">
-                      <label>Hakkinizda <i>(bu alan profil sayfanizda ogrencilere gosterilecek)</i></label>
+                      <Label>Hakkinizda <i>(bu alan profil sayfanizda ogrencilere gosterilecek)</i></Label>
                       <RichTextEditor value={userProfileModel.about} onChange={handleAboutChange} />
                     </div>
                     <div className="form-group">
-                      <label>Branslariniz</label>
+                      <Label>Branslariniz</Label>
                       <CheckboxList 
                         items={lessons.map(l => ({ key: l.id, value: l.name }))} 
                         selectedItems={[...userProfileModel.lessons.map(l => l.id)]}
@@ -122,7 +123,7 @@ export default function MyProfile({
                       />
                     </div>
                     <div className="form-group">
-                      <label>Ders verdiginiz siniflar</label>
+                      <Label>Ders verdiginiz siniflar</Label>
                       <CheckboxList 
                         items={grades.map(g => ({ key: g.id, value: g.name }))} 
                         selectedItems={[...userProfileModel.grades.map(g => g.id)]}
@@ -135,11 +136,11 @@ export default function MyProfile({
                       />
                     </div>
                     <div className="form-group smalls">
-                      <label>Zoom Link <i>(Sadece sizden ders alanlar goruntuleyebilir)</i></label>
+                      <Label>Zoom Link <i>(Sadece sizden ders alanlar goruntuleyebilir)</i></Label>
                       <Input id="zoomLink" value={userProfileModel.zoomLink || ''} onChange={handleChange} block />
                     </div>
                     <div className="form-group smalls">
-                      <label>Skype Kullanici Adi <i>(Sadece sizden ders alanlar goruntuleyebilir)</i></label>
+                      <Label>Skype Kullanici Adi <i>(Sadece sizden ders alanlar goruntuleyebilir)</i></Label>
                       <Input id="skypeUserName" value={userProfileModel.skypeUserName || ''} onChange={handleChange} block />
                     </div>
                   </>

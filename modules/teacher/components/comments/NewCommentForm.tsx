@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, TextArea } from "../../../../components";
+import { Button, Label, TextArea } from "../../../../components";
 
 type NewCommentFormProps = {
   onSubmit: (comment: string) => void;
@@ -22,7 +22,7 @@ export const NewCommentForm = ({ onSubmit }: NewCommentFormProps) => {
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12">
               <div className="form-group">
-                <label>Yorum:</label>
+                <Label>Yorum:</Label>
                 <TextArea value={comment} onChange={e => setComment(e.target.value)} placeHolder="Yorumunuz..." />
               </div>
             </div>

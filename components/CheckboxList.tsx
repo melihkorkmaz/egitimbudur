@@ -1,4 +1,8 @@
-import { Checkbox, CheckedState } from "./Checkbox";
+// Components
+import { Checkbox } from "./";
+
+//Types
+import type { CheckedState } from './';
 
 type ChecboxListItem = {
   key: string;

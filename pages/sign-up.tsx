@@ -9,7 +9,8 @@ import {
   Layout,
   CheckboxList,
   RadioButton,
-  Select
+  Select,
+  Label
 } from "../components";
 
 // Services
@@ -101,7 +102,7 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
                     <div className="form-group row mb-0">
                       <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
                         <div className="form-group">
-                          <label htmlFor="firstName">İsim</label>
+                          <Label htmlFor="firstName">İsim</Label>
                           <Input
                             id="firstName"
                             name="firstName"
@@ -112,7 +113,7 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
                       </div>
                       <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
                         <div className="form-group">
-                          <label htmlFor="lastName">Soyisim</label>
+                          <Label htmlFor="lastName">Soyisim</Label>
                           <Input
                             id="lastName"
                             name="lastName"
@@ -124,7 +125,7 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
                     </div>
                     {role === AuthRole.STUDENT && (
                       <div className="form-group">
-                        <label htmlFor="gradeId">Sınıf Seçiniz</label>
+                        <Label htmlFor="gradeId">Sınıf Seçiniz</Label>
                         <Select
                           id="gradeId"
                           name="gradeId"
@@ -148,7 +149,7 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
                     {role === AuthRole.TEACHER && (
                       <>
                         <div className="form-group">
-                          <label htmlFor="lessons">Branşlarınızı Seçiniz</label>
+                          <Label htmlFor="lessons">Branşlarınızı Seçiniz</Label>
                           <CheckboxList 
                             selectedItems={selectedLessons}
                             onUpdate={setSelectedLessons} 
@@ -156,7 +157,7 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
                         </div>
 
                         <div className="form-group">
-                          <label htmlFor="grades">Sınıflarınız</label>
+                          <Label htmlFor="grades">Sınıflarınız</Label>
                           <CheckboxList 
                             selectedItems={selectedGrades}
                             onUpdate={setSelectedGrades} 
@@ -165,7 +166,7 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
                       </>
                     )}
                     <div className="form-group">
-                      <label htmlFor="email">Email</label>
+                      <Label htmlFor="email">Email</Label>
                       <Input
                         id="email"
                         name="email"
@@ -175,7 +176,7 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
                       />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="password">Şifre</label>
+                      <Label htmlFor="password">Şifre</Label>
                       <Input
                         id="password"
                         name="password"

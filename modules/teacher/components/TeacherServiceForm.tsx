@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+
 // Components
-import { Button, Input, Select } from "../../../components";
+import { Button, Input, Label, Select } from "../../../components";
 
 // Services & Hooks
 import { useUser } from "../../auth/useUser";
@@ -63,7 +64,7 @@ export const TeacherServiceForm = ({
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group smalls">
-        <label>Hizmet Tipi*</label>
+        <Label>Hizmet Tipi*</Label>
         <div className="simple-input">
           <Select
             options={
@@ -83,7 +84,7 @@ export const TeacherServiceForm = ({
         </div>
       </div>
       <div className="form-group smalls">
-        <label>Sure*</label>
+        <Label>Sure*</Label>
         <div className="simple-input">
           <Select
             options={
@@ -101,7 +102,7 @@ export const TeacherServiceForm = ({
         </div>
       </div>
       <div className="form-group smalls">
-        <label>Ucret*</label>
+        <Label>Ucret*</Label>
         <div className="simple-input">
           <Input type="number" value={price} onChange={(e) => setPrice(parseFloat(e.target.value))} block />
         </div>
