@@ -22,7 +22,7 @@ export const Layout = ({ children, homePage, pageTitle, breadcrumb}: LayoutProps
           {pageTitle}
         </PageTitle>}
         <section className="bg-gray-100 pt-10 h-full">
-          {!homePage && <div className="container">
+          {!homePage && <div className="container mx-auto">
             {children}
           </div>}
 

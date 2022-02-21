@@ -7,3 +7,22 @@ html, body, #__next {
   color: rgba(75, 85, 99, var(--tw-text-opacity)) !important;
   font-size: 1rem !important;
 }
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.25;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  height: 54px;
+  padding-left: 15px;
+  margin: 0 !important;
+  box-shadow: none !important;
+  background: #ffffff;
+  border: 1px solid #e6ebf5;
+  color: #707e9c;
+  border-radius: 4px;
+}

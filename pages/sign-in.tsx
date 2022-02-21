@@ -12,7 +12,7 @@ import { signIn } from "../modules/auth/authService";
 import type { AuthErrorType } from "../modules/auth/types";
 
 export default function SignIn() {
-  const {push, query} = useRouter();
+  const { push, query } = useRouter();
   const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -20,13 +20,13 @@ export default function SignIn() {
     const { redirectUrl } = query;
     const formData = new FormData(e.currentTarget);
     const { email, password } = Object.fromEntries(formData) as { email: string, password: string };
-    const res = await signIn(email, password);   
+    const res = await signIn(email, password);
 
     if ((res as AuthErrorType).message) {
       setError((res as AuthErrorType).message);
       return;
     }
-    
+
     if (redirectUrl && typeof redirectUrl === 'string') {
       push(redirectUrl);
       return;
@@ -37,69 +37,67 @@ export default function SignIn() {
 
   return (
     <Layout>
-      <div className="row justify-content-center mb-5">
-        <div className="col-xl-7 col-lg-8 col-md-12 col-sm-12">
-          <form onSubmit={handleSubmit}>
-            <div className="crs_log_wrap">
-              <div className="crs_log__caption">
-                <div className="rcs_log_124">
-                  <div className="Lpo09">
-                    <h4>Hesabınıza Giriş Yapın</h4>
-                  </div>
-                  <div className="form-group">
-                    <Label htmlFor="email">E-mail Adresi:</Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      placeHolder="isim@gmail.com"
-                      block
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <Label htmlFor="password">Şifre</Label>
-                    <Input
-                      id="password"
-                      name="password"
-                      type="password"
-                      placeHolder="*******"
-                      block
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <Button type="submit" primary block>
-                      Giriş Yap
-                    </Button>
-                  </div>
-                  {error && (
-                    <div className="alert alert-danger" role="alert">
-                      {error}
-                    </div>
-                  )}
+      <div className="mb-5 max-w-[670px] mx-auto mt-8">
+        <form onSubmit={handleSubmit}>
+          <div className="crs_log_wrap">
+            <div className="crs_log__caption">
+              <div className="rcs_log_124">
+                <div className="Lpo09">
+                  <h4>Hesabınıza Giriş Yapın</h4>
                 </div>
-              </div>
-              <div className="crs_log__footer d-flex justify-content-between">
-                <div className="fhg_45">
-                  <p className="musrt">
-                    Bir hesabınız yok mu?
-                    <Link href="/sign-up">
-                      <a className="theme-cl ml-2">Şimdi Kaydol!</a>
-                    </Link>
-                  </p>
+                <div className="form-group">
+                  <Label htmlFor="email">E-mail Adresi:</Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeHolder="isim@gmail.com"
+                    block
+                    required
+                  />
                 </div>
-                <div className="fhg_45">
-                  <p className="musrt">
-                    <Link href="/forgot-password">
-                      <a className="text-danger">Şifremi Unuttum!</a>
-                    </Link>
-                  </p>
+                <div className="form-group">
+                  <Label htmlFor="password">Şifre</Label>
+                  <Input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeHolder="*******"
+                    block
+                    required
+                  />
                 </div>
+                <div className="form-group">
+                  <Button type="submit" primary block>
+                    Giriş Yap
+                  </Button>
+                </div>
+                {error && (
+                  <div className="alert alert-danger" role="alert">
+                    {error}
+                  </div>
+                )}
               </div>
             </div>
-          </form>
-        </div>
+            <div className="flex justify-between w-full px-8 py-3 mt-8 border-t">
+              <div className="fhg_45">
+                <p className="musrt">
+                  Bir hesabınız yok mu?
+                  <Link href="/sign-up">
+                    <a className="theme-cl ml-2">Şimdi Kaydol!</a>
+                  </Link>
+                </p>
+              </div>
+              <div className="fhg_45">
+                <p className="musrt">
+                  <Link href="/forgot-password">
+                    <a className="text-danger">Şifremi Unuttum!</a>
+                  </Link>
+                </p>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
     </Layout>
   );

@@ -58,7 +58,7 @@ export const UserAvatar = () => {
       />
       <h4>{`${user.firstName} ${user.lastName}`}</h4>
       <span>
-        {isTeacher(user as Teacher) ? "Ogretmen" : "Ogrenci"}
+        {isTeacher(user as Teacher) ? "Öğretmen" : "Öğrenci"}
       </span>
       <div>
         <input 
@@ -68,7 +68,7 @@ export const UserAvatar = () => {
           accept=".gif,.jpg,.jpeg,.png, .jfif"
           onChange={handlePhotoUpload}
         />
-        <Button onClick={showFileDialog}>Fotografi Guncelle</Button>
+        <Button onClick={showFileDialog}>Fotoğrafı Güncelle</Button>
       </div>
     </div>
   );

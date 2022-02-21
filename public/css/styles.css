@@ -22,7 +22,6 @@
 ------------- List Of Table ----------*/
 
 /* CSS Document */
-@import url(../css/plugins/bootstrap.min.css);
 @import url(../css/plugins/date-picker.css);
 @import url(../css/plugins/select2.css);
 /* @import url(../css/plugins/slick.css);
@@ -526,9 +525,6 @@ html body .text-blue {
 
 html body .text-purple {
   color: #7460ee; }
-
-html body .text-primary {
-  color:#e42d29 !important; }
 
 html body .text-megna {
   color: #1dc8cd; }

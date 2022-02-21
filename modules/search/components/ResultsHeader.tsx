@@ -2,10 +2,10 @@ import { Stats, } from 'react-instantsearch-dom';
 
 // COMPONENTS
 import { SortBy } from '.';
-import { Label, Panel } from '../../../components';
+import { Label, Card } from '../../../components';
 
 export const ResultsHeader = () => (
-  <Panel className="mb-3 w-full flex items-center justify-between">
+  <Card className="mb-3 w-full flex items-center justify-between">
     <h6 className="m-0">
       <Stats
         translations={{
@@ -28,5 +28,5 @@ export const ResultsHeader = () => (
         ]}
       />
     </div>
-  </Panel>
+  </Card>
 );

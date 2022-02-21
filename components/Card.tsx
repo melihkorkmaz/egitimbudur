@@ -1,18 +1,18 @@
 import cx from 'classnames';
 
-type PanelProps = {
+type CardProps = {
   children: React.ReactNode;
   className?: string;
   onClick?: () => void;
   zeroPadding?: boolean;
 };
 
-export const Panel = ({
+export const Card = ({
   children,
   className,
   zeroPadding = false,
   onClick
-}: PanelProps) => {
+}: CardProps) => {
 
   return (
     <div className={cx('bg-white  rounded-lg', {

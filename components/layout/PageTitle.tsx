@@ -9,18 +9,14 @@ export const PageTitle = ({
   breadcrumb
 }: PageTitleProps) => {
   return (
-    <section className="page-title pt-12 pb-4">
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-12 col-md-12">
-            <div className="breadcrumbs-wrap">
-              {typeof children === 'string' && <h1 className="breadcrumb-title">{children}</h1>}
-              {typeof children === 'object' && children}
-              {breadcrumb}
-            </div>
+    <section className="page-title pt-12 pb-6">
+      <div className="container mx-auto">
+          <div>
+            {typeof children === 'string' && <h1 className="breadcrumb-title mb-4">{children}</h1>}
+            {typeof children === 'object' && children}
+            {breadcrumb}
           </div>
         </div>
-      </div>
     </section>
   );
 };

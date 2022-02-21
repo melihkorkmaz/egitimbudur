@@ -1,0 +1,23 @@
+.breadcrumb {
+  @apply p-0 bg-white;
+
+  .breadcrumbItem {
+    @apply float-left;
+  }
+
+  .breadcrumbItemActive {
+    @apply float-left;
+  }
+
+  > :last-child {
+    &:before {
+      @apply inline-block px-2 text-gray-700;
+      content: "/";
+    }
+  }
+
+  &:after {
+    @apply block clear-both;
+    content: "";
+  }
+}

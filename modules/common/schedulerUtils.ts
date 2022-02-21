@@ -53,6 +53,7 @@ const getHours = (daysOfWeek: Date[],  schedule: ActiveScheduleType) => {
 
       const endDate = new Date(startDate);
       endDate.setMinutes(startDate.getMinutes() + 30);
+      console.log("startDate.getTime()", startDate.getTime())
       const currentScheduledTime = schedule[startDate.getTime()];
 
 

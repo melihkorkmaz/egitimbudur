@@ -4,7 +4,7 @@ import { SchedulerBox } from './SchedulerBox';
 
 type SchedulerProps = {
   date?: Date;
-  schedule: ActiveScheduleType;
+  schedule?: ActiveScheduleType;
 }
 
 export const Scheduler = ({ 
@@ -13,7 +13,7 @@ export const Scheduler = ({
 }: SchedulerProps) => {
 
   return <div className={style.scheduler}>
-    {getScheduleData(date, schedule).map((timeBlock, index) => (
+    {getScheduleData(date, schedule || {}).map((timeBlock, index) => (
       <SchedulerBox key={index} timeBlock={timeBlock} />
     ))}
   </div>;

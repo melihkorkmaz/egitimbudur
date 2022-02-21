@@ -12,7 +12,7 @@ import { getServices } from '../modules/common/commonService';
 import type { Teacher, Service } from '../modules/teacher/types';
 import type { Grade, Lesson } from '../modules/common/types'
 import { withServices } from '../modules/search/components/SearchResultItem';
-import { Panel } from '../components';
+import { Card } from '../components';
 
 type TeachersProps = {
   classes: Grade[];
@@ -29,12 +29,12 @@ export default function Teachers({
   return (
     <Layout pageTitle="Öğretmenler" breadcrumb={<Breadcrumb currentPage="Öğretmenler" />}>
       <div className="flex gap-6 mb-5">
-        <Panel className="basis-96" zeroPadding>
+        <Card className="basis-96" zeroPadding>
           <Facets 
             classes={classes} 
             lessons={lessons} 
             services={services}/>
-        </Panel>
+        </Card>
 
         <div className="flex-1">
           <ResultsHeader />

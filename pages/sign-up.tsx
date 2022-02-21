@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 // Component
-import { 
+import {
   Button,
   Input,
   Layout,
@@ -44,7 +44,7 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
     const dataObject = Object.fromEntries(formData);
     const selectedGrades = grades.filter(g => selectedGrades.include(g.id));
     const selectedLessons = lessons.filter(l => selectedLessons.include(l.id));
-    
+
     let request = {
       ...dataObject,
       role,
@@ -69,159 +69,153 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
   return (
     <Layout>
       <section>
-        <div className="row justify-content-center mb-5">
-          <div className="col-xl-7 col-lg-8 col-md-12 col-sm-12">
-            <form onSubmit={handleSubmit}>
-              <div className="crs_log_wrap">
-                <div className="crs_log__caption">
-                  <div className="rcs_log_124">
-                    <div className="Lpo09">
-                      <h4>Kayıt Formu</h4>
-                    </div>
-                    <div className="form-group row flex flex-row ml-1">
-                      <RadioButton
-                        id="student"
-                        group="role"
-                        value={AuthRole.STUDENT}
-                        checked={role === AuthRole.STUDENT}
-                        onChange={handleRole}
-                        className="mr-4"
-                      >
-                        <span className="bold">Öğrenci</span>
-                      </RadioButton>
-                      <RadioButton
-                        id="teacher"
-                        group="role"
-                        value={AuthRole.TEACHER}
-                        checked={role === AuthRole.TEACHER}
-                        onChange={handleRole}
-                      >
-                        <span className="bold">Öğretmen</span>
-                      </RadioButton>
-                    </div>
-                    <div className="form-group row mb-0">
-                      <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                        <div className="form-group">
-                          <Label htmlFor="firstName">İsim</Label>
-                          <Input
-                            id="firstName"
-                            name="firstName"
-                            placeHolder="Adınız"
-                            block
-                          />
-                        </div>
-                      </div>
-                      <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                        <div className="form-group">
-                          <Label htmlFor="lastName">Soyisim</Label>
-                          <Input
-                            id="lastName"
-                            name="lastName"
-                            placeHolder="Soyadınız"
-                            block
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    {role === AuthRole.STUDENT && (
-                      <div className="form-group">
-                        <Label htmlFor="gradeId">Sınıf Seçiniz</Label>
-                        <Select
-                          id="gradeId"
-                          name="gradeId"
-                          options={
-                            grades
-                              ? grades.map((c) => ({
-                                value: c.id,
-                                key: c.name,
-                              }))
-                              : []
-                          }
-                          selected={selectedGrade?.value}
-                          onChange={(item) => setSelectedGrade(item)}
-                          placeHolder="Sınıf Seçiniz..."
+        <div className="mb-5 max-w-[670px] mx-auto mt-8">
+          <form onSubmit={handleSubmit}>
+            <div className="crs_log_wrap">
+              <div className="crs_log__caption">
+                <div className="rcs_log_124">
+                  <div className="Lpo09">
+                    <h4>Kayıt Formu</h4>
+                  </div>
+                  <div className="form-group flex flex-row ml-1">
+                    <RadioButton
+                      id="student"
+                      group="role"
+                      value={AuthRole.STUDENT}
+                      checked={role === AuthRole.STUDENT}
+                      onChange={handleRole}
+                      className="mr-4"
+                    >
+                      <span className="bold">Öğrenci</span>
+                    </RadioButton>
+                    <RadioButton
+                      id="teacher"
+                      group="role"
+                      value={AuthRole.TEACHER}
+                      checked={role === AuthRole.TEACHER}
+                      onChange={handleRole}
+                    >
+                      <span className="bold">Öğretmen</span>
+                    </RadioButton>
+                  </div>
+                  <div className="gap-4 flex mb-0">
+                      <div className="form-group flex-1">
+                        <Label htmlFor="firstName">İsim</Label>
+                        <Input
+                          id="firstName"
+                          name="firstName"
+                          placeHolder="Adınız"
                           block
-                          className="mr-2"
                         />
                       </div>
-                    )}
-
-                    {role === AuthRole.TEACHER && (
-                      <>
-                        <div className="form-group">
-                          <Label htmlFor="lessons">Branşlarınızı Seçiniz</Label>
-                          <CheckboxList 
-                            selectedItems={selectedLessons}
-                            onUpdate={setSelectedLessons} 
-                            items={lessons.map(l => ({ key: l.id, value: l.name }))} />
-                        </div>
-
-                        <div className="form-group">
-                          <Label htmlFor="grades">Sınıflarınız</Label>
-                          <CheckboxList 
-                            selectedItems={selectedGrades}
-                            onUpdate={setSelectedGrades} 
-                            items={grades.map(g => ({ key: g.id, value: g.name }))} />
-                        </div>
-                      </>
-                    )}
-                    <div className="form-group">
-                      <Label htmlFor="email">Email</Label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        placeHolder="Email adresiniz"
-                        block
-                      />
-                    </div>
-                    <div className="form-group">
-                      <Label htmlFor="password">Şifre</Label>
-                      <Input
-                        id="password"
-                        name="password"
-                        type="password"
-                        placeHolder="Şifreniz"
-                        block
-                      />
-                    </div>
-                    <div className="form-group">
-                      <Button
-                        type="submit"
-                        className="btn full-width btn-md theme-bg text-white"
-                        primary
-                        block
-                      >
-                        Şimdi Kaydol!
-                      </Button>
-                    </div>
-                    {error !== "" && (
-                      <div className="alert alert-danger" role="alert">
-                        {error}
+                      <div className="form-group flex-1">
+                        <Label htmlFor="lastName">Soyisim</Label>
+                        <Input
+                          id="lastName"
+                          name="lastName"
+                          placeHolder="Soyadınız"
+                          block
+                        />
                       </div>
-                    )}
                   </div>
-                </div>
-                <div className="crs_log__footer d-flex justify-content-between">
-                  <div className="fhg_45">
-                    <p className="musrt">
-                      Zaten üye misiniz?
-                      <Link href="/sign-in">
-                        <a className="theme-cl ml-2">Giriş Yap!</a>
-                      </Link>
-                    </p>
+                  {role === AuthRole.STUDENT && (
+                    <div className="form-group">
+                      <Label htmlFor="gradeId">Sınıf Seçiniz</Label>
+                      <Select
+                        id="gradeId"
+                        name="gradeId"
+                        options={
+                          grades
+                            ? grades.map((c) => ({
+                              value: c.id,
+                              key: c.name,
+                            }))
+                            : []
+                        }
+                        selected={selectedGrade?.value}
+                        onChange={(item) => setSelectedGrade(item)}
+                        placeHolder="Sınıf Seçiniz..."
+                        block
+                        className="mr-2"
+                      />
+                    </div>
+                  )}
+
+                  {role === AuthRole.TEACHER && (
+                    <>
+                      <div className="form-group">
+                        <Label htmlFor="lessons">Branşlarınızı Seçiniz</Label>
+                        <CheckboxList
+                          selectedItems={selectedLessons}
+                          onUpdate={setSelectedLessons}
+                          items={lessons.map(l => ({ key: l.id, value: l.name }))} />
+                      </div>
+
+                      <div className="form-group">
+                        <Label htmlFor="grades">Sınıflarınız</Label>
+                        <CheckboxList
+                          selectedItems={selectedGrades}
+                          onUpdate={setSelectedGrades}
+                          items={grades.map(g => ({ key: g.id, value: g.name }))} />
+                      </div>
+                    </>
+                  )}
+                  <div className="form-group">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeHolder="Email adresiniz"
+                      block
+                    />
                   </div>
-                  <div className="fhg_45">
-                    <p className="musrt">
-                      <Link href="/forgot-password">
-                        <a className="text-danger">Şifremi Unuttum!</a>
-                      </Link>
-                    </p>
+                  <div className="form-group">
+                    <Label htmlFor="password">Şifre</Label>
+                    <Input
+                      id="password"
+                      name="password"
+                      type="password"
+                      placeHolder="Şifreniz"
+                      block
+                    />
                   </div>
+                  <div className="form-group">
+                    <Button
+                      type="submit"
+                      className="btn full-width btn-md theme-bg text-white"
+                      primary
+                      block
+                    >
+                      Şimdi Kaydol!
+                    </Button>
+                  </div>
+                  {error !== "" && (
+                    <div className="alert alert-danger" role="alert">
+                      {error}
+                    </div>
+                  )}
                 </div>
               </div>
-            </form>
-          </div>
+              <div className="flex justify-between w-full px-8 py-3 mt-8 border-t">
+                <div className="fhg_45">
+                  <p className="musrt">
+                    Zaten üye misiniz?
+                    <Link href="/sign-in">
+                      <a className="theme-cl ml-2">Giriş Yap!</a>
+                    </Link>
+                  </p>
+                </div>
+                <div className="fhg_45">
+                  <p className="musrt">
+                    <Link href="/forgot-password">
+                      <a className="text-danger">Şifremi Unuttum!</a>
+                    </Link>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </section>
     </Layout>
