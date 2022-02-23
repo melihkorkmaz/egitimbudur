@@ -17,7 +17,7 @@ export const ResultsHeader = () => (
         }}
       />
     </h6>
-    <div className="mr-2">
+    <div className="mr-2 flex items-center">
       <Label className="mr-2">Sırala:</Label>
       <SortBy
         defaultRefinement="dev_teachers"

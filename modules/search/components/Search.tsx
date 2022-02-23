@@ -6,7 +6,6 @@ import { Select, Button } from "../../../components";
 
 // TYPES
 import type { Grade, Lesson } from "../../common/types";
-import type { SelectItem } from '../../../components';
 
 type SearchProps = {
   grades: Grade[];
@@ -19,18 +18,8 @@ export const Search = ({
 }: SearchProps) => {
   const router = useRouter();
 
-  const [selectedGrade, setSelectedGrade] = useState<SelectItem>();
-  const [selectedLesson, setSelectedLesson] = useState<SelectItem>();
-
-  const gradeOptions = grades.map((c) => ({
-    value: c.id,
-    key: c.name,
-  } as SelectItem));
-
-  const lessonOptions = lessons.map((l) => ({
-    value: l.id,
-    key: l.name,
-  } as SelectItem));
+  const [selectedGrade, setSelectedGrade] = useState<Grade>();
+  const [selectedLesson, setSelectedLesson] = useState<Lesson>();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,28 +28,39 @@ export const Search = ({
       return;
     }
 
-    router.push(`/teachers?g=${selectedGrade?.value}&l=${selectedLesson?.value}`);
+    router.push(`/teachers?g=${selectedGrade?.id}&l=${selectedLesson?.id}`);
   };
-
 
   return (
     <form onSubmit={handleSubmit} className="flex">
       <Select
-        options={gradeOptions}
-        selected={selectedGrade?.value}
-        onChange={setSelectedGrade}
+        selectedValue={selectedGrade?.id}
+        selectedText={selectedGrade?.name}
+        onChange={(value) => { setSelectedGrade(grades.find(g => g.id === value))}}
         placeHolder="Sınıf Seçiniz..."
         block
         className="mr-2"
-      />
+      >
+        {grades.map(g => (
+          <Select.Item key={g.id} value={g.id}>
+            {g.name}
+          </Select.Item>
+        ))}
+      </Select>
       <Select
-        options={lessonOptions}
-        selected={selectedLesson?.value}
-        onChange={setSelectedLesson}
+        selectedValue={selectedLesson?.id}
+        selectedText={selectedLesson?.name}
+        onChange={(value) => { setSelectedLesson(lessons.find(g => g.id === value))}}
         placeHolder="Ders Seçiniz..."
         block
         className="mr-2"
-      />
+      >
+        {lessons.map(l => (
+          <Select.Item key={l.id} value={l.id}>
+            {l.name}
+          </Select.Item>
+        ))}
+      </Select>
       <Button type='submit' primary>Ara</Button>
     </form>
   );

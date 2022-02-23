@@ -1,35 +1,18 @@
 .selectBox {
-  position: relative;
-  display: flex;
-  align-items: center;
-  @apply inline-block rounded border border-gray-200 text-gray-600 bg-white pr-5 #{!important};
 
-  select {
-    background-clip: padding-box;
-    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    overflow: hidden;
-    width: 100%;
-    position: relative;
-    z-index: 9;
-    background: none;
-    outline: none;
-
-    @apply px-4 py-3 #{!important};
+  .selectButton {
+    @apply relative w-full pl-4 pr-8 py-3 text-left bg-white rounded cursor-pointer border border-gray-200 text-gray-600 focus:outline-none;
   }
 
-  &:after {
-    width: 0; 
-    height: 0; 
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 6px solid rgba(75, 85, 99, var(--tw-text-opacity)) !important;
-    position: absolute;
-    top: 40%;
-    right: 15px;
-    content: "";
-    z-index: 8;
+  .selectOptions {
+    @apply absolute w-full mt-1 py-1 px-0 overflow-auto text-left bg-white rounded max-h-60 focus:outline-none sm:text-sm text-gray-600 border border-gray-200 z-10;
+
+    .option {
+      @apply px-4 cursor-default select-none relative py-2 text-gray-900 bg-white;
+    }
+
+    .optionActive {
+      @apply text-amber-900 bg-blue-100 cursor-pointer;
+    }
   }
 }

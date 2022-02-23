@@ -67,38 +67,40 @@ export const TeacherServiceForm = ({
         <Label>Hizmet Tipi*</Label>
         <div className="simple-input">
           <Select
-            options={
-              teacherServiceTypes.map((c) => ({
-                value: c.id,
-                key: c.name,
-              }))
-            }
-            selected={selectedServiceType?.id}
-            onChange={(item) => {
-              setSelectedServiceType(teacherServiceTypes.find(t => t.id === item.value) as Service);
+            selectedValue={selectedServiceType?.id}
+            selectedText={selectedServiceType?.name}
+            onChange={(value) => {
+              setSelectedServiceType(teacherServiceTypes.find(t => t.id === value) as Service);
             }}
             placeHolder="Hizmet tipi seciniz"
             block
             className="mr-2"
-          />
+          >
+            {teacherServiceTypes.map(c => (
+              <Select.Item key={c.id} value={c.id}>
+                {c.name}
+              </Select.Item>
+            ))}
+          </Select>
         </div>
       </div>
       <div className="form-group smalls">
         <Label>Sure*</Label>
         <div className="simple-input">
           <Select
-            options={
-              durations.map((c) => ({
-                value: c,
-                key: `${c} dakika`,
-              }))
-            }
-            selected={duration}
-            onChange={(item) => setDuration(item.value as number)}
+            selectedValue={duration.toString()}
+            selectedText={`${duration} dakika`}
+            onChange={(value) => setDuration(value as number)}
             placeHolder="Sure seciniz"
             block
             className="mr-2"
-          />
+          >
+            {durations.map(d => (
+              <Select.Item value={d.toString()} key={d}>
+                {`${d} dakika`}
+              </Select.Item>
+            ))}
+          </Select>
         </div>
       </div>
       <div className="form-group smalls">

@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "architecture": "depcruise --max-depth 2 --ts-pre-compilation-deps --progress --include-only \"^(pages/teachers.tsx|modules|components|firebase|models)\" --output-type dot pages | dot -T svg | depcruise-wrap-stream-in-html > dependency-graph.html"
   },
   "dependencies": {
+    "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.5",
     "@radix-ui/react-checkbox": "^0.1.4",
     "@radix-ui/react-icons": "^1.0.3",
@@ -31,6 +33,7 @@
   "devDependencies": {
     "@types/react": "17.0.15",
     "autoprefixer": "^10.4.2",
+    "dependency-cruiser": "^11.3.1",
     "eslint": "7.31.0",
     "eslint-config-next": "11.0.1",
     "postcss": "^8.4.6",

@@ -1,24 +1,24 @@
-import { Stats, connectSortBy } from 'react-instantsearch-dom';
+import { connectSortBy } from 'react-instantsearch-dom';
 
 // COMPONENTS
 import { Select } from "../../../components";
 
 // TYPES
-import type { SelectItem } from '../../../components';
+import { useMemo } from 'react';
 
 export const SortBy = connectSortBy(({ items, currentRefinement, refine }) => {
-  const options = items.map(item => ({
-    key: item.label,
-    value: item.value
-  } as SelectItem));
-
-  const handeChange = (item: SelectItem) => {
-    refine(item.value);
-  };
+  const selectedText = useMemo(() => items.find(i => i.value === currentRefinement)?.label, [currentRefinement]);
 
   return (<Select 
-    options={options}
-    selected={currentRefinement || ''}
-    onChange={handeChange}
-  />);
+    selectedValue={currentRefinement}
+    selectedText={selectedText}
+    onChange={refine}
+    className="w-44"
+  >
+    {items.map(item => (
+      <Select.Item key={item.value} value={item.value}>
+        {item.label}
+      </Select.Item>
+    ))}
+  </Select>);
 });

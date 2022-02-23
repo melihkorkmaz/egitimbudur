@@ -30,14 +30,18 @@ export default function Schedule({ teacher }: ScheduleProps) {
         </Card>
         <Card className="basis-96">
           <h4 className="text-gray-500 text-lg">Alınacak Hizmet Tipi</h4>
-          <Select options={teacher.availableServiceTypes.map(s => ({
-            key: s.name,
-            value: s.id
-          }))} 
-          selected={selectedService}
-          onChange={(i) => setSelectedService(i.value as string)}
+          <Select
+          selectedValue={selectedService}
+          selectedText={teacher?.availableServiceTypes.find(s => s.id === selectedService)?.name}
+          onChange={(value) => setSelectedService(value)}
           block
-          />
+          >
+            {teacher.availableServiceTypes.map(s => (
+              <Select.Item key={s.id} value={s.id}>
+                {s.name}
+              </Select.Item>
+            ))}
+          </Select>
           <Alert className="mt-2">
             Lutfen takvimden taraftan gun ve saat seciniz!
           </Alert>

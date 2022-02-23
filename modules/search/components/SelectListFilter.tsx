@@ -3,9 +3,9 @@ import { MenuProvided } from 'react-instantsearch-core';
 
 // COMPONENTS
 import { Select } from "../../../components";
+import { useMemo } from 'react';
 
 // TYPES
-import type { SelectItem } from '../../../components';
 type CustomMenuSelectItem = {
   name: string,
   id: string,
@@ -17,20 +17,19 @@ type SelectListFilterProps = MenuProvided & {
 };
 
 export const SelectListFilter = connectMenu(({ refine, currentRefinement = '', customItems, placeHolder }: SelectListFilterProps) => {
-  const options = customItems.map(c => ({
-    key: c.name,
-    value: c.id
-  } as SelectItem));
-
-  const handleChange = (item: SelectItem) => {
-    refine(item.value);
-  };
+  const selectedText = useMemo(() => customItems.find(i => i.id === currentRefinement)?.name, [currentRefinement]);
 
   return (
     <Select 
       placeHolder={placeHolder} 
-      options={options} 
-      selected={currentRefinement || ''} 
-      onChange={handleChange} block />
+      selectedValue={currentRefinement}
+      selectedText={selectedText}
+      onChange={refine} block>
+      {customItems.map(item => (
+        <Select.Item key={item.id} value={item.id}>
+          {item.name}
+        </Select.Item>
+      ))}
+    </Select>
   );
 });

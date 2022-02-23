@@ -14,5 +14,4 @@ export { Label } from './Label';
 export { Alert } from './Alert';
 export { Scheduler } from './scheduler/Scheduler';
 
-export type { SelectItem } from './select/Select';
 export type { CheckedState } from './checkbox/Checkbox';

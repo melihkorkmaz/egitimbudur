@@ -21,7 +21,6 @@ import { signUp } from "../modules/auth/authService";
 // Type
 import type { AuthErrorType, CreateStudentRequest, CreateTeacherRequest } from "../modules/auth/types";
 import type { Grade, Lesson } from "../modules/common/types";
-import type { SelectItem } from "../components";
 import { AuthRole } from '../modules/auth/types';
 
 
@@ -34,7 +33,7 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
   const router = useRouter();
   const [error, setError] = useState("");
   const [role, setRole] = useState<AuthRole>(AuthRole.STUDENT);
-  const [selectedGrade, setSelectedGrade] = useState<SelectItem>();
+  const [selectedGrade, setSelectedGrade] = useState<Grade>();
   const [selectedLessons, setSelectedLessons] = useState<string[]>([]);
   const [selectedGrades, setSelectedGrades] = useState<string[]>([]);
 
@@ -122,22 +121,19 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
                     <div className="form-group">
                       <Label htmlFor="gradeId">Sınıf Seçiniz</Label>
                       <Select
-                        id="gradeId"
-                        name="gradeId"
-                        options={
-                          grades
-                            ? grades.map((c) => ({
-                              value: c.id,
-                              key: c.name,
-                            }))
-                            : []
-                        }
-                        selected={selectedGrade?.value}
-                        onChange={(item) => setSelectedGrade(item)}
+                        selectedText={selectedGrade?.name}
+                        selectedValue={selectedGrade?.id}
+                        onChange={(value) => setSelectedGrade(grades.find(g => g.id === value))}
                         placeHolder="Sınıf Seçiniz..."
                         block
                         className="mr-2"
-                      />
+                      >
+                        {grades.map(g => (
+                          <Select.Item key={g.id} value={g.id}>
+                            {g.name}
+                          </Select.Item>
+                        ))}
+                      </Select>
                     </div>
                   )}
 
