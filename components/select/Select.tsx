@@ -12,6 +12,7 @@ type SelectItemProps = {
 type SelectProps = {
   className?: string;
   block?: boolean,
+  size?: 'sm' | 'md';
   placeHolder?: string,
   selectedValue?: string,
   selectedText?: string,
@@ -39,13 +40,21 @@ export const Select = ({
   selectedValue,
   selectedText,
   onChange,
-  children
+  children,
+  size='md'
 }: SelectProps) => {
+
+  const contentStyle = cx(styles.selectBox, { 'w-full': block }, className);
+  const buttonStyle = cx(styles.selectButton, { 
+    'pl-2 pr-4 py-1': size === 'sm',  
+    'pl-4 pr-8 py-3': size === 'md' 
+  });
+
   return (
-    <div className={cx(styles.selectBox, { 'w-full': block }, className)}>
+    <div className={contentStyle}>
       <Listbox value={selectedValue} onChange={onChange}>
         <div className="relative mt-1">
-          <Listbox.Button className={styles.selectButton}>
+          <Listbox.Button className={buttonStyle}>
             <span className="block truncate">{selectedText || placeHolder}</span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
               <SelectorIcon

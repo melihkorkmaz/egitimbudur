@@ -25,7 +25,7 @@ export const Navigation = ({
             </a>
           </Link>
         </li>
-        <li className={cx({ active: activePage === 'my-profile' })}>
+        <li className={cx({ active: activePage === 'working-hours' })}>
           <Link href="/working-hours">
             <a>
               <i className="fas fa-th"></i>Çalışma Saatleri

@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, getFirestore, query, setDoc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, arrayUnion, getDoc, getDocs, getFirestore, query, setDoc, updateDoc } from "firebase/firestore";
 
 // SERVICES
 import { getUserProfile } from "../auth/authService";
@@ -90,4 +90,31 @@ export const updateUserProfile = async (user: Teacher) => {
   } catch (error) {
     console.log("error", error);
   }
+};
+
+export const getTeacherAvailability = async () => {
+  const auth = getAuth();
+  const authenticatedUser = auth.currentUser;
+
+  if (!authenticatedUser) {
+    throw new Error('User is not authenticated');
+  }
+
+  const db = getFirestore();
+  const availabilityDoc = doc(db, "users", authenticatedUser.uid, "availablity", "data");
+
+  const availability = await getDoc(availabilityDoc);
+  return availability.data();
+};
+
+export const updateTeacherAvailability = async (data: any) => {
+  const db = getFirestore();
+  const auth = getAuth();
+  const authenticatedUser = auth.currentUser;
+
+  if (!authenticatedUser) {
+    throw new Error('User is not authenticated');
+  }
+  const ref  = doc(db, "users", authenticatedUser.uid, "availablity", "data");
+  await setDoc(ref, Object.assign({}, data));
 };

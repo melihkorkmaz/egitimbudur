@@ -41,14 +41,14 @@ export default function SignUp({ grades, lessons = [] }: SignUpProps) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const dataObject = Object.fromEntries(formData);
-    const selectedGrades = grades.filter(g => selectedGrades.include(g.id));
-    const selectedLessons = lessons.filter(l => selectedLessons.include(l.id));
+    const userGrades = grades.filter(g => selectedGrades.includes(g.id));
+    const userLessons = lessons.filter(l => selectedLessons.includes(l.id));
 
     let request = {
       ...dataObject,
       role,
-      grades: selectedGrades,
-      lessons: selectedLessons,
+      grades: userGrades,
+      lessons: userLessons,
       grade: selectedGrade
     } as unknown;
 
